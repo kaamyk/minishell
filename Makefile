@@ -6,7 +6,7 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/11 15:03:29 by anvincen          #+#    #+#              #
-#    Updated: 2023/05/16 16:17:23 by anvincen         ###   ########.fr        #
+#    Updated: 2023/05/22 15:01:31 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ FLAGS			=	-Wall -Wextra -Werror -g3
 
 all:			$(NAME)
 
-$(NAME):		$(MINISHELLOBJS)
-			$(CC) $(FLAGS) $(INCLUDES) $(MINISHELLOBJS) -o $(NAME)
+$(NAME):		$(LIBFT) $(MINISHELLOBJS)
+			$(CC) $(FLAGS) $(INCLUDES) $(MINISHELLOBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 			make -sC $(LIBFTPATH)

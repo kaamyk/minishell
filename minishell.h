@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/16 17:59:59 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:57:09 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <signal.h>
 
+typedef struct sigaction t_sig;
 typedef	struct	s_data
 {
 	bool	finished;
