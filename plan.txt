@@ -1,0 +1,29 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    plan.txt                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: xuluu <marvin@42.fr>                       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/20 13:27:36 by xuluu             #+#    #+#              #
+#    Updated: 2023/05/20 13:27:39 by xuluu            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+1. Comprendre bien des Fonctions externes autorisees
+
+2. Regle du projet
+
+3. Comment le tester ?
+
+4. Gerer
+    ctrl-C (OK)
+    ctrl-D (OK)
+    ctrl-\ (OK)
+
+5. Recuperer les arguments
+    Diviser par " ; " or " | "
+
+6. Gerer OK
+
+7. Gerer KO
