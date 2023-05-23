@@ -26,8 +26,6 @@ int		ft_isdigit(int character);
 
 int		ft_atoi(const char *nptr);
 
-char	*ft_strjoin(char const *s1, char const *s2);
-
 void	ft_bzero(void *s, size_t n);
 
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -50,5 +48,7 @@ char	*ft_strchr(const char *s, int c); //find the first character
 char	*ft_strrchr(const char *s, int c); //find the last character
 
 void	*ft_memset(void *s, int c, size_t n);
+
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

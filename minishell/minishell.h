@@ -45,6 +45,8 @@ typedef enum s_error
 
 void	ft_determine_command(char *command);
 
+char	*get_line(char *str);
+
 /*
 ft_get_command.c
 */

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/23 15:26:23 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:01:04 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(void)
+void	ft_pwd()
 {
 	char	cwd[10000];
 
@@ -86,9 +86,8 @@ void	ft_check_dir(char *dir, int n)
 		perror("closedir");
 }
 
-void	ft_determine_command(char *command)
+int	ft_builtins(char *command)
 {
-	//printf("--> %s %ld\n", command, ft_strlen(command));
 	if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
 	{
 		printf("%s\n", command);
@@ -97,14 +96,62 @@ void	ft_determine_command(char *command)
 	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
 	{
 		ft_pwd();
+		return (1);
 	}
 	else if (ft_strncmp(command, "ls", ft_strlen(command)) == 0)
 	{
 		ft_check_dir(".", 1);
+		return (1);
 	}
-	else
+	else if (ft_strncmp(command, "export", ft_strlen(command)) == 0)
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	else if (ft_strncmp(command, "unset", ft_strlen(command)) == 0)
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	else if (ft_strncmp(command, "env", ft_strlen(command)) == 0)
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	else if (ft_strncmp(command, "echo", ft_strlen(command)) == 0)
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_redirections(char *command)
+{
+	if (command[0] == '<')
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	else if (command[0] == '>')
+	{
+		printf("%s\n", command);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_determine_command(char *command)
+{
+	//printf("--> %s %ld\n", command, ft_strlen(command));
+	if (ft_builtins(command) == 0
+		&& ft_redirections(command) == 0
+		&& command[0] != '\n'
+		&& command[0] != ' '
+		&& command[0] != '	'
+		&& command[0] != ':'
+		&& command[0] != '!')
 	{
 		ft_error(NOT_FOUND, command, NULL);
 	}
-		
 }

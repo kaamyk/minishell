@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/23 18:36:58 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:39:33 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_line(void)
+char	*get_line(char *str)
 {
 	char	*line;
 
@@ -22,7 +22,7 @@ char	*get_line(void)
 		free(line);
 		line = NULL;
 	}
-	line = readline("$>");
+	line = readline(str);
 	if (line)
 		add_history(line);
 	return (line);
@@ -42,12 +42,12 @@ void	ft_read_line(char *line)
 
 int	main(void)
 {
-	char		*line;
+	char	*line;
 
 	ft_signal();
 	while (1)
 	{
-		line = get_line();
+		line = get_line("$>");
 		if (!line)
 			break ;
 		ft_read_line(line);
@@ -56,7 +56,22 @@ int	main(void)
 
 // int	main(int ac, char **av)
 // {
+// 	char	*line;
+
 // 	if (ac == 2)
-// 		ft_read_line(av[1]);
+// 	{
+// 		// ft_read_line(av[1]);
+// 		printf("%s\n", av[1]);
+// 		line = (char *)malloc(6 * sizeof(char));
+// 		if (!line)
+// 			return (0);
+// 		line[0] = 'l';
+// 		line[1] = 's';
+// 		line[2] = ' ';
+// 		line[3] = 'l';
+// 		line[4] = 's';
+// 		line[5] = '\0';
+// 		ft_read_line(line);
+// 	}
 // 	return (0);
 // }
