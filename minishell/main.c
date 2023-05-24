@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/20 16:39:33 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/05/24 09:10:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	ft_read_line(char *line)
 		ft_get_command2(line, ';');
 	else if (ft_strchr(line, '|') != 0)
 		ft_get_command2(line, '|');
+	else if (ft_strchr(line, ' ') != 0)
+		ft_get_command2(line, ' ');
 	else
 	{
 		ft_get_command(line);

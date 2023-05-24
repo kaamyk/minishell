@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 14:46:18 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:34:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,46 +86,47 @@ void	ft_check_dir(char *dir, int n)
 		perror("closedir");
 }
 
-int	ft_builtins(char *command)
+int	ft_builtins(char **command)
 {
-	if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
+	if (ft_strncmp(command[0], "exit", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("%s\n", command[0]);
 		exit(0);
 	}
-	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "pwd", ft_strlen(command[0])) == 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if (ft_strncmp(command, "ls", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "ls", ft_strlen(command[0])) == 0)
 	{
 		ft_check_dir(".", 1);
 		return (1);
 	}
-	else if (ft_strncmp(command, "export", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "export", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("%s\n", command[0]);
 		return (1);
 	}
-	else if (ft_strncmp(command, "unset", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "unset", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("%s\n", command[0]);
 		return (1);
 	}
-	else if (ft_strncmp(command, "env", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "env", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("%s\n", command[0]);
 		return (1);
 	}
-	else if (ft_strncmp(command, "echo", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "echo", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("%s\n", command[0]);
 		return (1);
 	}
-	else if (ft_strncmp(command, "cd", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command[0], "cd", ft_strlen(command[0])) == 0)
 	{
-		printf("%s\n", command);
+		printf("ft_builtins=>%s\n", command[0]);
+		ft_cd(command);
 		return (1);
 	}
 	return (0);
@@ -146,17 +147,17 @@ int	ft_redirections(char *command)
 	return (0);
 }
 
-void	ft_determine_command(char *command)
+void	ft_determine_command(char **command)
 {
 	//printf("--> %s %ld\n", command, ft_strlen(command));
 	if (ft_builtins(command) == 0
-		&& ft_redirections(command) == 0
-		&& command[0] != '\n'
-		&& command[0] != ' '
-		&& command[0] != '	'
-		&& command[0] != ':'
-		&& command[0] != '!')
+		&& ft_redirections(*command) == 0
+		&& command[0][0] != '\n'
+		&& command[0][0] != ' '
+		&& command[0][0] != '	'
+		&& command[0][0] != ':'
+		&& command[0][0] != '!')
 	{
-		ft_error(NOT_FOUND, command, NULL);
+		ft_error(NOT_FOUND, *command, NULL);
 	}
 }

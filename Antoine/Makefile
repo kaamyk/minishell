@@ -3,43 +3,47 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/11 15:03:29 by anvincen          #+#    #+#              #
-#    Updated: 2023/05/23 17:29:31 by anvincen         ###   ########.fr        #
+#    Updated: 2023/05/24 15:32:35 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #antoine/Makefile
-NAME			=	minishell
+SRC =	main.c ft_error.c ft_command.c ft_get_command.c quotes.c\
+		change_directory.c\
 
-MINISHELLSRCS	=	main.c\
+OBJ = $(SRC:.c=.o)
 
-MINISHELLOBJS	=	$(MINISHELLSRCS:.c=.o)
+NAME = minishell
 
-LIBFTPATH		=	./libft
+CC = cc
 
-LIBFT			=	$(LIBFTPATH)/libft.a
+READLINE = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
 
-INCLUDES		=	-I ./libft/ -lreadline
+CFLAGS =  -Wall -Wextra -Werror -g3
 
-CC				=	cc
+LIBFTPATH = ./libft
 
-FLAGS			=	-Wall -Wextra -Werror -g3
+LIBFTS = $(LIBFTPATH)/libft.a
 
-all:			$(NAME)
+all: $(NAME)
 
-$(NAME):		$(LIBFT) $(MINISHELLOBJS)
-			$(CC) $(FLAGS) $(INCLUDES) $(MINISHELLOBJS) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ)
+	@$(MAKE) -sC $(LIBFTPATH)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
 
-$(LIBFT):
-			make -sC $(LIBFTPATH)
+$(OBJ): %.o: %.c Makefile
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-			rm -f $(MINISHELLOBJS)
-			make -sC $(LIBFTPATH) clean 
+	@$(MAKE) clean -sC ./libft
+	$(RM) $(OBJ)
 
-fclean:			clean
-			rm -f $(NAME)
-			rm -f $(LIBFT)
+fclean: clean
+	@$(MAKE) fclean -sC ./libft
+	$(RM) $(NAME)
 
-re:				fclean	all
+re: fclean all
+
+.PHONY: all clean fclean re

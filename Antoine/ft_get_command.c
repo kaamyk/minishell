@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 09:01:00 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:18:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,71 +57,37 @@ char	*ft_delete_espace(char *str)
 	return (ft_delete(str, end - start));
 }
 
-char	*ft_quotes(char *line, char c)
-{
-	char	*tmp;
-	char	*str;
-
-	while (1)
-	{
-		tmp = line;
-		str = get_line(">");
-		line = ft_strjoin(line, str);
-		free(tmp);
-		if (ft_strchr(str, c) != 0)
-			break ;
-	}
-	return (line);
-}
-
 void	ft_get_command(char *line)
 {
-	char	*command;
-	int		i;
+	char	**command;
+	//int		i;
 
 	/*quotes () "" '' */
-	if (ft_strchr(line, '(') != 0)
-		line = ft_quotes(line, ')');
-	else if (ft_strchr(line, '\'') != 0)
-		line = ft_quotes(line, '\'');
-	else if (ft_strchr(line, '"') != 0)
-		line = ft_quotes(line, '"');
+	// if (ft_strchr(line, '(') != 0)
+	// 	line = ft_quotes(line, ')');
+	// else if (ft_strchr(line, '\'') != 0)
+	// 	line = ft_quotes(line, '\'');
+	// else if (ft_strchr(line, '"') != 0)
+	// 	line = ft_quotes(line, '"');
 
-	if (line[0] == '/') /*check a chemin*/
-	{
-		ft_check_dir(line, 2);
-		return ;
-	}
-	else if (ft_strlen(line) == 1)
-	{
-		ft_determine_command(line);
-		return ;
-	}
-
-	if (ft_strchr(line, ' ') == 0)
-	{
-		ft_determine_command(line);
-		free(line);
-		return ;
-	}
-	else
-		line = ft_delete_espace(line);
+	command = ft_split(line, ' ');
+	ft_determine_command(command);
 
 	/*echo salut*/
-	i = 0;
-	while (line[i] != 0 && line[i] != ' ')
-		i++;
-	command = (char *)malloc((i + 1) * sizeof(char));
-	if (!command)
-		return ;
-	i = 0;
-	while (line[i] != 0 && line[i] != ' ')
-	{
-		command[i] = line[i];
-		i++;
-	}
-	command[i] = 0;
-	ft_determine_command(command);
+	// i = 0;
+	// while (line[i] != 0 && line[i] != ' ')
+	// 	i++;
+	// command = (char *)malloc((i + 1) * sizeof(char));
+	// if (!command)
+	// 	return ;
+	// i = 0;
+	// while (line[i] != 0 && line[i] != ' ')
+	// {
+	// 	command[i] = line[i];
+	// 	i++;
+	// }
+	// command[i] = 0;
+	// ft_determine_command(command);
 	free(command);
 	free(line);
 }
