@@ -6,49 +6,42 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/25 17:14:02 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:43:48 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	nb_args(char *command)
+bool	check_nb_args(char *command)
 {
-	size_t	size;
+	size_t	i;
 
-	size = 0;
-	while (command[size])
-		++size;
-	return (size);
+	i = 2;
+	while (command[i] && command[i] == ' ')
+		++i;
+	while (command[i] && command[i] != ' ')
+		++i;
+	while (command[i] && command[i] == ' ')
+		++i;
+	if (command[i])
+		return (true);
+	return (false);
 }
 
-void	ft_cd(char *command)
+void	ft_cd(char *line)
 {
-	size_t	size;
-
-	size = nb_args(command);
-	if (size > 3)
+	if (check_nb_args(line) != 0)
 	{
-		perror("cd: too many arguments");
-		return ;
-	}
-	else if (size == 3)
-	{
-		printf("size == 3\n");
-		printf("cd: string not in pwd: %s\n", command);
-		return ;
-	}
-	else if (size == 2)
-	{
-		printf("size == 2\n");
-		printf("result == %d\n", ft_quotes(command));
-		if (ft_check_open_quotes(command) == 0)
-			printf("Error\n");
+		printf(">>> Too many args <<<\n");
 		return ;
 	}
 	else
 	{
-		printf("size == 1\n");
+		printf("size == 2\n");
+		printf("result == %d\n", ft_quotes(line));
+		if (ft_check_open_quotes(line) == 0)
+			printf("Error\n");
 		return ;
 	}
+	// else if args == 1 (line == "cd") => cd home/
 }
