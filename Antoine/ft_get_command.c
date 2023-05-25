@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 15:18:06 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/25 17:14:59 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_delete_espace(char *str)
 
 void	ft_get_command(char *line)
 {
-	char	**command;
+	//char	**command;
 	//int		i;
 
 	/*quotes () "" '' */
@@ -70,8 +70,10 @@ void	ft_get_command(char *line)
 	// else if (ft_strchr(line, '"') != 0)
 	// 	line = ft_quotes(line, '"');
 
-	command = ft_split(line, ' ');
-	ft_determine_command(command);
+	//command = ft_split(line, ' ');
+	if (line[0] == ' ')
+		line = ft_delete_espace(line);
+	ft_determine_command(line);
 
 	/*echo salut*/
 	// i = 0;
@@ -88,7 +90,7 @@ void	ft_get_command(char *line)
 	// }
 	// command[i] = 0;
 	// ft_determine_command(command);
-	free(command);
+	//free(command);
 	free(line);
 }
 

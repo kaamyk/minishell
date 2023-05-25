@@ -1,54 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   change_directory.c                                 :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/25 17:14:02 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:13:32 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	nb_args(char *command)
+void	ft_echo(char *command)
 {
-	size_t	size;
+	printf("Dans ft_echo\n");
+	size_t	i;
 
-	size = 0;
-	while (command[size])
-		++size;
-	return (size);
-}
-
-void	ft_cd(char *command)
-{
-	size_t	size;
-
-	size = nb_args(command);
-	if (size > 3)
+	i = 4;
+	while (command[i] == ' ')
+		++i;
+	printf("Apres skip i == %ld\n", i);
+	while (command[i])
 	{
-		perror("cd: too many arguments");
-		return ;
+		if (command[i] == '"')
+			++i;
+		write(STDOUT_FILENO, &command[i], 1);
+		++i;
 	}
-	else if (size == 3)
-	{
-		printf("size == 3\n");
-		printf("cd: string not in pwd: %s\n", command);
-		return ;
-	}
-	else if (size == 2)
-	{
-		printf("size == 2\n");
-		printf("result == %d\n", ft_quotes(command));
-		if (ft_check_open_quotes(command) == 0)
-			printf("Error\n");
-		return ;
-	}
-	else
-	{
-		printf("size == 1\n");
-		return ;
-	}
+	write (STDOUT_FILENO, "\n", 1);
 }

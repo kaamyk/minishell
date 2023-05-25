@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/25 15:12:56 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:07:07 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum s_error
 	NOT_VALID,
 }	t_error;
 
-void	ft_determine_command(char **command);
+void	ft_determine_command(char *command);
 
 char	*get_line(char *str);
 
@@ -62,9 +62,9 @@ ft_command.c
 void	ft_pwd();
 void	ft_read_dir(DIR *dp);
 void	ft_check_dir(char *dir, int n);
-int		ft_builtins(char **command);
+bool	ft_builtins(char *command);
 int		ft_redirections(char *command);
-void	ft_determine_command(char **command);
+void	ft_determine_command(char *line);
 
 
 /*
@@ -82,13 +82,18 @@ void	ft_signal(void);
 /*
 quotes.c
 */
-char	*ft_check_open_quotes(char **command);
-char	*ft_quotes(char **line);
+bool	ft_check_open_quotes(char *command);
+bool	ft_quotes(char *line);
 /*
 change_directory.c
 */
-void	ft_cd(char **command);
-size_t	nb_args(char **command);
+void	ft_cd(char *command);
+size_t	nb_args(char *command);
+
+/*
+echo.c
+*/
+void	ft_echo(char *command);
 
 #endif
 
