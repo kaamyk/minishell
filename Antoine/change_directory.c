@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_directory.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 20:35:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/25 15:04:24 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	ft_cd(char **command)
 	else if (size == 2)
 	{
 		printf("size == 2\n");
-		printf("result == %s\n", ft_quotes(command));
-		if (ft_quotes == NULL)
+	//	printf("result == %s\n", ft_quotes(command));
+		if (ft_check_open_quotes(command) == NULL)
 			printf("Error\n");
 		return ;
 	}

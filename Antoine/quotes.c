@@ -3,54 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 20:33:46 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/25 15:12:42 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	check_open_quotes(char *command, char q)
-{
-	bool	b;
-	size_t	i;
-
-	b = true;
-	i = 0;
-	while (command[i])
-	{
-		if (command[i] == q)
-			b = !b;
-		++i;
-	}
-	if (b == true)
-		return (1);
-	return (0);
-}
-
-bool	check_first_last_quotes(char *arg, size_t len)
+char	*ft_check_open_quotes(char **command)
 {
 	size_t	i;
 	size_t	j;
+	size_t	len;
 
 	i = 0;
-	j = len;
-	while (j >= 0)
+	len = ft_strlen(command[1]);
+	while (i < len)
 	{
-		if (arg[i] != '\'' && arg[i] != '"' && arg[i] != '(')
-			++i;
-		if (arg[len] != '\'' && arg[len] != '"' && arg[len] != ')')
-			--len;
-		--j;
+		if (command[1][i] == '\'' || command[1][i] == '"')
+		{
+			j = i + 1;
+			while (j < len)
+			{
+				if (command[1][j] == command[1][i])
+				{
+					i = j;
+					break ;
+				}
+				++j;
+			}
+			if (j == len)
+			{
+				printf(">>> OPEN QUOTES <<<\n");
+				return (NULL);
+			}
+		}
+		++i;
 	}
-	if (arg[i] == arg[len] && check_open_quotes(arg, arg[i]) == true)
-		return (true);
-	else if (check_open_quotes(arg, '\'') == false
-		|| check_open_quotes(arg, '"') == false)
-		return (false);
-	return (false);
+	printf(">>> QUOTES ARE CLOSED <<<\n");
+	return (*command);
 }
 
 char	*ft_quotes(char **command)
