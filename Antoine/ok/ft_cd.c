@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/29 11:23:48 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/29 17:29:23 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	ft_cd(char *command, const char *arg)
 		{
 			if (chdir(getenv("HOME")) != 0)
 			{
-				perror("chdir error :");
+				perror("Failed to change directory :");
 				return ;
 			}		
 		}
 		else if (chdir(arg) != 0)
 		{
-			perror("chdir error :");
+			perror("Failed to change directory :");
 			return ;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/29 12:08:09 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/29 16:27:38 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef enum s_error
 	DIRECTORY,
 	NOT_VALID,
 }	t_error;
+
+typedef struct	s_envvar
+{
+	char	**key;
+	char	**value;
+}				t_envvar;
 
 void	ft_determine_command(char *command);
 

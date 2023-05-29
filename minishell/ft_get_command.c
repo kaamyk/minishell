@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 09:01:00 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/26 08:55:32 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ char	*ft_quotes(char *line, char c)
 			break ;
 	}
 	return (line);
+}
+
+void	ft_get_arg(char *arg)
+{
+	
 }
 
 void	ft_get_command(char *line)
