@@ -198,3 +198,6 @@ man execve() :
 	(Pretty long description)
 	execve() executes the binary or executable filename with argv parameters (terminated by NULL). envp is an array of string passed as environment to the program.
 
+
+export :
+https://stackoverflow.com/questions/1158091/defining-a-variable-with-or-without-export
