@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/25 17:32:43 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:02:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_pwd()
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		printf("%s\n", cwd);
+		printf("CWD == %s\n", cwd);
 	}
 	else
 	{
@@ -97,11 +97,6 @@ bool	ft_builtins(char *command)
 	// 	printf("%s\n", command);
 	// 	exit(0);
 	// }
-	// else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
-	// {
-	// 	ft_pwd();
-	// 	return (1);
-	// }
 	// else if (ft_strncmp(command, "ls", ft_strlen(command)) == 0)
 	// {
 	// 	ft_check_dir(".", 1);
@@ -126,6 +121,11 @@ bool	ft_builtins(char *command)
 	{
 		//printf("%s\n", command);
 		ft_echo(command);
+		return (1);
+	}
+	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+	{
+		ft_pwd();
 		return (1);
 	}
 	else if (ft_strncmp(command, "cd", ft_strlen("cd")) == 0)
@@ -156,6 +156,7 @@ int	ft_redirections(char *command)
 void	ft_determine_command(char *line)
 {
 	//printf("--> %s %ld\n", command, ft_strlen(command));
+	
 	if (ft_builtins(line) == 0
 		&& ft_redirections(line) == 0
 		&& line[0] != '\n'

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/25 17:07:07 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:42:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ quotes.c
 */
 bool	ft_check_open_quotes(char *command);
 bool	ft_quotes(char *line);
+
 /*
 change_directory.c
 */
-void	ft_cd(char *command);
+void	ft_cd(char *command, char *arg);
 size_t	nb_args(char *command);
 
 /*

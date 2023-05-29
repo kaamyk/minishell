@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   change_directory.c                                 :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/29 11:23:18 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/29 11:23:48 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minishell.h"
-
-#include <stdio.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <errno.h>
-
-void	ft_pwd()
-{
-	char	cwd[10000];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		printf("CWD == %s\n", cwd);
-	}
-	else
-	{
-		perror("ft_pwd() error");
-		return ;
-	}
-}
+#include "minishell.h"
 
 bool	check_nb_args(const char *arg)
 {
@@ -84,24 +60,4 @@ void	ft_cd(char *command, const char *arg)
 			return ;
 		}
 	}
-}
-
-int	main(void)
-{
-	char	*s;
-
-	while (1)
-	{
-		s = readline("$>");
-		if (s == NULL)
-			return (0);
-		printf("cmp == %d\n", strcmp(s, "cd"));
-		if (strcmp(s, "pwd") == 0)
-			ft_pwd();
-		if (strcmp(s, "cd") == 0)
-			ft_cd("cd", NULL);
-		else if (strncmp(s, "cd", 2) == 0)
-			ft_cd("cd", s + 3);
-	}
-	return (0);
 }
