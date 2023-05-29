@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 12:18:21 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 09:49:33 by anvincen         ###   ########.fr       */
+/*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
+/*   Updated: 2023/05/26 09:58:09 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error(t_error error, char *command, char *option)
+void	ft_echo(char *arg)
 {
-	printf("bash: ");
-	if (error == SYNTAXE)
-		printf("syntaxe error near unexpected token '%s'.", command);
-	else if (error == NOT_FOUND)
-		printf("%s: command not found.", command);
-	else if (error == DIRECTORY)
-		printf("%s: Is a directory", command);
-	else if (error == NOT_VALID)
-		printf("%s: '%s': not a valid identifier.", command, option);
-	printf("\n");
+	printf("Dans ft_echo\n");
+	size_t	i;
+
+	i = 0;
+	//printf("Apres skip i == %ld\n", i);
+	while (arg[i])
+	{
+		if (arg[i] == '"')
+			++i;
+		write(STDOUT_FILENO, &arg[i], 1);
+		if (arg[i])
+			++i;
+	}
+	write (STDOUT_FILENO, "\n", 1);
 }

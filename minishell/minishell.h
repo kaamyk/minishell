@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/28 18:42:38 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/26 11:18:10 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@
 # include <readline/history.h>
 
 //ls
-#include <dirent.h>
-#include <errno.h>
+# include <dirent.h>
+# include <errno.h>
+
+//dup2
+# include<fcntl.h>
+
+# include <stdbool.h>
 
 # include "./libft/libft.h"
 
@@ -43,21 +48,21 @@ typedef enum s_error
 	NOT_VALID,
 }	t_error;
 
-void	ft_determine_command(char *command);
+void	ft_determine_command(char *command, char *arg);
 
 char	*get_line(char *str);
 
 /*
-ft_get_command.c
+split_command.c
 */
-void	ft_get_command(char *line);
-
-void	ft_get_command2(char *line, char c);
+void	ft_split_line(char *line);
 
 /*
-ft_command.c
+ft_get_command.c
 */
-void	ft_check_dir(char *dir, int n);
+int		ft_one_arg(char c);
+char	*ft_delete_space(char *str);
+void	ft_get_command2(char *line, char c);
 
 /*
 ft_error.c
@@ -70,5 +75,30 @@ signal.c
 void	ignore_quit(void);
 void	sig_handler(int signum);
 void	ft_signal(void);
+
+/*
+ft_quotes.c
+*/
+char	*ft_get_quotes(char *str);
+
+/*
+ft_other_command.c
+*/
+int	ft_other_command(char *command);
+
+/*
+ft_redirections.c
+*/
+int	ft_redirections(char *str);
+
+/*
+echo.c
+*/
+void	ft_echo(char *arg);
+
+/*
+quotes.c
+*/
+bool	ft_quotes(char *line);
 
 #endif

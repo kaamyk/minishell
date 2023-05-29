@@ -6,15 +6,20 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/05/23 17:23:39 by anvincen         ###   ########.fr        #
+#    Updated: 2023/05/26 10:52:59 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	main.c \
 		ft_get_command.c \
 		ft_command.c \
+		split_command.c\
 		ft_error.c\
-		signal.c
+		signal.c \
+		ft_other_command.c \
+		ft_redirections.c\
+		quotes.c\
+		echo.c
 
 OBJ = $(SRC:.c=.o)
 

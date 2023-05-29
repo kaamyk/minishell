@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 08:55:32 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:22:05 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ Gere l'espace
 */
 char	*ft_delete(char *str, int len)
 {
-	int	i;
-	int	n;
+	int		i;
+	int		n;
 	char	*line;
 
 	line = (char *)malloc((len + 1) * sizeof(char));
@@ -36,11 +36,10 @@ char	*ft_delete(char *str, int len)
 	}
 	line[n] = 0;
 	free(str);
-	//printf("%s %ld\n", line, ft_strlen(line));
 	return (line);
 }
 
-char	*ft_delete_espace(char *str)
+char	*ft_delete_space(char *str)
 {
 	int		start;
 	int		end;
@@ -57,78 +56,16 @@ char	*ft_delete_espace(char *str)
 	return (ft_delete(str, end - start));
 }
 
-char	*ft_quotes(char *line, char c)
+int	ft_one_arg(char c)
 {
-	char	*tmp;
-	char	*str;
-
-	while (1)
-	{
-		tmp = line;
-		str = get_line(">");
-		line = ft_strjoin(line, str);
-		free(tmp);
-		if (ft_strchr(str, c) != 0)
-			break ;
-	}
-	return (line);
-}
-
-void	ft_get_arg(char *arg)
-{
-	
-}
-
-void	ft_get_command(char *line)
-{
-	char	*command;
-	int		i;
-
-	/*quotes () "" '' */
-	if (ft_strchr(line, '(') != 0)
-		line = ft_quotes(line, ')');
-	else if (ft_strchr(line, '\'') != 0)
-		line = ft_quotes(line, '\'');
-	else if (ft_strchr(line, '"') != 0)
-		line = ft_quotes(line, '"');
-
-	if (line[0] == '/') /*check a chemin*/
-	{
-		ft_check_dir(line, 2);
-		return ;
-	}
-	else if (ft_strlen(line) == 1)
-	{
-		ft_determine_command(line);
-		return ;
-	}
-
-	if (ft_strchr(line, ' ') == 0)
-	{
-		ft_determine_command(line);
-		free(line);
-		return ;
-	}
-	else
-		line = ft_delete_espace(line);
-
-	/*echo salut*/
-	i = 0;
-	while (line[i] != 0 && line[i] != ' ')
-		i++;
-	command = (char *)malloc((i + 1) * sizeof(char));
-	if (!command)
-		return ;
-	i = 0;
-	while (line[i] != 0 && line[i] != ' ')
-	{
-		command[i] = line[i];
-		i++;
-	}
-	command[i] = 0;
-	ft_determine_command(command);
-	free(command);
-	free(line);
+	printf("ici\n");
+	if (c == '\n'
+		|| c == ' '
+		|| c == '	'
+		|| c == ':'
+		|| c == '!')
+		return (1);
+	return (0);
 }
 
 void	ft_get_command2(char *str, char c)
@@ -140,8 +77,16 @@ void	ft_get_command2(char *str, char c)
 	i = 0;
 	while (line[i] != 0)
 	{
-		line[i] = ft_delete_espace(line[i]);
-		ft_get_command(line[i]);
+		if (ft_quotes(line[i]) != 0)
+		{
+			printf("Unexpected EOF : '%s' has open quotes\n", line[i]);
+			return ;
+		}
+		line[i] = ft_delete_space(line[i]);
+		// if (c == '>')
+		// 	ft_redirections(line[i]);
+		// else
+		ft_split_line(line[i]);
 		i++;
 	}
 	free(line);

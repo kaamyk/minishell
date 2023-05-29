@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/24 14:46:18 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/26 11:23:28 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,136 +27,80 @@ void	ft_pwd()
 	}
 }
 
-void	ft_read_dir(DIR *dp)
+// int		ft_redirections(char *command)
+// {
+// 	if (command[0] == '<')
+// 	{
+// 		printf("%s\n", command);
+// 		return (1);
+// 	}
+// 	else if (command[0] == '>')
+// 	{
+// 		printf("%s\n", command);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+
+int	ft_dollar_symbol(char *command)
 {
-	struct dirent	*dirp;
+	char	*var;
+	char	*value;
 
-	errno = 0;
-	while ((dirp = readdir(dp)) != NULL)
+	var = ft_strchr(command, '$');
+	if (var != 0)
 	{
-		if (ft_strchr(dirp->d_name, '.') == 0
-			&& ft_strncmp(dirp->d_name, "Makefile", ft_strlen(dirp->d_name)) != 0)
-			printf(GREEN "%s " RESET, dirp->d_name);
-		else
-			printf("%s ", dirp->d_name);
+		value = getenv(&var[1]);
+		printf("%s\n", value);
+		return (1);
 	}
-	printf("\n");
-
-	if (errno != 0)
-	{
-		if (errno == EBADF)
-			printf("Invalid directory stream descriptor\n");
-		else
-			perror("readdir");
-	}
+	return (0);
 }
 
-void	ft_check_dir(char *dir, int n)
+int	ft_builtins(char *command, char *arg)
 {
-	DIR	*dp;
-	int	error;		
-
-	error = 0;
-	errno = 0;
-	if ((dp = opendir(dir)) == NULL)
-	{
-		if (errno == EACCES)
-		{
-			printf("Permission denied\n");
-			error = 1;
-		}
-		else if (errno == ENOENT)
-		{
-			printf("Directory does not exist\n");
-			error = 1;
-		}
-		else if (errno == ENOTDIR)
-		{
-			printf("'%s' is not a directory\n", dir);
-			error = 1;
-		}
-	}
-
-	if (n == 1)
-		ft_read_dir(dp);
-	else if (error != 1)
-		ft_error(DIRECTORY, dir, NULL);
-
-	if (closedir(dp) == -1 && error != 1)
-		perror("closedir");
-}
-
-int	ft_builtins(char *command)
-{
-	if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
+	if (ft_strnstr(command, "exit", 4) != 0)
 	{
 		printf("%s\n", command);
 		exit(0);
 	}
-	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+	else if (ft_strnstr(command, "pwd", 3) != 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if (ft_strncmp(command, "ls", ft_strlen(command)) == 0)
-	{
-		ft_check_dir(".", 1);
-		return (1);
-	}
-	else if (ft_strncmp(command, "export", ft_strlen(command)) == 0)
+	else if (ft_strnstr(command, "export", 6) != 0)
 	{
 		printf("%s\n", command);
 		return (1);
 	}
-	else if (ft_strncmp(command, "unset", ft_strlen(command)) == 0)
+	else if (ft_strnstr(command, "unset", 5) != 0)
 	{
 		printf("%s\n", command);
 		return (1);
 	}
-	else if (ft_strncmp(command, "env", ft_strlen(command)) == 0)
+	else if (ft_strnstr(command, "env", 3) != 0)
 	{
 		printf("%s\n", command);
 		return (1);
 	}
-	else if (ft_strncmp(command, "echo", ft_strlen(command)) == 0)
+	else if (ft_strnstr(command, "echo", 4) != 0)
 	{
 		printf("%s\n", command);
-		return (1);
-	}
-	else if (ft_strncmp(command, "cd", ft_strlen(command)) == 0)
-	{
-		printf("%s\n", command);
+		ft_echo(arg);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_redirections(char *command)
-{
-	if (command[0] == '<')
-	{
-		printf("%s\n", command);
-		return (1);
-	}
-	else if (command[0] == '>')
-	{
-		printf("%s\n", command);
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_determine_command(char *command)
+void	ft_determine_command(char *command, char *arg)
 {
 	//printf("--> %s %ld\n", command, ft_strlen(command));
-	if (ft_builtins(command) == 0
-		&& ft_redirections(command) == 0
-		&& command[0] != '\n'
-		&& command[0] != ' '
-		&& command[0] != '	'
-		&& command[0] != ':'
-		&& command[0] != '!')
+	if (ft_builtins(command, arg) == 0
+		&& ft_dollar_symbol(command) == 0
+		&& ft_other_command(command) == 0)
 	{
 		ft_error(NOT_FOUND, command, NULL);
 	}
+	//ft_strlen(command) == 1 && 
 }
