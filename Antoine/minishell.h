@@ -45,11 +45,10 @@ typedef enum s_error
 	NOT_VALID,
 }	t_error;
 
-typedef struct	s_envvar
-{
-	char	**key;
-	char	**value;
-}				t_envvar;
+// typedef struct	s_envvar
+// {
+// 	char	**var;
+// }				t_envvar;
 
 void	ft_determine_command(char *command);
 
