@@ -3,29 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/25 17:38:12 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:24:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char *command)
+void	ft_echo(char *command, char *arg)
 {
-	printf("Dans ft_echo\n");
 	size_t	i;
+	size_t	j;
 
-	i = 4;
-	while (command[i] == ' ')
+	(void)command;
+	i = 0;
+	while (arg[i] == ' ')
 		++i;
-	printf("Apres skip i == %ld\n", i);
-	while (command[i])
+	while (arg[i])
 	{
-		if (command[i] == '"')
-			++i;
-		write(STDOUT_FILENO, &command[i], 1);
+		if (arg[i] == '"' || arg[i] == '\'')
+		{
+			j = 1;
+			while (arg[i + j] && arg[i + j] != arg[i])
+			{
+				write(STDOUT_FILENO, &arg[i + j], 1);
+				++j;
+			}
+			i += j;
+		}
+		else
+			write(STDOUT_FILENO, &arg[i], 1);
 		++i;
 	}
 	write (STDOUT_FILENO, "\n", 1);

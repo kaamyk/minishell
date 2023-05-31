@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/29 16:27:38 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:14:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ typedef enum s_error
 	NOT_VALID,
 }	t_error;
 
-// typedef struct	s_envvar
-// {
-// 	char	**var;
-// }				t_envvar;
-
 void	ft_determine_command(char *command);
 
 char	*get_line(char *str);
@@ -71,6 +66,11 @@ bool	ft_builtins(char *command);
 int		ft_redirections(char *command);
 void	ft_determine_command(char *line);
 
+/*
+free.c
+*/
+void	free_list(void **lst);
+void	free_ptr(void *ptr);
 
 /*
 ft_error.c
@@ -91,6 +91,15 @@ bool	ft_check_open_quotes(char *command);
 bool	ft_quotes(char *line);
 
 /*
+list.c
+*/
+void	print_list(char **l);
+size_t	len_list(char **l);
+char	**dup_list(char **l);
+bool	cpy_list(char **l_dest, char **l_src);
+char	**join_list(char **lst1, char **lst2);
+
+/*
 change_directory.c
 */
 void	ft_cd(char *command, char *arg);
@@ -99,7 +108,7 @@ size_t	nb_args(char *command);
 /*
 echo.c
 */
-void	ft_echo(char *command);
+void	ft_echo(char *command, char *arg);
 
 #endif
 
