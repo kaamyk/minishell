@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 11:04:24 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/01 18:12:09 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_var(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != '"')
+			write(STDOUT_FILENO, s + i, 1);
+		++i;
+	}
+}
 
 size_t	print_env(char *var, char **g_env)
 {
@@ -28,7 +41,7 @@ size_t	print_env(char *var, char **g_env)
 		{
 			if (ft_strncmp(var + 1, g_env[i], j) == 0)
 			{
-				ft_putstr_fd(g_env[i] + j + 1, STDOUT_FILENO);
+				print_var(g_env[i] + j + 1);
 				return (j);
 			}
 		}

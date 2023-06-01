@@ -29,7 +29,6 @@ size_t	print_quotes(char *arg, char c)
 
 void	ft_echo(char *command, char *arg)
 {
-	printf("Dans ft_echo\n");
 	size_t	i;
 
 	(void)command;
