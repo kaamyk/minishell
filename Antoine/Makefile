@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/11 15:03:29 by anvincen          #+#    #+#              #
-#    Updated: 2023/05/25 16:55:27 by anvincen         ###   ########.fr        #
+#    Updated: 2023/06/01 08:11:22 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #antoine/Makefile
 SRC =	main.c ft_error.c ft_command.c ft_get_command.c quotes.c\
-		change_directory.c echo.c\
+		change_directory.c echo.c export.c env.c free.c list.c\
 
 OBJ = $(SRC:.c=.o)
 

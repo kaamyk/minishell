@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/31 10:56:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/01 11:04:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**g_env;
+char	**g_env = NULL;
 
 char	*get_line(char *str)
 {
@@ -40,11 +40,19 @@ void	ft_read_line(char *line)
 		ft_get_command(line);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 
 	//ft_signal();
+	(void) argc;
+	(void) argv;
+	g_env = dup_list(env);
+	if (g_env == NULL)
+	{
+		printf("allocation failed");
+		exit (errno);
+	}
 	while (1)
 	{
 		line = get_line("$>");

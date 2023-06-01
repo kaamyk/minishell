@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/29 11:02:11 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/01 08:17:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,18 @@ bool	ft_builtins(char *command)
 	// 	ft_check_dir(".", 1);
 	// 	return (1);
 	// }
-	// else if (ft_strncmp(command, "export", ft_strlen(command)) == 0)
-	// {
-	// 	printf("%s\n", command);
-	// 	return (1);
-	// }
+	if (ft_strncmp(command, "export ", strlen("export ")) == 0)
+	{
+		printf("%s\n", command);
+		ft_export("export", command + strlen("export"));
+		return (1);
+	}
+	else if (ft_strncmp(command, "export", strlen("export")) == 0)
+	{
+		printf("%s\n", command);
+		ft_export("export", NULL);
+		return (1);
+	}
 	// else if (ft_strncmp(command, "unset", ft_strlen(command)) == 0)
 	// {
 	// 	printf("%s\n", command);
@@ -117,10 +124,10 @@ bool	ft_builtins(char *command)
 	// 	printf("%s\n", command);
 	// 	return (1);
 	// }
-	if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
+	else if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
 	{
 		//printf("%s\n", command);
-		ft_echo(command);
+		ft_echo(command, command + strlen("echo"));
 		return (1);
 	}
 	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
@@ -132,7 +139,7 @@ bool	ft_builtins(char *command)
 	{
 		printf("ft_builtins=>%s\n", command);
 		//command = ft_split(line, ' ');
-		ft_cd(command);
+		ft_cd(command, command + strlen("echo"));
 		return (1);
 	}
 	return (0);

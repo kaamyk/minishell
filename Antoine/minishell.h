@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/05/31 15:14:24 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/01 08:19:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,23 @@ char	**join_list(char **lst1, char **lst2);
 /*
 change_directory.c
 */
-void	ft_cd(char *command, char *arg);
+void	ft_cd(char *command, const char *arg);
 size_t	nb_args(char *command);
 
 /*
 echo.c
 */
 void	ft_echo(char *command, char *arg);
+
+/*
+env.c
+*/
+size_t	print_env(char *var, char **g_env);
+
+/*
+export
+*/
+void	ft_export(char *command, char *arg);
 
 #endif
 
