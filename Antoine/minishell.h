@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/01 08:19:25 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/01 16:34:26 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,18 @@ size_t	print_env(char *var, char **g_env);
 /*
 export
 */
+char	*isolate_value(char *s);
+char	**format_env(char **inputs);
 void	ft_export(char *command, char *arg);
+
+/*
+export_utils.c
+*/
+size_t	rank_char(char *s, char c);
+size_t	count_char(char	*s, char c);
+char	*del_char(char *s, char c);
+char	*add_quotes(char *s);
+char	*join_quotes(char *s);
 
 #endif
 
