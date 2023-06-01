@@ -6,13 +6,27 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 17:22:32 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:00:47 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern char	**g_env;
+
+bool	check_double(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (g_env[i])
+	{
+		if (ft_strncmp(s, g_env[i], ft_strlen(g_env[i])) == 0)
+			return (1);
+		++i;
+	}
+	return (0);
+}
 
 char	*isolate_value(char *s)
 {
@@ -41,25 +55,30 @@ char	*isolate_value(char *s)
 
 char	**format_env(char **inputs)
 {
+	char	**res;
 	char	*tmp;
 	size_t	i;
+	size_t	j;
 
-	tmp = NULL;
+	res = ft_calloc(len_list(inputs) + 1, sizeof(char *));
 	i = 0;
-	while (inputs[i])
+	j = 0;
+	while (inputs[i + j])
 	{
-		if (ft_strchr(inputs[i], '=')
-			&& (ft_strchr(inputs[i], '"') == 0
-				|| ft_strchr(inputs[i], '\'') == 0))
+		if (ft_strchr(inputs[i + j], '=')
+			&& (ft_strchr(inputs[i + j], '"') == 0
+				|| ft_strchr(inputs[i + j], '\'') == 0))
+			tmp = join_quotes(inputs[i + j]);
+		if (check_double(tmp) != 0)
+			++j;
+		else
 		{
-			tmp = inputs[i];
-			inputs[i] = join_quotes(inputs[i]);
+			res[i] = tmp;
+			++i;
 		}
-		if (tmp != NULL)
-			free(tmp);
-		++i;
 	}
-	return (inputs);
+	free_list((void **)inputs);
+	return (res);
 }
 
 void	ft_export(char *command, char *arg)
