@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 17:18:34 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:57:04 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ char	*join_quotes(char *s)
 		return (NULL);
 	}
 	res = ft_strjoin(tmp, res);
+	printf("fin join_list res == %s\n", res);
 	return (res);
 }
