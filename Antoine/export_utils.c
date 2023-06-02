@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 17:57:04 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:50:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ char	*join_quotes(char *s)
 {
 	char	*res;
 	char	*tmp;
-	size_t	i;
 
-	i = 0;
 	res = NULL;
 	res = isolate_value(s);
 	res = del_char(res, '"');

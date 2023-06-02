@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/01 16:34:26 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:59:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,15 @@ export
 char	*isolate_value(char *s);
 char	**format_env(char **inputs);
 void	ft_export(char *command, char *arg);
+
+/*
+unset.c
+*/
+char	**isolate_keys(char **inputs, size_t l_inputs);
+int		*find_ranks(char **inputs, size_t l_inputs);
+char	**delete_items_list(int *ranks);
+char	**ft_unset(char *command, char *arg);
+
 
 /*
 export_utils.c
