@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/02 17:59:57 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/07 18:42:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,22 @@ typedef enum s_error
 	NOT_VALID,
 }	t_error;
 
+typedef struct	s_env
+{
+	//char	**env;
+	char	**key;
+	char	**value;
+	int		len;
+}				t_env;
+
 void	ft_determine_command(char *command);
 
 char	*get_line(char *str);
+
+/*
+main.c
+*/
+t_env	*init_env(char **env);
 
 /*
 ft_get_command.c
@@ -113,13 +126,23 @@ void	ft_echo(char *command, char *arg);
 /*
 env.c
 */
-size_t	print_env(char *var, char **g_env);
+size_t	print_var(char *s);
+void	print_env(void);
 
 /*
-export
+env_utils.c
 */
+char	**init_keys(char **l, size_t len);
+char	**init_values(char **l);
+int		find_var_rank(char *key);
+bool	check_double(char *key, char *value);
+
+/*
+export.c
+*/
+void	add_variable(char **n_key, char **n_value);
 char	*isolate_value(char *s);
-char	**format_env(char **inputs);
+void	replace_value(char *n_value, size_t r);
 void	ft_export(char *command, char *arg);
 
 /*
@@ -137,7 +160,6 @@ export_utils.c
 size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
-char	*add_quotes(char *s);
 char	*join_quotes(char *s);
 
 #endif

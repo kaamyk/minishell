@@ -6,14 +6,17 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/02 16:49:31 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/07 16:59:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern t_env	*g_env;
+
 void	print_list(char **l)
 {
+	printf("\t>>>PRINT_LIST<<<\n");
 	size_t	i;
 
 	i = 0;
@@ -22,6 +25,7 @@ void	print_list(char **l)
 		printf("%s\n", l[i]);
 		++i;
 	}
+	printf("\t>>>fin print_list<<<\n");
 }
 
 size_t	len_list(char **l)
@@ -84,6 +88,8 @@ char	**join_list(char **lst1, char **lst2)
 	char	**res;
 	size_t	len;
 
+	if (lst1 == NULL || lst2 == NULL)
+		return (NULL);
 	len = len_list(lst1) + len_list(lst2) + 1;
 	res = ft_calloc (len, sizeof(char *));
 	if (res == NULL)

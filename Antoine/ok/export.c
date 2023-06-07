@@ -3,30 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 18:00:47 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:00:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern char	**g_env;
-
-bool	check_double(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (g_env[i])
-	{
-		if (ft_strncmp(s, g_env[i], ft_strlen(g_env[i])) == 0)
-			return (1);
-		++i;
-	}
-	return (0);
-}
 
 char	*isolate_value(char *s)
 {
