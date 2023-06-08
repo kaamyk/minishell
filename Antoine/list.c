@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/07 16:59:28 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:10:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,22 @@ char	**dup_list(char **l)
 	return (n_l);
 }
 
-bool	cpy_list(char **l_dest, char **l_src)
+bool	cpy_list(char **dest, char **src, size_t l_src)
 {
-	size_t	len_src;
 	size_t	i;
 
-	len_src = len_list(l_src);
 	i = 0;
-	while (l_src[i] && i < len_src)
+	while (i < l_src)
 	{
-		l_dest[i] = ft_strdup(l_src[i]);
-		if (l_dest[i] == NULL)
+		if (src[i] == NULL)
 		{
-			free_list((void **)l_dest);
+			dest[i++] = NULL;
+			continue ;
+		}
+		dest[i] = ft_strdup(src[i]);
+		if (dest[i] == NULL)
+		{
+			free_list((void **)dest);
 			return (1);
 		}
 		++i;
@@ -83,20 +86,20 @@ bool	cpy_list(char **l_dest, char **l_src)
 	return (0);
 }
 
-char	**join_list(char **lst1, char **lst2)
+char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2)
 {
 	char	**res;
 	size_t	len;
 
 	if (lst1 == NULL || lst2 == NULL)
 		return (NULL);
-	len = len_list(lst1) + len_list(lst2) + 1;
+	len = len_l1 + len_l2 + 1;
 	res = ft_calloc (len, sizeof(char *));
 	if (res == NULL)
 		return (NULL);
-	if (cpy_list(res, lst1) == 1)
+	if (cpy_list(res, lst1, len_l1) == 1)
 		return (NULL);
-	if (cpy_list(res + len_list(res), lst2))
+	if (cpy_list(res + len_l1, lst2, len_l2))
 		return (NULL);
 	return (res);
 }

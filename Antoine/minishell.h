@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/07 18:42:06 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:08:32 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,16 @@ char	*get_line(char *str);
 /*
 main.c
 */
-t_env	*init_env(char **env);
+char	*get_line(char *str);
+void	ft_read_line(char *line);
+
+/*
+utils.c
+*/
+size_t	rank_char(char *s, char c);
+size_t	count_char(char	*s, char c);
+char	*del_char(char *s, char c);
+
 
 /*
 ft_get_command.c
@@ -109,8 +118,8 @@ list.c
 void	print_list(char **l);
 size_t	len_list(char **l);
 char	**dup_list(char **l);
-bool	cpy_list(char **l_dest, char **l_src);
-char	**join_list(char **lst1, char **lst2);
+bool	cpy_list(char **dest, char **src, size_t l_src);
+char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 
 /*
 change_directory.c
@@ -124,24 +133,29 @@ echo.c
 void	ft_echo(char *command, char *arg);
 
 /*
-env.c
+environment.c
 */
+char	**init_keys(char **l, size_t len);
+char	*isolate_value(char *s);
+char	**init_values(char **l);
+t_env	*init_env(char **env);
+
+/*
+environment_utils.c
+*/
+bool	check_double(char *key, char *value);
+int		find_var_rank(char *key);
 size_t	print_var(char *s);
 void	print_env(void);
 
 /*
-env_utils.c
+env.c
 */
-char	**init_keys(char **l, size_t len);
-char	**init_values(char **l);
-int		find_var_rank(char *key);
-bool	check_double(char *key, char *value);
 
 /*
 export.c
 */
 void	add_variable(char **n_key, char **n_value);
-char	*isolate_value(char *s);
 void	replace_value(char *n_value, size_t r);
 void	ft_export(char *command, char *arg);
 
@@ -152,15 +166,6 @@ char	**isolate_keys(char **inputs, size_t l_inputs);
 int		*find_ranks(char **inputs, size_t l_inputs);
 char	**delete_items_list(int *ranks);
 char	**ft_unset(char *command, char *arg);
-
-
-/*
-export_utils.c
-*/
-size_t	rank_char(char *s, char c);
-size_t	count_char(char	*s, char c);
-char	*del_char(char *s, char c);
-char	*join_quotes(char *s);
 
 #endif
 

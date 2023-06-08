@@ -6,12 +6,12 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/11 15:03:29 by anvincen          #+#    #+#              #
-#    Updated: 2023/06/07 16:21:22 by antoine          ###   ########.fr        #
+#    Updated: 2023/06/08 11:33:15 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #antoine/Makefile
-SRC =	main.c ft_error.c ft_command.c ft_get_command.c quotes.c\
-		change_directory.c echo.c export.c export_utils.c env.c env_utils.c\
+SRC =	main.c utils.c ft_error.c ft_command.c ft_get_command.c quotes.c\
+		change_directory.c echo.c export.c env.c environment.c environment_utils.c\
 		free.c list.c\
 
 OBJ = $(SRC:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/07 18:37:03 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:10:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ extern t_env	*g_env;
 void	add_variable(char **n_key, char **n_value)
 {
 	printf("\t>>>ADD_VARIABLE<<<\n");
-	g_env->key = join_list(g_env->key, n_key);
-	g_env->value = join_list(g_env->value, n_value);
+	size_t	len_env;
+	size_t	len;
+
+	len_env = len_list(g_env->key);
+	len = len_list(n_key);
+	g_env->key = join_list(g_env->key, n_key, len_env, len);
+	g_env->value = join_list(g_env->value, n_value, len_env, len);
 }
 
 void	replace_value(char *n_value, size_t r)
@@ -30,31 +35,6 @@ void	replace_value(char *n_value, size_t r)
 	g_env->value[r] = ft_strdup(n_value);
 	printf("g_env->value[%ld] = %s\n", r, g_env->value[r]);
 	free(tmp);
-}
-
-char	*isolate_value(char *s)
-{
-	char	*res;
-	size_t	len;
-	size_t	rank_sep;
-	size_t	i;
-
-	if (s == NULL)
-		return (NULL);
-	res = NULL;
-	rank_sep = rank_char(s, '=');
-	len = ft_strlen(s) - (rank_sep + 1);
-	res = malloc(len + 1);
-	if (res == NULL)
-		return (NULL);
-	i = 1;
-	while (s[rank_sep + i])
-	{
-		res[i - 1] = s[rank_sep + i];
-		++i;
-	}
-	res[i - 1] = 0;
-	return (res);
 }
 
 void	ft_export(char *command, char *arg)
