@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 16:12:51 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:00:55 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ size_t	print_var(char *s)
 	return (i);
 }
 
-void	print_env(void)
+bool	print_env(void)
 {
 	size_t	i;
 
@@ -86,4 +86,5 @@ void	print_env(void)
 			printf("%s\n", g_env->key[i]);
 		++i;
 	}
+	return (0);
 }

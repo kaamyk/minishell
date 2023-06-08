@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 16:41:13 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:08:36 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ char	*isolate_value(char *s)
 	r_sep = rank_char(s, '=');
 	len = ft_strlen(s) - r_sep;
 	if (len == 0)
+	{
 		res = ft_calloc(1, 1);
+		return (NULL);
+	}
 	else
 		res = del_char(ft_substr(s, r_sep + 1, len + 1), '"');
 	return (res);
@@ -59,7 +62,7 @@ char	**init_values(char **l)
 
 	res = malloc(sizeof(char *) * (len_list(l) + 1));
 	if (res == NULL)
-		return (NULL);
+		return (free_all(NULL, l, NULL));
 	i = 0;
 	while (l[i] != NULL)
 	{
@@ -79,8 +82,12 @@ t_env	*init_env(char **env)
 	if (env == NULL)
 		return (NULL);
 	n_env = malloc(sizeof(t_env));
+	if (n_env == NULL)
+		return (free_all(NULL, env, NULL));
 	n_env->key = init_keys(env, len_list(env));
 	n_env->value = init_values(env);
+	if (n_env->key == NULL || n_env->value == NULL)
+		return (free_all(n_env, env, NULL));
 	if (g_env != NULL)
 		free_list(env, len_list(env));
 	return (n_env);

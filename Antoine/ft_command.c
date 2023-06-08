@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/07 16:57:22 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:07:05 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,12 @@ bool	ft_builtins(char *command)
 	// }
 	if (ft_strncmp(command, "export ", strlen("export ")) == 0)
 	{
-		ft_export("export", command + strlen("export"));
+		ft_export(command + strlen("export"));
 		return (1);
 	}
 	else if (ft_strncmp(command, "export", strlen("export")) == 0)
 	{
-		ft_export("export", NULL);
+		ft_export(NULL);
 		return (1);
 	}
 	// else if (ft_strncmp(command, "unset", ft_strlen(command)) == 0)

@@ -6,11 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 16:37:19 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:08:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_env	*g_env;
 
 void	free_ptr(char *ptr)
 {
@@ -47,4 +49,17 @@ void	free_env(t_env *env)
 	if (env->key != NULL)
 		free_list(env->key, len_list(env->key));
 	free(env);
+}
+
+void	*free_all(t_env *e, char **l, char *s)
+{
+	if (e != NULL)
+		free_env(e);
+	if (l != NULL)
+		free_list(l, len_list(l));
+	if (s != NULL)
+		free(s);
+	if (g_env != NULL)
+		free_env(g_env);
+	return (NULL);
 }

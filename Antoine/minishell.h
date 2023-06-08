@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 16:40:08 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:07:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ free.c
 void	free_ptr(char *ptr);
 void	free_list(char **lst, size_t len);
 void	free_env(t_env *env);
+void	*free_all(t_env *e, char **l, char *s);
 
 /*
 ft_get_command.c
@@ -145,7 +146,7 @@ environment_utils.c
 bool	check_double(char *key, char *value);
 int		find_var_rank(char *key);
 size_t	print_var(char *s);
-void	print_env(void);
+bool	print_env(void);
 
 /*
 env.c
@@ -154,9 +155,9 @@ env.c
 /*
 export.c
 */
-void	add_variable(char **n_key, char **n_value);
-void	replace_value(char *n_value, size_t r);
-void	ft_export(char *command, char *arg);
+bool	add_variable(char **n_key, char **n_value);
+bool	replace_value(char *n_value, size_t r);
+bool	ft_export(char *arg);
 
 /*
 unset.c
