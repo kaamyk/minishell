@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 11:27:44 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 15:13:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,14 @@ int	main(int argc, char **argv, char **env)
 	//ft_signal();
 	(void) argc;
 	(void) argv;
-	(void) env;
-	//g_env = init_env(env);
-	g_env = malloc(sizeof(t_env));
-	g_env->key = ft_calloc(1, sizeof(char *));
-	g_env->value = ft_calloc(1, sizeof(char *));
-	g_env->len = 0;
-
+	g_env = init_env(env);
 	while (1)
 	{
 		line = get_line("$>");
+		printf("line == %s\n", line);
 		if (!line)
 		{
-			free_list((void **)g_env->key);
-			free_list((void **)g_env->value);
-			free(g_env);
+			free_env(g_env);
 			break ;
 		}
 		ft_read_line(line);

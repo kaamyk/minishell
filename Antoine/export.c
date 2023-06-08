@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 12:10:35 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:39:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void	add_variable(char **n_key, char **n_value)
 {
 	printf("\t>>>ADD_VARIABLE<<<\n");
 	size_t	len_env;
-	size_t	len;
+	char	**tmp;
 
 	len_env = len_list(g_env->key);
-	len = len_list(n_key);
-	g_env->key = join_list(g_env->key, n_key, len_env, len);
-	g_env->value = join_list(g_env->value, n_value, len_env, len);
+	tmp = g_env->key;
+	g_env->key = join_list(g_env->key, n_key, len_env, 1);
+	free_list(tmp, len_env);
+	tmp = g_env->value;
+	g_env->value = join_list(g_env->value, n_value, len_env, 1);
+	free_list(tmp, len_env);
 }
 
 void	replace_value(char *n_value, size_t r)
@@ -33,7 +36,6 @@ void	replace_value(char *n_value, size_t r)
 
 	tmp = g_env->value[r];
 	g_env->value[r] = ft_strdup(n_value);
-	printf("g_env->value[%ld] = %s\n", r, g_env->value[r]);
 	free(tmp);
 }
 
@@ -63,5 +65,6 @@ void	ft_export(char *command, char *arg)
 		}
 		++i;
 	}
+	free_env(res);
 	printf("\t>>>FIN EXPORT<<<\n");
 }

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 12:08:32 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:40:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ typedef enum s_error
 
 typedef struct	s_env
 {
-	//char	**env;
 	char	**key;
 	char	**value;
-	int		len;
 }				t_env;
 
 void	ft_determine_command(char *command);
@@ -70,6 +68,12 @@ size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
 
+/*
+free.c
+*/
+void	free_ptr(char *ptr);
+void	free_list(char **lst, size_t len);
+void	free_env(t_env *env);
 
 /*
 ft_get_command.c
@@ -88,11 +92,6 @@ bool	ft_builtins(char *command);
 int		ft_redirections(char *command);
 void	ft_determine_command(char *line);
 
-/*
-free.c
-*/
-void	free_list(void **lst);
-void	free_ptr(void *ptr);
 
 /*
 ft_error.c

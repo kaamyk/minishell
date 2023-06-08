@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 12:10:09 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:42:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**dup_list(char **l)
 		n_l[i] = ft_strdup(l[i]);
 		if (n_l[i] == NULL)
 		{
-			free_list((void **)n_l);
+			free_list(n_l, i);
 			return (NULL);
 		}
 		++i;
@@ -78,7 +78,7 @@ bool	cpy_list(char **dest, char **src, size_t l_src)
 		dest[i] = ft_strdup(src[i]);
 		if (dest[i] == NULL)
 		{
-			free_list((void **)dest);
+			free_list(dest, i);
 			return (1);
 		}
 		++i;

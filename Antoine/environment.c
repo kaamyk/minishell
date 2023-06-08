@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 11:32:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:41:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ t_env	*init_env(char **env)
 	if (env == NULL)
 		return (NULL);
 	n_env = malloc(sizeof(t_env));
-	n_env->len = len_list(env);
-	//g_env->env = dup_list(env);
-	n_env->key = init_keys(env, n_env->len);
+	n_env->key = init_keys(env, len_list(env));
 	n_env->value = init_values(env);
+	if (g_env != NULL)
+		free_list(env, len_list(env));
 	return (n_env);
 }

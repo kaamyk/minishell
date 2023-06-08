@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 11:35:56 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:12:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,25 @@ extern t_env	*g_env;
 
 bool	check_double(char *key, char *value)
 {
-	printf("\t>>>CHECK_DOUBLE<<<\n");
 	size_t	l_value;
 	size_t	l_val_env;
 	size_t	i;
 
+	l_value = 0;
+	if (value != NULL)
+		l_value = ft_strlen(value);
 	i = 0;
 	while (g_env->key[i])
 	{
 		if (ft_strncmp(g_env->key[i], key, ft_strlen(g_env->key[i])) == 0)
 		{
-			l_val_env = ft_strlen(g_env->value[i]);
-			l_value = ft_strlen(value);
-			if (l_val_env != 0 && l_value == 0)
-				return (1);
-			else if (ft_strncmp(g_env->value[i], value, l_val_env) == 0
-				&& ft_strncmp(g_env->value[i], value, l_value) == 0)
+			l_val_env = 0;
+			if (g_env->value[i] != NULL)
+				l_val_env = ft_strlen(g_env->value[i]);
+			if ((l_val_env != 0 && l_value == 0)
+				|| (g_env->value[i] != NULL
+					&& ft_strncmp(g_env->value[i], value, l_val_env) == 0
+					&& ft_strncmp(g_env->value[i], value, l_value) == 0))
 				return (1);
 		}
 		++i;
