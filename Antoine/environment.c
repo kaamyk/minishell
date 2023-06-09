@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/09 14:15:48 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:32:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**init_keys(char **l, size_t len)
 	size_t	rank;
 	size_t	i;
 
+	if (l == NULL)
+		return (NULL);
 	i = 0;
 	res = malloc(sizeof(char *) * (len + 1));
 	while (l[i])

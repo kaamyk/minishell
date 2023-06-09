@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/06 15:28:06 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/09 19:52:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,102 +14,79 @@
 
 extern t_env	*g_env;
 
-char	**delete_items_list(int *ranks)
+bool	key_is_valid(size_t *ranks, size_t len, size_t r_g)
 {
 	size_t	i;
 
 	i = 0;
-	while (ranks[i] >= 0)
+	while (i < len)
 	{
-		printf("g_env[%d] == %s\n", ranks[i], g_env->env[ranks[i]]);
+		if (ranks[i] == r_g)
+			return (1);
 		++i;
 	}
-	return (NULL);
+	return (0);
 }
 
-char	**ft_unset(char *command, char *arg)
+char	**delete_items_list(size_t *ranks, size_t len)
 {
-	char	**n_env;
-	char	**inputs;
-	int		*ranks;
-	size_t	l_inputs;
+	t_env	n_env;
+	size_t	i;
+	size_t	j;
 
-	(void)command;
-	printf("	>>> DEBUT <<<\n");
-	print_list(g_env->env);
-	inputs = ft_split(arg, ' ');
-	if (inputs == NULL)
-		return (NULL);
-	l_inputs = len_list(inputs);
-	n_env = malloc(sizeof(char *) * (len_list(g_env->env) - l_inputs));
-	if (n_env == NULL)
+	n_env = malloc(sizeof(t_env));
+	i = 0;
+	while (g_env->key[i] != NULL)
 	{
-		free_list((void **)inputs);
-		return (NULL);
+		if (key_is_valid(ranks, i) == 0)
+		{
+			n_env->key[j] = ft_strdup(g_env->key[i]);
+			n_env->value[j] = ft_strdup(g_env->value[i]);
+			++j;
+		}
+		++i;
 	}
-	//ranks = find_ranks(inputs, l_inputs);
-	ranks = 0;
-	if (ranks == NULL)
-	{
-		free_list((void **)inputs);
-		free_list((void **)n_env);
-		return (NULL);
-	}
-	n_env = delete_items_list(ranks);
-	// printf("	>>> FIN <<<\n");
-	// print_list(g_env);
+	free_env(g_env);
+	g_env = n_env;
 	return (NULL);
-	//g_env = n_env;
 }
 
-// char	**isolate_keys(char **inputs, size_t l_inputs)
-// {
-// 	char	**res;
-// 	size_t	rank;
-// 	size_t	i;
+size_t	*find_ranks(t_env *tmp, size_t len)
+{
+	size_t	len;
+	int		r;
+	size_t	*ranks;
+	size_t	i;
+	size_t	j;
 
-// 	i = 0;
-// 	res = malloc(sizeof(char *) * (l_inputs + 1));
-// 	while (inputs[i])
-// 	{
-// 		rank = rank_char(inputs[i], '=');
-// 		printf("	>>> rank == %ld <<<\n", rank);
-// 		res[i] = ft_calloc(rank + 1, sizeof(char));
-// 		ft_strlcpy(res[i], inputs[i], rank);
-// 		printf("	>>> res[%ld] == %s <<<\n", i, res[i]);
-// 		++i;
-// 	}
-// 	res[i] = NULL;
-// 	return (res);
-// }
+	ranks = malloc(sizeof(int) * (len + 1));
+	i = 0;
+	j = 0;
+	while (tmp->key[i])
+	{
+		if (tmp->key[i][ft_strlen(tmp->key[i] - 1)] != '=')
+		{
+			r = find_var_rank(tmp->key[i]);
+			if (r != -1)
+				ranks[j++] = (size_t *)&r;
+		}
+		++i;
+	}
+	return (ranks);
+}
 
-// int	*find_ranks(char **inputs, size_t l_inputs)
-// {
-// 	char	**keys;
-// 	int		*rank;
-// 	size_t	i;
-// 	size_t	j;
+void	ft_unset(char *command, char *arg)
+{
+	printf("\t>>>DEBUT FT_UNSET<<<\n");
+	t_env	*tmp;
+	int		*ranks;
+	size_t	len;
 
-// 	rank = malloc(sizeof(int) * (l_inputs + 1));
-// 	if (rank == NULL)
-// 		return (NULL);
-// 	rank[l_inputs] = -1;
-// 	keys = isolate_keys(inputs, l_inputs);
-// 	i = 0;
-// 	while (keys[i])
-// 	{
-// 		j = 0;
-// 		while (g_env[j])
-// 		{
-// 			if (ft_strncmp(g_env[j], keys[i], ft_strlen(keys[i])) == 0)
-// 			{
-// 				rank[i] = j;
-// 				break ;
-// 			}
-// 			++j;
-// 		}
-// 		++i;
-// 	}
-// 	return (rank);
-// }
-
+	tmp = t_env(ft_split(arg, ' '));
+	if (tmp == NULL)
+		return ;
+	len = len_list(tmp);
+	ranks = find_ranks(tmp, len);
+	delete_items(ranks, len);
+	printf("\t>>>FIN FT_UNSET<<<\n");
+}

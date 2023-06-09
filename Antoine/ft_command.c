@@ -140,13 +140,13 @@ bool	ft_builtins(char *command)
 		ft_cd(command, command + strlen("echo"));
 		return (1);
 	}
-	// else if (ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
-	// {
-	// 	printf("ft_builtins=>%s\n", command);
-	// 	//command = ft_split(line, ' ');
-	// 	ft_unset(command, command + strlen("unset "));
-	// 	return (1);
-	// }
+	else if (ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
+	{
+		printf("ft_builtins=>%s\n", command);
+		//command = ft_split(line, ' ');
+		ft_unset(command, command + strlen("unset"));
+		return (1);
+	}
 	return (0);
 }
 
