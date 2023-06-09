@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 18:00:55 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/09 13:59:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,18 @@ bool	print_env(void)
 		++i;
 	}
 	return (0);
+}
+
+char	*check_inputs(char **l)
+{
+	size_t	i;
+
+	i = 0;
+	while (l[i])
+	{
+		if (l[i][0] == '=')
+			return (l[i]);
+		++i;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 18:08:36 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/09 14:15:48 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,18 @@ char	**init_values(char **l)
 t_env	*init_env(char **env)
 {
 	t_env	*n_env;
+	char	*invalid;
 
 	if (env == NULL)
 		return (NULL);
+	invalid = check_inputs(env);
+	if (invalid != NULL)
+	{
+		printf("bash: export: '%s': not a valid identifier\n", invalid);
+		if (g_env != NULL)
+			free_list(env, len_list(env));
+		return (NULL);
+	}
 	n_env = malloc(sizeof(t_env));
 	if (n_env == NULL)
 		return (free_all(NULL, env, NULL));

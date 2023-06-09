@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/08 18:07:24 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/09 14:11:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ bool	check_double(char *key, char *value);
 int		find_var_rank(char *key);
 size_t	print_var(char *s);
 bool	print_env(void);
+char	*check_inputs(char **l);
 
 /*
 env.c
