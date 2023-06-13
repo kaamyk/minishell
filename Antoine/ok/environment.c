@@ -16,7 +16,6 @@ extern t_env	*g_env;
 
 char	**init_keys(char **l, size_t len)
 {
-	printf("\t>>>INIT_KEYS<<<\n");
 	char	**res;
 	size_t	rank;
 	size_t	i;
@@ -58,7 +57,6 @@ char	*isolate_value(char *s)
 
 char	**init_values(char **l)
 {
-	printf("\t>>>INIT_VALUES<<<\n");
 	char	**res;
 	size_t	i;
 

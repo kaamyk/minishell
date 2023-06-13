@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 18:07:57 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 15:33:45 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,10 @@ bool	ft_export(char *arg)
 	{
 		if (check_double(res->key[i], res->value[i]) == 0)
 		{
-			if (find_var_rank(res->key[i]) >= 0)
-			{
-				if (replace_value(res->value[i],
-						find_var_rank(res->key[i])) != 0)
-					return (1);
-			}
+			if (find_var_rank(res->key[i]) >= 0
+				&& (replace_value(res->value[i],
+						find_var_rank(res->key[i])) != 0))
+				return (1);
 			else
 				if (add_variable(&res->key[i], &res->value[i]) != 0)
 					return (1);

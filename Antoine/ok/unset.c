@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 11:43:21 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 15:45:56 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern t_env	*g_env;
 
 bool	input_valid(char *key, char *value, size_t len)
 {
+	char	*v;
 	int		r;
 	size_t	i;
 
@@ -27,9 +28,10 @@ bool	input_valid(char *key, char *value, size_t len)
 			r = find_var_rank(key);
 			if (r == -1)
 				return (1);
-			if (value != NULL && g_env->value[r] != NULL
-				&& ft_strncmp(g_env->value[r], value, ft_strlen(g_env->value[r]))
-				&& ft_strncmp(g_env->value[r], value, ft_strlen(value)))
+			v = g_env->value[r];
+			if (value != NULL && v != NULL
+				&& ft_strncmp(v, value, ft_strlen(v))
+				&& ft_strncmp(v, value, ft_strlen(value)))
 				return (1);
 		}
 		++i;
@@ -55,19 +57,23 @@ void	pop_unvalid_input(t_env *env, size_t r, size_t *len)
 
 bool	is_to_pop(t_env *tmp, size_t r)
 {
+	char	*k;
+	char	*v;
 	size_t	i;
 
+	v = g_env->value[r];
+	k = g_env->key[r];
 	i = 0;
 	while (tmp->key[i])
 	{
-		if (ft_strncmp(g_env->key[r], tmp->key[i], ft_strlen(tmp->key[i])) == 0
-			&& ft_strncmp(g_env->key[r], tmp->key[i], ft_strlen(tmp->key[i])) == 0)
+		if (ft_strncmp(k, tmp->key[i], ft_strlen(k) == 0
+				&& ft_strncmp(k, tmp->key[i], ft_strlen(tmp->key[i])) == 0))
 		{
 			if (tmp->value[i] == NULL)
 				return (1);
-			if ((g_env->value[r] != NULL && tmp->value[i] != NULL)
-				&& (ft_strncmp(g_env->value[r], tmp->value[i], ft_strlen(tmp->key[i]) == 0)
-					&& ft_strncmp(g_env->value[r], tmp->value[i], ft_strlen(g_env->value[r])) == 0))
+			else if ((v != NULL && tmp->value[i] != NULL)
+				&& ft_strncmp(v, tmp->value[i], ft_strlen(tmp->value[i])) == 0
+				&& ft_strncmp(v, tmp->value[i], ft_strlen(v) == 0))
 				return (1);
 		}
 		++i;
@@ -96,6 +102,7 @@ char	**delete_items(t_env *n_env, t_env *tmp, size_t len)
 		else
 			++j;
 	}
+	free_env(tmp);
 	n_env->key[i] = NULL;
 	n_env->value[i] = NULL;
 	free_env(g_env);
@@ -105,7 +112,6 @@ char	**delete_items(t_env *n_env, t_env *tmp, size_t len)
 
 void	ft_unset(char *command, char *arg)
 {
-	printf("\t>>>FT_UNSET<<<\n");
 	t_env	*n_env;
 	t_env	*tmp;
 	size_t	len;
@@ -130,5 +136,4 @@ void	ft_unset(char *command, char *arg)
 	n_env->key = malloc(sizeof(char *) * (len + 1));
 	n_env->value = malloc(sizeof(char *) * (len + 1));
 	delete_items(n_env, tmp, len_list(g_env->key));
-	free_env(tmp);
 }

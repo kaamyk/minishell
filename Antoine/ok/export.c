@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 18:07:57 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 15:46:42 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern t_env	*g_env;
 
 bool	add_variable(char **n_key, char **n_value)
 {
-	printf("\t>>>ADD_VARIABLE<<<\n");
 	size_t	len_env;
 	char	**tmp;
 
@@ -36,7 +35,6 @@ bool	add_variable(char **n_key, char **n_value)
 
 bool	replace_value(char *n_value, size_t r)
 {
-	printf("\t>>>REPLACE_VALUE<<<\n");
 	char	*tmp;
 
 	tmp = g_env->value[r];
@@ -52,7 +50,6 @@ bool	replace_value(char *n_value, size_t r)
 
 bool	ft_export(char *arg)
 {
-	printf("\t>>>FT_EXPORT<<<\n");
 	t_env	*res;
 	size_t	i;
 
@@ -66,12 +63,10 @@ bool	ft_export(char *arg)
 	{
 		if (check_double(res->key[i], res->value[i]) == 0)
 		{
-			if (find_var_rank(res->key[i]) >= 0)
-			{
-				if (replace_value(res->value[i],
-						find_var_rank(res->key[i])) != 0)
-					return (1);
-			}
+			if (find_var_rank(res->key[i]) >= 0
+				&& (replace_value(res->value[i],
+						find_var_rank(res->key[i])) != 0))
+				return (1);
 			else
 				if (add_variable(&res->key[i], &res->value[i]) != 0)
 					return (1);
