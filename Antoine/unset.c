@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 11:43:21 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 15:28:00 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	**delete_items(t_env *n_env, t_env *tmp, size_t len)
 		else
 			++j;
 	}
+	free_env(tmp);
 	n_env->key[i] = NULL;
 	n_env->value[i] = NULL;
 	free_env(g_env);
@@ -130,5 +131,4 @@ void	ft_unset(char *command, char *arg)
 	n_env->key = malloc(sizeof(char *) * (len + 1));
 	n_env->value = malloc(sizeof(char *) * (len + 1));
 	delete_items(n_env, tmp, len_list(g_env->key));
-	free_env(tmp);
 }
