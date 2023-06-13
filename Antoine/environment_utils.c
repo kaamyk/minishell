@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/12 15:37:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 18:16:10 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,40 @@ int	find_var_rank(char *key)
 
 size_t	print_var(char *s)
 {
+	char	**tmp;
+	size_t	res;
 	size_t	i;
 
+	res = 1;
 	i = 0;
+	tmp = ft_split(s, ' ');
 	while (g_env->key[i])
 	{
-		if (ft_strncmp(g_env->key[i], s, ft_strlen(g_env->key[i])))
+		if (ft_strncmp(g_env->key[i], tmp[0], ft_strlen(g_env->key[i])) == 0
+			&& ft_strncmp(g_env->key[i], tmp[0], ft_strlen(tmp[0])) == 0)
 		{
-			printf("%s\n", g_env->value[i]);
+			res = printf("%s", g_env->value[i]);
+			free_list(tmp, len_list(tmp));
 			break ;
 		}
 		++i;
 	}
-	return (i);
+	if (tmp != NULL)
+		free_list(tmp, len_list(tmp));
+	return (res);
 }
 
-bool	print_env(void)
+bool	print_env(bool a)
 {
 	size_t	i;
 
 	i = 0;
 	while (g_env->key[i])
 	{
-		if (g_env->value[i] != NULL)
+		if (a == 0 && g_env->value[i] != NULL)
 			printf("%s=\"%s\"\n", g_env->key[i], g_env->value[i]);
+		else if (a != 0 && g_env->value[i] != NULL)
+			printf("declare -x %s=\"%s\"\n", g_env->key[i], g_env->value[i]);
 		else
 			printf("%s\n", g_env->key[i]);
 		++i;

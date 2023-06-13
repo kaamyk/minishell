@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/13 11:45:06 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 18:36:49 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct	s_env
 	char	**key;
 	char	**value;
 }				t_env;
+
+typedef struct	s_data
+{
+	char	*cmd;
+	char	*arg;
+	bool	print;
+}				t_data;
 
 void	ft_determine_command(char *command);
 
@@ -146,7 +153,7 @@ environment_utils.c
 bool	check_double(char *key, char *value);
 int		find_var_rank(char *key);
 size_t	print_var(char *s);
-bool	print_env(void);
+bool	print_env(bool a);
 char	*check_inputs(char **l);
 
 /*
@@ -158,6 +165,7 @@ export.c
 */
 bool	add_variable(char **n_key, char **n_value);
 bool	replace_value(char *n_value, size_t r);
+char	*join_env(bool a);
 bool	ft_export(char *arg);
 
 /*

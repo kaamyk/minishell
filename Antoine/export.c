@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 15:33:45 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:51:46 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern t_env	*g_env;
 
 bool	add_variable(char **n_key, char **n_value)
 {
-	printf("\t>>>ADD_VARIABLE<<<\n");
 	size_t	len_env;
 	char	**tmp;
 
@@ -36,7 +35,6 @@ bool	add_variable(char **n_key, char **n_value)
 
 bool	replace_value(char *n_value, size_t r)
 {
-	printf("\t>>>REPLACE_VALUE<<<\n");
 	char	*tmp;
 
 	tmp = g_env->value[r];
@@ -50,14 +48,59 @@ bool	replace_value(char *n_value, size_t r)
 	return (0);
 }
 
+char	*join_env(bool a)
+{
+	char	*res;
+	char	*tmp;
+	size_t	i;
+
+	res = ft_calloc(1, 1);
+	i = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		printf(">>>CHILD PROCESSUS<<<\n");
+		while (g_env->key[i])
+		{
+			if (a == 0 && g_env->value[i] != NULL)
+				printf("%s=\"%s\"\n", g_env->key[i], g_env->value[i]);
+			else if (a != 0 && g_env->value[i] != NULL)
+				printf("declare -x %s=\"%s\"\n", g_env->key[i], g_env->value[i]);
+			else
+				printf("%s\n", g_env->key[i]);
+			++i;
+		}
+		exit(0);
+	}
+	else
+	{
+		printf(">>>PARENT PROCESSUS<<<\n");
+		while (1)
+		{
+			tmp = get_next_line(STDOUT_FILENO);
+			if (tmp == NULL)
+				break ;
+			res = ft_strjoin(res, tmp);
+			free(tmp);
+		}
+	}
+	printf(" >>>>res == %s\n", res);
+	return (res);
+}
+
 bool	ft_export(char *arg)
 {
-	printf("\t>>>FT_EXPORT<<<\n");
 	t_env	*res;
 	size_t	i;
 
 	if (arg == NULL)
-		return (print_env());
+	{
+		// if (data->print == true)
+		// 	return (print_env(1));
+		// else
+		join_env(0);
+		return (0);
+	}
 	res = init_env(ft_split(arg, ' '));
 	if (res == NULL)
 		return (1);
