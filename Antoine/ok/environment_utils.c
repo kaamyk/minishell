@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/13 15:52:20 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:59:34 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ size_t	print_var(char *s)
 	i = 0;
 	while (g_env->key[i])
 	{
-		if (ft_strncmp(g_env->key[i], s, ft_strlen(g_env->key[i])))
+		if (ft_strncmp(g_env->key[i], s, ft_strlen(g_env->key[i]))
+			&& ft_strncmp(g_env->key[i], s, ft_strlen(s)))
 		{
 			printf("%s\n", g_env->value[i]);
 			break ;
