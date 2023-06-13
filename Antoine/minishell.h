@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/09 19:35:43 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 11:33:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,9 @@ bool	ft_export(char *arg);
 /*
 unset.c
 */
-bool	key_is_valid(size_t *ranks, size_t r_g);
-char	**delete_items_list(size_t *ranks, size_t len);
-size_t	*find_ranks(t_env *tmp);
+bool	input_valid(char *key, char *value, size_t len);
+void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len);
+char	**delete_items(t_env *n_env, t_env *tmp);
 void	ft_unset(char *command, char *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/08 16:42:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/12 11:49:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2)
 	size_t	len;
 
 	if (lst1 == NULL || lst2 == NULL)
+	{
+		printf("Dans le is lst == NULL\n");
 		return (NULL);
+	}
 	len = len_l1 + len_l2 + 1;
 	res = ft_calloc (len, sizeof(char *));
 	if (res == NULL)

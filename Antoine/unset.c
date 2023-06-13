@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/09 19:52:29 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 11:32:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,130 @@
 
 extern t_env	*g_env;
 
-bool	key_is_valid(size_t *ranks, size_t len, size_t r_g)
+bool	input_valid(char *key, char *value, size_t len)
 {
+	printf("\t>>>INPUT_VALID<<<\n");
+	int		r;
 	size_t	i;
 
 	i = 0;
 	while (i < len)
 	{
-		if (ranks[i] == r_g)
-			return (1);
+		if (key[ft_strlen(key) - 1] != '=')
+		{
+			r = find_var_rank(key);
+			if (r == -1)
+				return (1);
+			if (value != NULL && g_env->value[r] != NULL
+				&& ft_strncmp(g_env->value[r], value, ft_strlen(g_env->value[r]))
+				&& ft_strncmp(g_env->value[r], value, ft_strlen(value)))
+				return (1);
+		}
 		++i;
 	}
 	return (0);
 }
 
-char	**delete_items_list(size_t *ranks, size_t len)
+void	pop_unvalid_input(t_env *env, size_t r, size_t *len)
 {
-	t_env	n_env;
-	size_t	i;
 	size_t	j;
 
-	n_env = malloc(sizeof(t_env));
-	i = 0;
-	while (g_env->key[i] != NULL)
+	j = r + 1;
+	while (j < *len)
 	{
-		if (key_is_valid(ranks, i) == 0)
-		{
-			n_env->key[j] = ft_strdup(g_env->key[i]);
-			n_env->value[j] = ft_strdup(g_env->value[i]);
-			++j;
-		}
-		++i;
+		env->key[j - 1] = env->key[j];
+		env->value[j - 1] = env->value[j];
+		++j;
 	}
-	free_env(g_env);
-	g_env = n_env;
-	return (NULL);
+	env->key[j] = NULL;
+	env->value[j] = NULL;
+	--(*len);
 }
 
-size_t	*find_ranks(t_env *tmp, size_t len)
+bool	is_to_pop(t_env *tmp, size_t r)
 {
-	size_t	len;
-	int		r;
-	size_t	*ranks;
 	size_t	i;
-	size_t	j;
 
-	ranks = malloc(sizeof(int) * (len + 1));
 	i = 0;
-	j = 0;
 	while (tmp->key[i])
 	{
-		if (tmp->key[i][ft_strlen(tmp->key[i] - 1)] != '=')
+		if (ft_strncmp(g_env->key[r], tmp->key[i], ft_strlen(tmp->key[i])) == 0
+			&& ft_strncmp(g_env->key[r], tmp->key[i], ft_strlen(tmp->key[i])) == 0)
 		{
-			r = find_var_rank(tmp->key[i]);
-			if (r != -1)
-				ranks[j++] = (size_t *)&r;
+			if (tmp->value[i] == NULL)
+				return (1);
+			if ((g_env->value[r] != NULL && tmp->value[i] != NULL)
+				&& (ft_strncmp(g_env->value[r], tmp->value[i], ft_strlen(tmp->key[i]) == 0)
+					&& ft_strncmp(g_env->value[r], tmp->value[i], ft_strlen(g_env->value[r])) == 0))
+				return (1);
 		}
 		++i;
 	}
-	return (ranks);
+	return (0);
+}
+
+char	**delete_items(t_env *n_env, t_env *tmp)
+{
+	size_t	len;
+	size_t	i;
+	size_t	j;
+
+	len = len_list(g_env->key);
+	i = 0;
+	j = 0;
+	while (i + j < len)
+	{
+		if (is_to_pop(tmp, i + j) == 0)
+		{
+			n_env->key[i] = ft_strdup(g_env->key[i + j]);
+			if (g_env->value[i + j] != NULL)
+				n_env->value[i] = ft_strdup(g_env->value[i + j]);
+			else
+				n_env->value[i] = NULL;
+			++i;
+		}
+		else
+			++j;
+	}
+	printf("Fin while i == %ld", i);
+	n_env->key[i] = NULL;
+	n_env->value[i] = NULL;
+	free_env(g_env);
+	g_env = n_env;
+	return (g_env->key);
 }
 
 void	ft_unset(char *command, char *arg)
 {
 	printf("\t>>>DEBUT FT_UNSET<<<\n");
+	t_env	*n_env;
 	t_env	*tmp;
-	int		*ranks;
 	size_t	len;
+	size_t	i;
 
-	tmp = t_env(ft_split(arg, ' '));
+	(void)command;
+	tmp = init_env(ft_split(arg, ' '));
 	if (tmp == NULL)
 		return ;
-	len = len_list(tmp);
-	ranks = find_ranks(tmp, len);
-	delete_items(ranks, len);
+	len = len_list(tmp->key);
+	i = 0;
+	while (tmp->key[i])
+	{
+		if (input_valid(tmp->key[i], tmp->value[i], len) != 0)
+			pop_unvalid_input(tmp, i, &len);
+		++i;
+	}
+	print_list(tmp->key);
+	printf("len == %ld\n", len);
+	if (len == 0)
+		return ;
+	n_env = malloc(sizeof(t_env));
+	len = len_list(g_env->key) - len;
+	n_env->key = malloc(sizeof(char *) * (len + 1));
+	printf("len n_env->key = %ld\n", len);
+	n_env->value = malloc(sizeof(char *) * (len + 1));
+	printf("len n_env->value = %ld\n", len);
+	delete_items(n_env, tmp);
+	free_env(tmp);
 	printf("\t>>>FIN FT_UNSET<<<\n");
 }
