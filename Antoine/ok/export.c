@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 15:46:42 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:52:33 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	ft_export(char *arg)
 	size_t	i;
 
 	if (arg == NULL)
-		return (print_env());
+		return (print_env(1));
 	res = init_env(ft_split(arg, ' '));
 	if (res == NULL)
 		return (1);
