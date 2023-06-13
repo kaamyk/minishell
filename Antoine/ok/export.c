@@ -6,85 +6,78 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/07 16:00:52 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:07:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern char	**g_env;
+extern t_env	*g_env;
 
-char	*isolate_value(char *s)
+bool	add_variable(char **n_key, char **n_value)
 {
-	char	*res;
-	size_t	len;
-	size_t	rank_sep;
-	size_t	i;
-
-	if (s == NULL)
-		return (NULL);
-	res = NULL;
-	rank_sep = rank_char(s, '=');
-	len = ft_strlen(s) - (rank_sep + 1);
-	res = malloc(len + 1);
-	if (res == NULL)
-		return (NULL);
-	i = 1;
-	while (s[rank_sep + i])
-	{
-		res[i - 1] = s[rank_sep + i];
-		++i;
-	}
-	res[i - 1] = 0;
-	return (res);
-}
-
-char	**format_env(char **inputs)
-{
-	char	**res;
-	char	*tmp;
-	size_t	i;
-	size_t	j;
-
-	res = ft_calloc(len_list(inputs) + 1, sizeof(char *));
-	i = 0;
-	j = 0;
-	while (inputs[i + j])
-	{
-		if (ft_strchr(inputs[i + j], '=')
-			&& (ft_strchr(inputs[i + j], '"') == 0
-				|| ft_strchr(inputs[i + j], '\'') == 0))
-			tmp = join_quotes(inputs[i + j]);
-		if (check_double(tmp) != 0)
-			++j;
-		else
-		{
-			res[i] = tmp;
-			++i;
-		}
-	}
-	free_list((void **)inputs);
-	return (res);
-}
-
-void	ft_export(char *command, char *arg)
-{
-	char	**inputs;
-	char	**n_env;
+	printf("\t>>>ADD_VARIABLE<<<\n");
+	size_t	len_env;
 	char	**tmp;
 
-	(void) command;
-	if (arg == NULL)
+	len_env = len_list(g_env->key);
+	tmp = g_env->key;
+	g_env->key = join_list(g_env->key, n_key, len_env, 1);
+	if (g_env->key == NULL)
+		return (1);
+	free_list(tmp, len_env);
+	tmp = g_env->value;
+	g_env->value = join_list(g_env->value, n_value, len_env, 1);
+	if (g_env->value == NULL)
+		return (1);
+	free_list(tmp, len_env);
+	return (0);
+}
+
+bool	replace_value(char *n_value, size_t r)
+{
+	printf("\t>>>REPLACE_VALUE<<<\n");
+	char	*tmp;
+
+	tmp = g_env->value[r];
+	g_env->value[r] = ft_strdup(n_value);
+	if (g_env->value[r] == NULL)
 	{
-		print_list(g_env);
-		return ;
+		free_all(NULL, NULL, tmp);
+		return (1);
 	}
-	inputs = format_env(ft_split(arg, ' '));
-	n_env = join_list(g_env, inputs);
-	free_list((void **) inputs);
-	if (n_env == NULL)
-		return ;
-	tmp = g_env;
-	g_env = n_env;
-	free_list((void **)tmp);
+	free(tmp);
+	return (0);
+}
+
+bool	ft_export(char *arg)
+{
+	printf("\t>>>FT_EXPORT<<<\n");
+	t_env	*res;
+	size_t	i;
+
+	if (arg == NULL)
+		return (print_env());
+	res = init_env(ft_split(arg, ' '));
+	if (res == NULL)
+		return (1);
+	i = 0;
+	while (res->key[i])
+	{
+		if (check_double(res->key[i], res->value[i]) == 0)
+		{
+			if (find_var_rank(res->key[i]) >= 0)
+			{
+				if (replace_value(res->value[i],
+						find_var_rank(res->key[i])) != 0)
+					return (1);
+			}
+			else
+				if (add_variable(&res->key[i], &res->value[i]) != 0)
+					return (1);
+		}
+		++i;
+	}
+	free_env(res);
+	return (0);
 }
