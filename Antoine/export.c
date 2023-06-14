@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 18:51:46 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:44:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,62 +48,10 @@ bool	replace_value(char *n_value, size_t r)
 	return (0);
 }
 
-char	*join_env(bool a)
+void	handle_var(char *res)
 {
-	char	*res;
-	char	*tmp;
 	size_t	i;
 
-	res = ft_calloc(1, 1);
-	i = 0;
-	pid = fork();
-	if (pid == 0)
-	{
-		printf(">>>CHILD PROCESSUS<<<\n");
-		while (g_env->key[i])
-		{
-			if (a == 0 && g_env->value[i] != NULL)
-				printf("%s=\"%s\"\n", g_env->key[i], g_env->value[i]);
-			else if (a != 0 && g_env->value[i] != NULL)
-				printf("declare -x %s=\"%s\"\n", g_env->key[i], g_env->value[i]);
-			else
-				printf("%s\n", g_env->key[i]);
-			++i;
-		}
-		exit(0);
-	}
-	else
-	{
-		printf(">>>PARENT PROCESSUS<<<\n");
-		while (1)
-		{
-			tmp = get_next_line(STDOUT_FILENO);
-			if (tmp == NULL)
-				break ;
-			res = ft_strjoin(res, tmp);
-			free(tmp);
-		}
-	}
-	printf(" >>>>res == %s\n", res);
-	return (res);
-}
-
-bool	ft_export(char *arg)
-{
-	t_env	*res;
-	size_t	i;
-
-	if (arg == NULL)
-	{
-		// if (data->print == true)
-		// 	return (print_env(1));
-		// else
-		join_env(0);
-		return (0);
-	}
-	res = init_env(ft_split(arg, ' '));
-	if (res == NULL)
-		return (1);
 	i = 0;
 	while (res->key[i])
 	{
@@ -119,6 +67,19 @@ bool	ft_export(char *arg)
 		}
 		++i;
 	}
+}
+
+char	*ft_export(char *arg, bool print)
+{
+	t_env	*res;
+	size_t	i;
+
+	if (arg == NULL)
+		return (read_print(print));
+	res = init_env(ft_split(arg, ' '));
+	handle_var(res);
+	if (res == NULL)
+		return (1);
 	free_env(res);
 	return (0);
 }

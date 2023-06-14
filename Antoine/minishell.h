@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/13 18:36:49 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:28:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 # include <readline/history.h>
 
 //ls
-#include <dirent.h>
-#include <errno.h>
+# include <dirent.h>
+# include <errno.h>
 
 # include <stdbool.h>
-
+# include <sys/wait.h>
 # include "./libft/libft.h"
 
 # define RED   "\x1B[31m"
@@ -165,7 +165,7 @@ export.c
 */
 bool	add_variable(char **n_key, char **n_value);
 bool	replace_value(char *n_value, size_t r);
-char	*join_env(bool a);
+void	join_env(bool a);
 bool	ft_export(char *arg);
 
 /*
