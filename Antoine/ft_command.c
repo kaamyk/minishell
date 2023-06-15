@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 17:30:35 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:44:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ bool	ft_builtins(char *command)
 	else if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
 	{
 		//printf("%s\n", command);
-		ft_echo(command, command + strlen("echo"));
+		ft_echo(command + strlen("echo"));
 		return (1);
 	}
 	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)

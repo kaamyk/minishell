@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 16:52:25 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:44:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ size_t	print_quotes(char *arg, char c)
 	return (i);
 }
 
-void	ft_echo(char *command, char *arg)
+bool	ft_echo(char *arg)
 {
 	size_t	i;
 
-	(void)command;
 	i = 0;
 	while (arg[i] == ' ')
 		++i;
@@ -48,4 +47,5 @@ void	ft_echo(char *command, char *arg)
 		}
 	}
 	write (STDOUT_FILENO, "\n", 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/14 18:28:28 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:39:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ size_t	nb_args(char *command);
 /*
 echo.c
 */
-void	ft_echo(char *command, char *arg);
+bool	ft_echo(char *arg);
 
 /*
 environment.c
@@ -165,7 +165,7 @@ export.c
 */
 bool	add_variable(char **n_key, char **n_value);
 bool	replace_value(char *n_value, size_t r);
-void	join_env(bool a);
+bool	handle_inputs(t_env *res);
 bool	ft_export(char *arg);
 
 /*
@@ -175,6 +175,12 @@ bool	input_valid(char *key, char *value, size_t len);
 void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len);
 char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
 void	ft_unset(char *command, char *arg);
+
+/*
+read_print
+*/
+char	*join_print(int *fd);
+char	*read_print(bool(*f)(char *), char *arg, bool print);
 
 #endif
 

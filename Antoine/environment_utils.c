@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/14 19:34:45 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:59:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,20 @@ bool	print_env(bool a)
 	i = 0;
 	while (g_env->key[i])
 	{
-		if (a == 0 && g_env->value[i] != NULL)
-			printf("%s=\"%s\"\n", g_env->key[i], g_env->value[i]);
-		else if (a != 0 && g_env->value[i] != NULL)
-			printf("declare -x %s=\"%s\"\n", g_env->key[i], g_env->value[i]);
-		else
-			printf("%s\n", g_env->key[i]);
+		if (a == 0)
+		{
+			if (g_env->value[i] != NULL)
+				printf("%s=\"%s\"\n", g_env->key[i], g_env->value[i]);
+			else
+				printf("%s\n", g_env->key[i]);
+		}
+		else if (a != 0)
+		{
+			if (g_env->value[i] != NULL)
+				printf("declare -x %s=\"%s\"\n", g_env->key[i], g_env->value[i]);
+			else
+				printf("declare -x %s\n", g_env->key[i]);
+		}
 		++i;
 	}
 	return (0);

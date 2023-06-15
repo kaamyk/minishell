@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 18:41:03 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:28:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,41 @@ bool	replace_value(char *n_value, size_t r)
 	return (0);
 }
 
-bool	ft_export(char *arg)
+bool	handle_inputs(t_env *res)
 {
-	t_env	*res;
 	size_t	i;
 
-	if (arg == NULL)
-		return (print_env(1));
-	res = init_env(ft_split(arg, ' '));
-	if (res == NULL)
-		return (1);
 	i = 0;
 	while (res->key[i])
 	{
 		if (check_double(res->key[i], res->value[i]) == 0)
 		{
-			if (find_var_rank(res->key[i]) >= 0
-				&& (replace_value(res->value[i],
-						find_var_rank(res->key[i])) != 0))
-				return (1);
+			if (find_var_rank(res->key[i]) >= 0)
+			{
+				if (replace_value(res->value[i],
+						find_var_rank(res->key[i])) != 0)
+					return (1);
+			}
 			else
 				if (add_variable(&res->key[i], &res->value[i]) != 0)
 					return (1);
 		}
 		++i;
 	}
+	return (0);
+}
+
+bool	ft_export(char *arg)
+{
+	t_env	*res;
+
+	if (arg == NULL)
+		return (print_env(1));
+	res = init_env(ft_split(arg, ' '));
+	if (handle_inputs(res) != 0)
+		return (1);
+	if (res == NULL)
+		return (1);
 	free_env(res);
 	return (0);
 }

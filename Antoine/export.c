@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/14 19:44:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:28:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	replace_value(char *n_value, size_t r)
 	return (0);
 }
 
-void	handle_var(char *res)
+bool	handle_inputs(t_env *res)
 {
 	size_t	i;
 
@@ -57,27 +57,30 @@ void	handle_var(char *res)
 	{
 		if (check_double(res->key[i], res->value[i]) == 0)
 		{
-			if (find_var_rank(res->key[i]) >= 0
-				&& (replace_value(res->value[i],
-						find_var_rank(res->key[i])) != 0))
-				return (1);
+			if (find_var_rank(res->key[i]) >= 0)
+			{
+				if (replace_value(res->value[i],
+						find_var_rank(res->key[i])) != 0)
+					return (1);
+			}
 			else
 				if (add_variable(&res->key[i], &res->value[i]) != 0)
 					return (1);
 		}
 		++i;
 	}
+	return (0);
 }
 
-char	*ft_export(char *arg, bool print)
+bool	ft_export(char *arg)
 {
 	t_env	*res;
-	size_t	i;
 
 	if (arg == NULL)
-		return (read_print(print));
+		return (print_env(1));
 	res = init_env(ft_split(arg, ' '));
-	handle_var(res);
+	if (handle_inputs(res) != 0)
+		return (1);
 	if (res == NULL)
 		return (1);
 	free_env(res);
