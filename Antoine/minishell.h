@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/15 11:39:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 17:36:19 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ unset.c
 bool	input_valid(char *key, char *value, size_t len);
 void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len);
 char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
-void	ft_unset(char *command, char *arg);
+void	ft_unset(char *arg);
 
 /*
 read_print

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 10:44:06 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 17:57:40 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ bool	ft_builtins(char *command)
 	{
 		printf("ft_builtins=>%s\n", command);
 		//command = ft_split(line, ' ');
-		ft_unset(command, command + strlen("unset"));
+		ft_unset(command + strlen("unset"));
 		return (1);
 	}
 	return (0);

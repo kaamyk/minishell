@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 15:45:56 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:58:24 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ bool	is_to_pop(t_env *tmp, size_t r)
 	i = 0;
 	while (tmp->key[i])
 	{
-		if (ft_strncmp(k, tmp->key[i], ft_strlen(k) == 0
-				&& ft_strncmp(k, tmp->key[i], ft_strlen(tmp->key[i])) == 0))
+		if (ft_strncmp(k, tmp->key[i], ft_strlen(k)) == 0
+			&& ft_strncmp(k, tmp->key[i], ft_strlen(tmp->key[i])) == 0)
 		{
 			if (tmp->value[i] == NULL)
 				return (1);
@@ -110,14 +110,13 @@ char	**delete_items(t_env *n_env, t_env *tmp, size_t len)
 	return (g_env->key);
 }
 
-void	ft_unset(char *command, char *arg)
+void	ft_unset(char *arg)
 {
 	t_env	*n_env;
 	t_env	*tmp;
 	size_t	len;
 	size_t	i;
 
-	(void)command;
 	tmp = init_env(ft_split(arg, ' '));
 	if (tmp == NULL)
 		return ;
