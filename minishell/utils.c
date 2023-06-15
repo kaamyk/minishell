@@ -1,51 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 10:44:50 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/08 11:29:41 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_env	*g_env;
-
-size_t	print_quotes(char *arg, char c)
+size_t	rank_char(char *s, char c)
 {
-	size_t	i;
+	size_t	l;
 
-	i = 1;
-	while (arg[i] && arg[i] != c)
-	{
-		write(STDOUT_FILENO, &arg[i], 1);
-		++i;
-	}
-	return (i);
+	l = 0;
+	while (s[l] && s[l] != c)
+		++l;
+	return (l);
 }
 
-bool	ft_echo(char *arg)
+size_t	count_char(char	*s, char c)
 {
+	size_t	n;
 	size_t	i;
 
+	n = 0;
 	i = 0;
-	while (arg[i] == ' ')
-		++i;
-	while (arg[i])
+	while (s[i])
 	{
-		if (arg[i] == '"' || arg[i] == '\'')
-			i += print_quotes(arg + i, arg[i]);
-		else if (arg[i] == '$')
-			i += print_var(arg + i + 1);
-		else
-		{
-			write(STDOUT_FILENO, &arg[i], 1);
-			++i;
-		}
+		if (s[i] == c)
+			++n;
+		++i;
 	}
-	write (STDOUT_FILENO, "\n", 1);
-	return (0);
+	return (n);
+}
+
+char	*del_char(char *s, char c)
+{
+	char	*res;
+	size_t	l;
+	size_t	i;
+	size_t	j;
+
+	if (s == NULL)
+		return (NULL);
+	if (ft_strchr(s, c) == 0)
+		return (s);
+	l = ft_strlen(s) - count_char(s, c);
+	res = malloc(sizeof(char) * (l + 1));
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i] && j < l)
+	{
+		if (s[i] != c)
+			res[j++] = s[i];
+		++i;
+	}
+	res[j] = 0;
+	free(s);
+	return (res);
 }

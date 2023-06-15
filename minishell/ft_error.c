@@ -16,12 +16,14 @@ void	ft_error(t_error error, char *command, char *option)
 {
 	printf("bash: ");
 	if (error == SYNTAXE)
-		printf("syntaxe error near unexpected token '%s'.", command);
+		printf("syntaxe error near unexpected token '%c'.", command[0]);
 	else if (error == NOT_FOUND)
 		printf("%s: command not found.", command);
 	else if (error == DIRECTORY)
 		printf("%s: Is a directory", command);
 	else if (error == NOT_VALID)
 		printf("%s: '%s': not a valid identifier.", command, option);
+	else if (error == NO_SUCH)
+		printf("%s: No such file or directory", command);
 	printf("\n");
 }

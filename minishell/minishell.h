@@ -35,70 +35,206 @@
 
 # include "./libft/libft.h"
 
+//wait
+# include <sys/wait.h>
+
+# define BUFFER_SIZE 1
+
 # define RED   "\x1B[31m"
 # define GREEN "\x1b[32m"
 # define RESET "\x1B[0m"
 
 typedef struct sigaction	t_sig;
+
 typedef enum s_error
 {
 	SYNTAXE,
 	NOT_FOUND,
 	DIRECTORY,
 	NOT_VALID,
+	NO_SUCH,
 }	t_error;
 
-void	ft_determine_command(char *command, char *arg);
+typedef struct s_syntaxe
+{
+	bool	doub;
+	bool	open_q;
+	bool	close_q;
+}	t_syntaxe;
+
+typedef struct s_quotes
+{
+	int	i;
+	int	open_s;
+	int	open_d;
+}	t_quotes;
+
+typedef struct s_split
+{
+	char	c;
+	int		p;
+	int		start;
+}	t_split;
+
+typedef struct s_redirec
+{
+	int			time;
+	int			stop;
+	char		*p1;
+	char		*p2;
+	char		*tmp;
+	char		*string;
+	char		*signe;
+}	t_redirec;
+
+typedef struct s_tab
+{
+	int		*tab_position;
+	char	**tab_cmd;
+	int		nb_cmd;
+	int		nb_signe;
+}	t_tab;
+
+typedef struct s_data
+{
+	char	*cmd;
+	char	*arg;
+	bool	print;
+}	t_data;
+
+typedef struct	s_env
+{
+	char	**key;
+	char	**value;
+}				t_env;
+
+void	ft_signal(void);
+
+char	*ft_split_cmd(char *str);
+
+bool	ft_check_syntaxe(char *str);
+
+void	ft_error(t_error error, char *command, char *option);
+
+bool	ft_check_open_quotes(char *line);
+
+char	*ft_delete_space(char *str);
+
+void	ft_check_quotes(t_quotes *quote, char *str, int i);
+
+void	ft_get_value_quote(t_quotes *quote);
+
+char	*ft_copy_str(char *str);
+
+int		ft_count_len(char *str, int c);
+
+void	free_tab_mn(char **tab);
+
+void	ft_parsing(char *str);
+
+char	*ft_redirec(char *str);
+
+char	**ft_split_mn(char *str, char c);
+
+bool	ft_one_arg(char c);
+
+char	*ft_redirec3(char *str);
+
+void	ft_redirec4(t_quotes *quote, t_redirec *redirec, char *str);
+
+void	ft_classify_str(t_data *data, char *str);
+
+void	ft_determine_command(t_data *data);
+
+void	ft_get_cmd(t_data *data, char *str);
+
+void	ft_redirection4(char *str);
 
 char	*get_line(char *str);
 
-/*
-split_command.c
-*/
-void	ft_split_line(char *line);
+char	*ft_add_string(char *s1, char *s2);
+
+void	ft_parsing6(t_tab *tab);
+
+char	*ft_new_string(t_quotes *quote, char *str);
+
+int		ft_without_quotes2(t_quotes *quote, t_tab *tab, char *str, int i);
+
+/****************************/
+char	*del_char(char *s, char c);
 
 /*
-ft_get_command.c
+list.c
 */
-int		ft_one_arg(char c);
-char	*ft_delete_space(char *str);
-void	ft_get_command2(char *line, char c);
+void	print_list(char **l);
+size_t	len_list(char **l);
+char	**dup_list(char **l);
+bool	cpy_list(char **dest, char **src, size_t l_src);
+char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 
 /*
-ft_error.c
+change_directory.c
 */
-void	ft_error(t_error error, char *command, char *option);
+void	ft_cd(char *command, const char *arg);
+size_t	nb_args(char *command);
 
 /*
-signal.c
+environment.c
 */
-void	ignore_quit(void);
-void	sig_handler(int signum);
-void	ft_signal(void);
+char	**init_keys(char **l, size_t len);
+char	*isolate_value(char *s);
+char	**init_values(char **l);
+t_env	*init_env(char **env);
 
 /*
-ft_quotes.c
+environment_utils.c
 */
-char	*ft_get_quotes(char *str);
+bool	check_double(char *key, char *value);
+int		find_var_rank(char *key);
+size_t	print_var(char *s);
+bool	print_env(bool a);
+char	*check_inputs(char **l);
 
 /*
-ft_other_command.c
+env.c
 */
-int	ft_other_command(char *command);
+void	ft_env(void);
 
 /*
-ft_redirections.c
+export.c
 */
-int	ft_redirections(char *str);
+bool	add_variable(char **n_key, char **n_value);
+bool	replace_value(char *n_value, size_t r);
+bool	ft_export(char *arg);
+
+/*
+unset.c
+*/
+bool	input_valid(char *key, char *value, size_t len);
+void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len);
+char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
+void	ft_unset(char *arg);
+
+/*
+utils.c
+*/
+size_t	rank_char(char *s, char c);
+size_t	count_char(char	*s, char c);
+char	*del_char(char *s, char c);
+
+/*
+free.c
+*/
+void	free_ptr(char *ptr);
+void	free_list(char **lst, size_t len);
+void	free_env(t_env *env);
+void	*free_all(t_env *e, char **l, char *s);
 
 /*
 echo.c
 */
-void	ft_echo(char *arg);
+bool	ft_echo(char *arg);
 
-/*
-quotes.c
-*/
-bool	ft_quotes(char *line);
+char	*read_print(bool (*f)(char *), char *arg, bool print);
 
 #endif

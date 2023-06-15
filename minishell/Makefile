@@ -11,15 +11,32 @@
 # **************************************************************************** #
 
 SRC =	main.c \
-		ft_get_command.c \
-		ft_command.c \
-		split_command.c\
-		ft_error.c\
 		signal.c \
-		ft_other_command.c \
-		ft_redirections.c\
-		quotes.c\
-		echo.c
+		ft_delete_space.c \
+		ft_error.c \
+		ft_quotes.c \
+		ft_check_syntaxe.c \
+		ft_execute.c \
+		ft_split_mn.c \
+		ft_split_mn2.c \
+		ft_split_cmd.c \
+		ft_split_cmd2.c \
+		ft_split_cmd3.c \
+		ft_split_cmd4.c \
+		ft_split_cmd5.c \
+		ft_get_cmd.c \
+		ft_classify_str.c \
+		ft_redirection4.c \
+		utils.c \
+		export.c \
+		free.c \
+		environment.c \
+		environment_utils.c \
+		list.c \
+		env.c \
+		echo.c \
+		unset.c \
+		join_print.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -40,9 +57,15 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ)
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
+	
+	@$(MAKE) clean -sC ./libft
+	$(RM) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
+
+n:
+	cp -rf *.c *.h Makefile ok
 
 clean:
 	@$(MAKE) clean -sC ./libft
