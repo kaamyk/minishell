@@ -92,10 +92,7 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2)
 	size_t	len;
 
 	if (lst1 == NULL || lst2 == NULL)
-	{
-		printf("Dans le is lst == NULL\n");
 		return (NULL);
-	}
 	len = len_l1 + len_l2 + 1;
 	res = ft_calloc (len, sizeof(char *));
 	if (res == NULL)

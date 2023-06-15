@@ -46,6 +46,8 @@ char	*join_print(int *fd)
 char	*read_print(bool (*f)(char *), char *arg, bool print)
 {
 	int		fd[2];
+	//fd[0] read
+	//fd[1] write
 
 	if (print == true)
 	{
