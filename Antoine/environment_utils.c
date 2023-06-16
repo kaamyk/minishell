@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/15 17:31:05 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:03:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,22 @@ int	find_var_rank(char *key)
 	return (-1);
 }
 
-size_t	print_var(char *s)
+size_t	print_var(char *var)
 {
-	char	**tmp;
-	size_t	res;
 	size_t	i;
 
-	res = 1;
 	i = 0;
-	tmp = ft_split(s, ' ');
 	while (g_env->key[i])
 	{
-		if (ft_strncmp(g_env->key[i], tmp[0], ft_strlen(g_env->key[i])) == 0
-			&& ft_strncmp(g_env->key[i], tmp[0], ft_strlen(tmp[0])) == 0)
+		if (ft_strncmp(g_env->key[i], var, ft_strlen(g_env->key[i])) == 0
+			&& ft_strncmp(g_env->key[i], var, ft_strlen(var)) == 0)
 		{
-			res = printf("%s", g_env->value[i]);
-			free_list(tmp, len_list(tmp));
+			write(STDOUT_FILENO, g_env->value[i], ft_strlen(g_env->value[i]));
 			break ;
 		}
 		++i;
 	}
-	if (tmp != NULL)
-		free_list(tmp, len_list(tmp));
-	return (res);
+	return (ft_strlen(var));
 }
 
 bool	print_env(bool a)

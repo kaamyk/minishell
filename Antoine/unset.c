@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 17:58:24 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/16 09:01:23 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	ft_unset(char *arg)
 	size_t	len;
 	size_t	i;
 
+	if (arg == NULL || ft_strlen(arg) == 0)
+		return ;
 	tmp = init_env(ft_split(arg, ' '));
 	if (tmp == NULL)
 		return ;

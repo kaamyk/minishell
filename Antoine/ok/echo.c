@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 10:44:50 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 09:56:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,24 @@ size_t	print_quotes(char *arg, char c)
 	return (i);
 }
 
+bool	print_nl(char *arg)
+{
+	if (arg[0] == '-' && ft_strnstr(arg, "-n ", 3) != NULL)
+		return (false);
+	return (true);
+}
+
 bool	ft_echo(char *arg)
 {
 	size_t	i;
+	bool	nl;
 
 	i = 0;
 	while (arg[i] == ' ')
 		++i;
+	nl = print_nl(arg + i);
+	if (nl == false)
+		i += 3;
 	while (arg[i])
 	{
 		if (arg[i] == '"' || arg[i] == '\'')
@@ -46,6 +57,7 @@ bool	ft_echo(char *arg)
 			++i;
 		}
 	}
-	write (STDOUT_FILENO, "\n", 1);
+	if (nl == true)
+		write (STDOUT_FILENO, "\n", 1);
 	return (0);
 }

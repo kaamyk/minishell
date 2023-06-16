@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/15 10:29:32 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 08:57:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ int	main(int argc, char **argv, char **env)
 		line = get_line("$>");
 		printf("line == %s\n", line);
 		if (!line)
-		{
-			free_env(g_env);
 			break ;
-		}
 		ft_read_line(line);
 	}
+	free_env(g_env);
 }
