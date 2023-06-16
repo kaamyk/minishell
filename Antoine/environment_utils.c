@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/16 12:03:26 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 17:57:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,23 @@ int	find_var_rank(char *key)
 
 size_t	print_var(char *var)
 {
+	size_t	len;
 	size_t	i;
 
+	len = ft_strlen(var);
 	i = 0;
 	while (g_env->key[i])
 	{
 		if (ft_strncmp(g_env->key[i], var, ft_strlen(g_env->key[i])) == 0
 			&& ft_strncmp(g_env->key[i], var, ft_strlen(var)) == 0)
 		{
-			write(STDOUT_FILENO, g_env->value[i], ft_strlen(g_env->value[i]));
+			write(1, g_env->value[i], ft_strlen(g_env->value[i]));
 			break ;
 		}
 		++i;
 	}
-	return (ft_strlen(var));
+	free(var);
+	return (len);
 }
 
 bool	print_env(bool a)

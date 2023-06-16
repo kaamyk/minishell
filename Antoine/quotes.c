@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 18:15:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/01 11:44:01 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 17:23:19 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,10 @@ bool	ft_check_open_quotes(char *line)
 				++j;
 			}
 			if (j == len)
-			{
-				printf(">>> OPEN QUOTES <<<\n");
 				return (true);
-			}
 		}
 		++i;
 	}
-	printf(">>> QUOTES ARE CLOSED <<<\n");
 	return (false);
 }
 
