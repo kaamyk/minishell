@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/19 18:10:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 17:57:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	find_var_rank(char *key)
 	i = 0;
 	while (g_env->key[i])
 	{
-		if (ft_strncmp(g_env->key[i], key, ft_strlen(g_env->key[i])) == 0
-			&& ft_strncmp(g_env->key[i], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(g_env->key[i], key, ft_strlen(g_env->key[i])) == 0)
 			return (i);
 		++i;
 	}

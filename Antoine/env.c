@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/19 16:40:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/13 15:56:57 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 extern t_env	*g_env;
 
-void	ft_env(void)
+// void	ft_env(void)
+// {
+// 	print_env(0);
+// }
+
+bool	ft_env(char *arg)
 {
-	print_env(0);
+	if (arg == 0)
+		print_env(0);
+	return (0);
 }

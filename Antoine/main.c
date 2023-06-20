@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/16 17:52:46 by antoine          ###   ########.fr       */
+/*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
+/*   Updated: 2023/06/20 17:00:41 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,65 @@ char	*get_line(char *str)
 
 void	ft_read_line(char *line)
 {
-	if (ft_strchr(line, ';') != 0)
-		ft_get_command2(line, ';');
-	else if (ft_strchr(line, '|') != 0)
-		ft_get_command2(line, '|');
+	if (ft_strlen(line) == 0)
+	{
+		free(line);
+		return ;
+	}
+	line = ft_delete_space(line);
+	if (ft_check_open_quotes(line) == true)
+	{
+		ft_error(SYNTAXE, line, 0);
+		free(line);
+		return ;
+	}
+	if (ft_check_syntaxe(line) == false)
+	{
+		line = ft_split_cmd(line);
+	}
 	else
-		ft_get_command(line);
+		free(line);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int ac, char **av, char **env)
 {
 	char	*line;
 
-	//ft_signal();
-	(void) argc;
-	(void) argv;
-	g_env = init_env(env);
-	while (1)
+	(void)av;
+	if (ac == 1)
 	{
-		line = get_line("$>");
-		//printf("line == %s\n", line);
-		if (!line)
-			break ;
-		ft_read_line(line);
+		while (1)
+		{
+			ft_signal();
+			if (g_env == NULL)
+				g_env = init_env(env);
+			line = get_line("$> ");
+			if (!line)
+				break ;
+			ft_read_line(line);
+		}
 	}
 	free_env(g_env);
+	return (0);
 }
+
+// int	main(int ac, char **av, char **env)
+// {
+// 	char	*line;
+// 	int		len;
+
+// 	if (g_env == NULL)
+// 		g_env = init_env(env);
+// 	if (ac == 2)
+// 	{
+// 		len = ft_strlen(av[1]);
+// 		line = (char *)malloc((len + 1) * sizeof(char));
+// 		if (!line)
+// 			return (0);
+// 		line = ft_memcpy(line, av[1], len);
+// 		line[len] = 0;
+// 		ft_read_line(line);
+// 	}
+// 	free_env(g_env);
+// 	return (0);
+// }

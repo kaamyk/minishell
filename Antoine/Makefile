@@ -3,16 +3,44 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
+#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/11 15:03:29 by anvincen          #+#    #+#              #
-#    Updated: 2023/06/19 16:51:57 by antoine          ###   ########.fr        #
+#    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
+#    Updated: 2023/06/20 16:54:50 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-#antoine/Makefile
-SRC =	main.c utils.c ft_error.c ft_command.c ft_get_command.c quotes.c\
-		change_directory.c echo.c export.c env.c environment.c environment_utils.c\
-		free.c list.c unset.c join_print.c\
+
+SRC =	main.c \
+		signal.c \
+		ft_delete_space.c \
+		ft_error.c \
+		ft_quotes.c \
+		ft_check_syntaxe.c \
+		ft_execute.c \
+		ft_split_mn.c \
+		ft_split_mn2.c \
+		ft_split_cmd.c \
+		ft_split_cmd2.c \
+		ft_split_cmd3.c \
+		ft_split_cmd4.c \
+		ft_split_cmd5.c \
+		ft_get_cmd.c \
+		ft_classify_str.c \
+		ft_redirection.c \
+		ft_redirection2.c \
+		ft_redirection4.c \
+		utils.c \
+		export.c \
+		free.c \
+		environment.c \
+		environment_utils.c \
+		list.c \
+		env.c \
+		echo.c \
+		unset.c \
+		ft_cd.c \
+		join_print.c \
+		ft_other_cmd.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -36,6 +64,9 @@ $(NAME): $(LIBFT) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
+
+n:
+	cp -rf *.c *.h Makefile ok
 
 clean:
 	@$(MAKE) clean -sC ./libft

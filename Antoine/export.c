@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 11:28:42 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/16 08:50:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	ft_export(char *arg)
 {
 	t_env	*res;
 
-	if (arg == NULL)
+	if (arg == NULL || ft_strlen(arg) == 0)
 		return (print_env(1));
 	res = init_env(ft_split(arg, ' '));
 	if (handle_inputs(res) != 0)

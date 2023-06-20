@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/12 11:49:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/15 16:00:01 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern t_env	*g_env;
 
 void	print_list(char **l)
 {
-	printf("\t>>>PRINT_LIST<<<\n");
 	size_t	i;
 
 	i = 0;
@@ -25,7 +24,6 @@ void	print_list(char **l)
 		printf("%s\n", l[i]);
 		++i;
 	}
-	printf("\t>>>fin print_list<<<\n");
 }
 
 size_t	len_list(char **l)

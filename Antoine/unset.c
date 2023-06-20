@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/19 18:05:51 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:12:20 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern t_env	*g_env;
 
 bool	input_valid(char *key, char *value, size_t len)
 {
-	printf("\t>>>UNPUTE_VALID<<<\n");
 	char	*v;
 	int		r;
 	size_t	i;
@@ -27,7 +26,6 @@ bool	input_valid(char *key, char *value, size_t len)
 		if (key[ft_strlen(key) - 1] != '=')
 		{
 			r = find_var_rank(key);
-			printf("r == %d\n", r);
 			if (r == -1)
 				return (1);
 			v = g_env->value[r];
@@ -46,7 +44,6 @@ void	pop_unvalid_input(t_env *env, size_t r, size_t *len)
 	size_t	j;
 
 	j = r + 1;
-	printf("r == %ld\n", r);
 	while (j < *len)
 	{
 		env->key[j - 1] = env->key[j];
@@ -131,10 +128,13 @@ void	ft_unset(char *arg)
 			pop_unvalid_input(tmp, i, &len);
 		++i;
 	}
-	printf("fin while len == %ld\n", len);
 	if (len == 0)
 		return ;
 	n_env = malloc(sizeof(t_env));
+	if (n_env == NULL)
+	{
+		perror();
+	}
 	len = len_list(g_env->key) - len;
 	n_env->key = malloc(sizeof(char *) * (len + 1));
 	n_env->value = malloc(sizeof(char *) * (len + 1));

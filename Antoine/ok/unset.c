@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 17:58:24 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:38:20 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern t_env	*g_env;
 
 bool	input_valid(char *key, char *value, size_t len)
 {
+	printf("\t>>>UNPUTE_VALID<<<\n");
 	char	*v;
 	int		r;
 	size_t	i;
@@ -26,12 +27,13 @@ bool	input_valid(char *key, char *value, size_t len)
 		if (key[ft_strlen(key) - 1] != '=')
 		{
 			r = find_var_rank(key);
+			printf("r == %d\n", r);
 			if (r == -1)
 				return (1);
 			v = g_env->value[r];
 			if (value != NULL && v != NULL
-				&& ft_strncmp(v, value, ft_strlen(v))
-				&& ft_strncmp(v, value, ft_strlen(value)))
+				&& ft_strncmp(v, value, ft_strlen(v) != 0)
+				&& ft_strncmp(v, value, ft_strlen(value)) != 0)
 				return (1);
 		}
 		++i;
@@ -44,6 +46,7 @@ void	pop_unvalid_input(t_env *env, size_t r, size_t *len)
 	size_t	j;
 
 	j = r + 1;
+	printf("r == %ld\n", r);
 	while (j < *len)
 	{
 		env->key[j - 1] = env->key[j];
@@ -128,6 +131,7 @@ void	ft_unset(char *arg)
 			pop_unvalid_input(tmp, i, &len);
 		++i;
 	}
+	printf("fin while len == %ld\n", len);
 	if (len == 0)
 		return ;
 	n_env = malloc(sizeof(t_env));

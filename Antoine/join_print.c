@@ -14,6 +14,32 @@
 
 extern t_env	*g_env;
 
+char	*ft_delete_end_new_line(char *str)
+{
+	int		i;
+	int		len;
+	char	*new_str;
+
+	if (!str)
+		return (str);
+	len = ft_strlen(str) - 1;
+	while (len > 0 && str[len] == '\n')
+		len--;
+	len++;
+	new_str = (char *)malloc((len + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	i = 0;
+	while (i < len)
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = 0;
+	free(str);
+	return (new_str);
+}
+
 char	*join_print(int *fd)
 {
 	char	*res;
@@ -26,30 +52,30 @@ char	*join_print(int *fd)
 	buffer = ft_calloc(1024, 1);
 	while (1)
 	{
-		bytes = read(fd[0], buffer, sizeof(buffer));
+		bytes = read(fd[0], buffer, 1);
 		tmp = res;
 		if (bytes <= 0)
 			break ;
 		if (res == NULL)
 			res = ft_strdup(buffer);
 		else
-		{
-			res = ft_strjoin(res, buffer);
-			free(tmp);
-		}
+			res = ft_add_string(res, buffer);
 	}
+	free(buffer);
 	close(fd[0]);
 	wait (NULL);
+	res = ft_delete_end_new_line(res);
 	return (res);
 }
 
-char	*read_print(bool (*f)(char *), char *arg, bool print)
+char	*read_print(t_data *data, bool (*f)(char *))
 {
 	int		fd[2];
 
-	if (print == true)
+	data->run = true;
+	if (data->print == true)
 	{
-		f(arg);
+		f(data->arg);
 		return (NULL);
 	}
 	pipe(fd);
@@ -58,7 +84,8 @@ char	*read_print(bool (*f)(char *), char *arg, bool print)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		f(arg);
+		f(data->arg);
+		ft_free_all(data);
 		exit (0);
 	}
 	else
