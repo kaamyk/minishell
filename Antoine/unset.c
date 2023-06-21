@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/20 17:12:20 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:01:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ bool	input_valid(char *key, char *value, size_t len)
 	return (0);
 }
 
-void	pop_unvalid_input(t_env *env, size_t r, size_t *len)
+void	pop_unvalid_input(t_env *env, size_t r, size_t *len, bool *exit)
 {
 	size_t	j;
 
+	*exit = 1;
 	j = r + 1;
 	while (j < *len)
 	{
@@ -110,33 +111,39 @@ char	**delete_items(t_env *n_env, t_env *tmp, size_t len)
 	return (g_env->key);
 }
 
-void	ft_unset(char *arg)
+bool	ft_unset(char *arg)
 {
 	t_env	*n_env;
 	t_env	*tmp;
 	size_t	len;
 	size_t	i;
+	bool	exit;
 
+	exit = 0;
 	tmp = init_env(ft_split(arg, ' '));
 	if (tmp == NULL)
-		return ;
+		return (!exit);
 	len = len_list(tmp->key);
 	i = 0;
 	while (tmp->key[i])
 	{
 		if (input_valid(tmp->key[i], tmp->value[i], len) != 0)
-			pop_unvalid_input(tmp, i, &len);
+			pop_unvalid_input(tmp, i, &len, &exit);
 		++i;
 	}
 	if (len == 0)
-		return ;
+		return (exit);
 	n_env = malloc(sizeof(t_env));
 	if (n_env == NULL)
-	{
-		perror();
-	}
+		return (free_all(tmp, NULL, NULL));
 	len = len_list(g_env->key) - len;
 	n_env->key = malloc(sizeof(char *) * (len + 1));
 	n_env->value = malloc(sizeof(char *) * (len + 1));
+	if (n_env->key == NULL || n_env->value == NULL)
+	{
+		free_env(n_env);
+		return (free_all(tmp, NULL, NULL));
+	}
 	delete_items(n_env, tmp, len_list(g_env->key));
+	return (exit);
 }

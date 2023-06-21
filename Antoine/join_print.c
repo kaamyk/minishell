@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 11:52:26 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/21 09:27:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*join_print(int *fd)
 			res = ft_strdup(buffer);
 		else
 			res = ft_add_string(res, buffer);
+		free(tmp);
 	}
 	free(buffer);
 	close(fd[0]);

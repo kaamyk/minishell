@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/16 08:50:54 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:18:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	replace_value(char *n_value, size_t r)
 	return (0);
 }
 
-bool	handle_inputs(t_env *res)
+bool	handle_inputs(t_env *res, bool *exit)
 {
 	size_t	i;
 
@@ -67,6 +67,8 @@ bool	handle_inputs(t_env *res)
 				if (add_variable(&res->key[i], &res->value[i]) != 0)
 					return (1);
 		}
+		else
+			*exit = 1;
 		++i;
 	}
 	return (0);
@@ -75,14 +77,16 @@ bool	handle_inputs(t_env *res)
 bool	ft_export(char *arg)
 {
 	t_env	*res;
+	bool	exit;
 
+	exit = 0;
 	if (arg == NULL || ft_strlen(arg) == 0)
 		return (print_env(1));
 	res = init_env(ft_split(arg, ' '));
-	if (handle_inputs(res) != 0)
-		return (1);
 	if (res == NULL)
 		return (1);
+	if (handle_inputs(res, &exit) != 0)
+		return (1);
 	free_env(res);
-	return (0);
+	return (exit);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:52:17 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/17 15:52:52 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/06/21 09:23:34 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	ft_input(t_data *data, char *arg1, char *arg2, bool input)
 		return ;
 	}
 	dup2(newfd, 1);
-	if (!arg1)
-		printf("");
-	else
+	// if (!arg1)
+	// 	printf("");
+	if (arg1)
 	{
 		printf("%s", arg1);
 		if (arg1[ft_strlen(arg1) - 1] != '\n')

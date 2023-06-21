@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 11:23:28 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:20:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	ft_builtins(t_data *data)
 	else if (ft_compare_str(data->cmd, "unset") == true)
 	{
 		ft_unset(data->arg);
-		print_env(0);
 	}
 	else if (ft_compare_str(data->cmd, "env") == true)
 	{
