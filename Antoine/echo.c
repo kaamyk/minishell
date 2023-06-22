@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/22 11:32:53 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/22 12:55:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ bool	print_content(char *arg)
 			i += print_quotes(arg + i, arg[i]);
 		else if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
 			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
+		{
+			if (arg[i + 1] != '(')
+				i += print_command(arg + i + 2);
 			i += print_var(get_var_name(arg + i + 1)) + 1;
+		}
 		else
 		{
 			write(1, arg + i, 1);
