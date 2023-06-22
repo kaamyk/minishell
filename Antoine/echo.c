@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/22 12:55:11 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/22 18:22:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,22 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
+// bool	print_command(char *arg)
+// {
+// 	size_t	i;
+// 	char	*cmd;
+
+// 	i = 0;
+// 	while (arg[i] && arg[i] != ')')
+// 		++i;
+// 	cmd = malloc(i + 1);
+// 	ft_strlcpy(cmd, (const char *)arg, i + 1);
+// 	printf("Apres strlcpy :\n\tcmd = %s\n", cmd);
+// 	read_print2()
+// 	free(cmd);
+// 	return (0);
+// }
+
 bool	print_content(char *arg)
 {
 	size_t	i;
@@ -75,11 +91,15 @@ bool	print_content(char *arg)
 		if (arg[i] == '"' || arg[i] == '\'')
 			i += print_quotes(arg + i, arg[i]);
 		else if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
-			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
+			&& arg[i + 1] != '?')
 		{
-			if (arg[i + 1] != '(')
+			if (arg[i + 1] == '(')
+			{
 				i += print_command(arg + i + 2);
-			i += print_var(get_var_name(arg + i + 1)) + 1;
+				return (0);
+			}
+			else
+				i += print_var(get_var_name(arg + i + 1)) + 1;
 		}
 		else
 		{
