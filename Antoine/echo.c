@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/20 16:15:36 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:05:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ size_t	print_quotes(char *arg, char c)
 	i = 1;
 	while (arg[i] && arg[i] != c)
 	{
-		write(STDOUT_FILENO, &arg[i], 1);
+		if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
+			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
+			i += print_var(get_var_name(arg + i + 1)) + 1;
+		else
+			write(STDOUT_FILENO, &arg[i], 1);
 		++i;
 	}
 	return (i);

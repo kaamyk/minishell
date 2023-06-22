@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/21 17:51:27 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/22 10:44:10 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ bool	ft_cd(char *arg)
 		}
 		if (ft_strncmp(arg, "~/", 2) == 0 && ft_strlen(arg) >= 2)
 			arg = get_complete_path(arg);
-		printf("Complete path == %s\n", arg);
 		if (chdir(arg) != 0)
 		{
 			printf("chdir failed\n");

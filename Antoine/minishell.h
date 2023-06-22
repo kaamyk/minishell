@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/21 16:20:30 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/22 11:05:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +315,9 @@ void	*free_all(t_env *e, char **l, char *s);
 /*
 echo.c
 */
+size_t	print_quotes(char *arg, char c);
+bool	print_nl(char *arg);
+char	*get_var_name(char *arg);
 bool	ft_echo(char *arg);
 
 /*
