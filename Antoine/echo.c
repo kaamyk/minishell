@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/22 11:05:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/22 11:32:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	print_quotes(char *arg, char c)
 
 bool	print_nl(char *arg)
 {
-	if (arg[0] == '-' && ft_strnstr(arg, "-n ", 3) != NULL)
+	if (arg[0] == '-' && ft_strnstr(arg, "-n", 3) != NULL)
 		return (false);
 	return (true);
 }
@@ -65,17 +65,11 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-bool	ft_echo(char *arg)
+bool	print_content(char *arg)
 {
 	size_t	i;
-	bool	nl;
 
 	i = 0;
-	while (arg[i] == ' ')
-		++i;
-	nl = print_nl(arg + i);
-	if (nl == false)
-		i += 3;
 	while (arg[i] != 0)
 	{
 		if (arg[i] == '"' || arg[i] == '\'')
@@ -89,6 +83,26 @@ bool	ft_echo(char *arg)
 			++i;
 		}
 	}
+	return (0);
+}
+
+bool	ft_echo(char *arg)
+{
+	size_t	i;
+	bool	nl;
+
+	i = 0;
+	if (arg == NULL || ft_strlen(arg) == 0)
+	{
+		write(1, "\n", 1);
+		return (0);
+	}
+	while (arg[i] == ' ')
+		++i;
+	nl = print_nl(arg + i);
+	if (nl == false)
+		i += 2;
+	print_content(arg + i);
 	if (nl == true)
 		printf("\n");
 	return (0);
