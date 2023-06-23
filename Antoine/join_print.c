@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/21 09:27:29 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:19:05 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*join_print(int *fd)
 {
 	char	*res;
 	char	*buffer;
-	char	*tmp;
 	ssize_t	bytes;
 
 	res = NULL;
@@ -53,30 +52,28 @@ char	*join_print(int *fd)
 	while (1)
 	{
 		bytes = read(fd[0], buffer, 1);
-		tmp = res;
 		if (bytes <= 0)
 			break ;
 		if (res == NULL)
 			res = ft_strdup(buffer);
 		else
 			res = ft_add_string(res, buffer);
-		free(tmp);
 	}
 	free(buffer);
 	close(fd[0]);
-	wait (NULL);
+	//wait (NULL);
 	res = ft_delete_end_new_line(res);
 	return (res);
 }
 
-char	*read_print(t_data *data, bool (*f)(char *))
+char	*read_print(t_data *data, bool (*f)(t_data *))
 {
 	int		fd[2];
 
 	data->run = true;
 	if (data->print == true)
 	{
-		f(data->arg);
+		f(data);
 		return (NULL);
 	}
 	pipe(fd);
@@ -85,7 +82,7 @@ char	*read_print(t_data *data, bool (*f)(char *))
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		f(data->arg);
+		f(data);
 		ft_free_all(data);
 		exit (0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:52:04 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 12:52:07 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/06/23 16:06:28 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_get_cmd2(t_data *data, char *str, int len, int n)
 {
+	//printf("ft_get_cmd2 => str == %s\n", str);
 	int			i;
 
 	data->cmd = (char *)malloc((len + 1) * sizeof(char));
@@ -35,6 +36,7 @@ void	ft_get_cmd2(t_data *data, char *str, int len, int n)
 	data->arg = NULL;
 	if (str[n])
 		data->arg = ft_copy_str(&str[n]);
+	//printf("Avant ft_determine_command => str == %s\n", str);
 	ft_determine_command(data);
 	free(data->cmd);
 	free(data->arg);

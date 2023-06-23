@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/22 18:22:37 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:25:21 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ size_t	print_quotes(char *arg, char c)
 		++i;
 	}
 	return (i);
-}
-
-bool	print_nl(char *arg)
-{
-	if (arg[0] == '-' && ft_strnstr(arg, "-n", 3) != NULL)
-		return (false);
-	return (true);
 }
 
 char	*get_var_name(char *arg)
@@ -65,23 +58,44 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-// bool	print_command(char *arg)
-// {
-// 	size_t	i;
-// 	char	*cmd;
+size_t	print_command(char *arg, t_data *data)
+{
+	int		fd[2];
+	int		pid;
+	char	*cmd;
+	char	*res;
+	size_t	i;
 
-// 	i = 0;
-// 	while (arg[i] && arg[i] != ')')
-// 		++i;
-// 	cmd = malloc(i + 1);
-// 	ft_strlcpy(cmd, (const char *)arg, i + 1);
-// 	printf("Apres strlcpy :\n\tcmd = %s\n", cmd);
-// 	read_print2()
-// 	free(cmd);
-// 	return (0);
-// }
+	i = 0;
+	while (arg[i] && arg[i] != ')')
+		++i;
+	cmd = malloc(i + 1);
+	ft_strlcpy(cmd, (const char *)arg, i + 1);
+	printf("cmd == %s\n", cmd);
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		data->print = false;
+		close(fd[0]);
+		ft_get_cmd(data, cmd);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		printf("%s", data->result);
+		exit (0);
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+		res = join_print(fd);
+		if (res != NULL)
+			write(1, res, ft_strlen(res));
+	}
+	free(cmd);
+	return (i + 3);
+}
 
-bool	print_content(char *arg)
+bool	print_content(char *arg, t_data *data)
 {
 	size_t	i;
 
@@ -94,10 +108,7 @@ bool	print_content(char *arg)
 			&& arg[i + 1] != '?')
 		{
 			if (arg[i + 1] == '(')
-			{
-				i += print_command(arg + i + 2);
-				return (0);
-			}
+				i += print_command(arg + i + 2, data);
 			else
 				i += print_var(get_var_name(arg + i + 1)) + 1;
 		}
@@ -110,23 +121,23 @@ bool	print_content(char *arg)
 	return (0);
 }
 
-bool	ft_echo(char *arg)
+bool	ft_echo(t_data *data)
 {
-	size_t	i;
 	bool	nl;
+	size_t	i;
 
 	i = 0;
-	if (arg == NULL || ft_strlen(arg) == 0)
+	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 	{
 		write(1, "\n", 1);
 		return (0);
 	}
-	while (arg[i] == ' ')
+	while (data->arg[i] == ' ')
 		++i;
-	nl = print_nl(arg + i);
+	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n", 3) != NULL);
 	if (nl == false)
 		i += 2;
-	print_content(arg + i);
+	print_content(data->arg + i, data);
 	if (nl == true)
 		printf("\n");
 	return (0);

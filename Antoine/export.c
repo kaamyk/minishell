@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/21 16:18:25 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:10:56 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ bool	handle_inputs(t_env *res, bool *exit)
 	return (0);
 }
 
-bool	ft_export(char *arg)
+bool	ft_export(t_data *data)
 {
 	t_env	*res;
 	bool	exit;
 
 	exit = 0;
-	if (arg == NULL || ft_strlen(arg) == 0)
+	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 		return (print_env(1));
-	res = init_env(ft_split(arg, ' '));
+	res = init_env(ft_split(data->arg, ' '));
 	if (res == NULL)
 		return (1);
 	if (handle_inputs(res, &exit) != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/22 11:32:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/23 14:29:42 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 /*
 change_directory.c
 */
-bool	ft_cd(char *arg);
+bool	ft_cd(t_data *data);
 
 size_t	nb_args(char *command);
 
@@ -279,15 +279,14 @@ char	*check_inputs(char **l);
 /*
 env.c
 */
-//void	ft_env(void);
-bool	ft_env(char *arg);
+bool	ft_env(t_data *data);
 
 /*
 export.c
 */
 bool	add_variable(char **n_key, char **n_value);
 bool	replace_value(char *n_value, size_t r);
-bool	ft_export(char *arg);
+bool	ft_export(t_data *data);
 
 /*
 unset.c
@@ -318,14 +317,14 @@ echo.c
 size_t	print_quotes(char *arg, char c);
 bool	print_nl(char *arg);
 char	*get_var_name(char *arg);
-bool	print_content(char *arg);
-bool	ft_echo(char *arg);
+bool	print_content(char *arg, t_data *data);
+bool	ft_echo(t_data *data);
 
 /*
 join_print.c
 */
 char	*join_print(int *fd);
 
-char	*read_print(t_data *data, bool (*f)(char *));
+char	*read_print(t_data *data, bool (*f)(t_data *));
 
 #endif
