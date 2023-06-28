@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 19:19:02 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/21 16:23:25 by antoine          ###   ########.fr       */
+/*   Updated: 2023/06/27 18:11:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	ft_compare_str(char *s1, char *s2)
 	while (s1[i])
 	{
 		if (s1[i] != s2[i])
-			break ;
+			return (false);
 		i++;
 	}
 	if (s1[i] == 0 && s2[i] == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/23 16:18:26 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:30:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ bool	ft_dollar_symbol(char *command)
 
 void	ft_builtins(t_data *data)
 {
+	printf("\t>>>ft_builtins<<<\n");
 	char	*tmp;
 
 	if (data->result)
