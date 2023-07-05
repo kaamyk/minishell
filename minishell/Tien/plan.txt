@@ -1,0 +1,9 @@
+1. Syntaxe
+	ft_strlen(str) < 1
+	string vide
+	open quote
+	have ; \ \n in string
+	start with |
+	start - end with | < >
+	double ||, >>>, <<<
+	error ><, <>

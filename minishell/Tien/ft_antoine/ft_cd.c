@@ -1,0 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
+/*   Updated: 2023/05/29 17:29:23 by anvincen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+bool	check_nb_args(char *arg)
+{
+	size_t	i;
+
+	i = 0;
+	while (arg[i] == ' ')
+		++i;
+	while (arg[i])
+	{
+		if (arg[i] == ' ')
+		{
+			while (arg[i] == ' ' && arg[i + 1])
+			{
+				if (arg[i + 1] != ' ')
+					return (true);
+				++i;
+			}
+		}
+		++i;
+	}
+	return (false);
+}
+
+bool	ft_cd(t_data *data)
+{
+	char	*arg;
+
+	arg = data->arg;
+	if (arg != NULL && check_nb_args(arg) != 0)
+	{
+		printf(">>> Too many args <<<\n");
+		return (1);
+	}
+	else
+	{
+		printf(">>> Args OK <<<\n");
+		if (arg == NULL)
+		{
+			if (chdir(getenv("HOME")) != 0)
+			{
+				perror("Failed to change directory :");
+				return (1);
+			}		
+		}
+		else if (chdir(arg) != 0)
+		{
+			perror("Failed to change directory :");
+			return (1);
+		}
+	}
+	return (0);
+}

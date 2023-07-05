@@ -1,0 +1,76 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    exemple.txt                                        :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: xuluu <marvin@42.fr>                       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/29 14:19:41 by xuluu             #+#    #+#              #
+#    Updated: 2023/05/29 14:19:43 by xuluu            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+pwd ; ls | wc -l "> test.txt" ; "echo" salut
+
+compiler
+    --> [ pwd ]
+    --> [ ls | wc -l > test.txt ]
+        --> [ ls ]
+        --> [ wc -l > test.txt ]
+            --> [ wc -l ]
+            --> [ test.txt ]
+    --> [ "echo" salut ]
+        --> [ echo ]
+        --> [ salut ]
+
+; pwd
+cmd1 ;; cmd2
+cmd1 ; ; cmd2
+
+| pwd
+pwd |
+
+<< cmd1
+<> cmd1
+>< cmd1
+cmd >
+cmd <
+cmd1 << cmd2
+cmd1 <> cmd2
+cmd1 >>> cmd2
+>; cmd
+'>' cmd cmd2
+
+pwd ';' ls ; echo
+
+pwd ;';' cmd
+pwd ';'; cmd
+pwd ';;' cmd
+
+<< string wc -ls
+wc -l << string
+    << : creer un fichier apres le supprimer
+        chercher "string" dans ce fichier et faire le command "wc -l"
+
+pwd > test.txt | wc -l < test.txt 3 - 4
+< test | > test 3 - 2
+< test > test < test 3 - 3
+
+/* pipe */
+cmd | file
+file | cmd
+file | file
+cmd | cmd
+
+> file | < file --> > file < file --> file < file
+< test.txt | > test.txt != < test.txt > test.txt
+> file | < file echo salut > file pwd --> > file | echo salut < file  > file pwd
+> file | > file echo salut > file ls > file pwd
+    > file | echo "salut ls pwd" > file
+
+backslash \ 
+    rm file\ name --> rm "file name"
+
+pipe
+    cmd | cmd2 |cmd3
+    not:  cmd | > file

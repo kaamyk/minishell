@@ -1,0 +1,50 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    command.txt                                        :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: xuluu <marvin@42.fr>                       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/22 12:49:40 by xuluu             #+#    #+#              #
+#    Updated: 2023/05/22 12:49:41 by xuluu            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+\n
+tab
+espace
+:
+!
+
+>
+<
+>>
+<<
+
+()
+''
+""
+
+\
+/
+$
+
+|
+    the output of one command (command 1) becomes the input of another (command 2)
+;
+    it will run the second command regardless of whether or not the first one succeeds
+&&
+    This is commonly used to make sure that command2 is only run if command1 ran successfully
+
+pwd
+export
+unset
+env
+exit
+
+echo (-n)
+cd (un chemin)
+
+ctrl-C
+ctrl-D
+ctrl-\
