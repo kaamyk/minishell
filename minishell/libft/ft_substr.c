@@ -3,60 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 14:08:18 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/01 16:51:47 by anvincen         ###   ########.fr       */
+/*   Created: 2022/11/10 17:22:08 by xuluu             #+#    #+#             */
+/*   Updated: 2022/11/21 12:53:24 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-
-int	ft_len(char const *s, unsigned int start, size_t len)
-{
-	int		i;
-	size_t	slen;
-
-	i = start;
-	slen = 0;
-	while (*(s + i) && slen < len)
-	{
-		slen++;
-		i++;
-	}
-	return (slen);
-}
-
-char	*ft_emptstr(char *n_str)
-{
-	n_str = malloc(sizeof(char));
-	if (!n_str)
-		return (NULL);
-	*n_str = 0;
-	return (n_str);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*n_str;
-	unsigned int	slen;
-	size_t			i;
+	char			*str;
+	unsigned int	i;
+	size_t			len_str;
 
-	n_str = NULL;
 	if (!s)
-		return (NULL);
-	if (s && (start > ft_strlen(s) || len == 0))
-		return (ft_emptstr(n_str));
-	slen = ft_len(s, start, len);
-	n_str = malloc (sizeof(char) * (slen + 1));
-	if (!n_str)
-		return (NULL);
+		return (0);
+	len_str = ft_strlen(s);
+	if (len_str < start)
+		len = 0;
+	if (len_str - start < len)
+		len = len_str - start;
+	str = (char *)malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (0);
 	i = 0;
-	while (len && s[start + i])
+	while (i < len)
 	{
-		n_str[i] = s[start + i];
-		len--;
+		str[i] = s[start];
 		i++;
+		start++;
 	}
-	n_str[i] = 0;
-	return (n_str);
+	str[i] = '\0';
+	return (str);
 }

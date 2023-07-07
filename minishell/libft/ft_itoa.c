@@ -3,60 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 13:03:47 by anvincen          #+#    #+#             */
-/*   Updated: 2022/11/21 10:04:46 by anvincen         ###   ########.fr       */
+/*   Created: 2022/11/17 10:31:14 by xuluu             #+#    #+#             */
+/*   Updated: 2022/11/17 10:54:03 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	ft_nblen(int nb)
+size_t	count_len(int n)
 {
-	int		len;
-	long	n;
+	size_t	len;
 
 	len = 0;
-	n = nb;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-	{
+	if (n >= 0 && n <= 9)
 		len++;
-		n *= -1;
-	}
-	while (n > 0)
+	else
 	{
-		len++;
-		n /= 10;
+		len += count_len(n / 10);
+		len += count_len(n % 10);
 	}
 	return (len);
 }
 
+size_t	check_n(int n)
+{
+	size_t	len;
+
+	len = 0;
+	if (n < 0)
+	{
+		len++;
+		if (n == -2147483648)
+		{
+			len++;
+			n = 147483648;
+		}
+		else
+			n *= -1;
+	}
+	len += count_len(n);
+	return (len);
+}
+
+size_t	count(char *number, int n, size_t t)
+{
+	size_t	m;
+
+	m = 0;
+	if (n < 0)
+	{
+		m++;
+		number[0] = '-';
+		if (n != -2147483648)
+			n *= -1;
+	}
+	if (n == -2147483648)
+	{
+		m++;
+		number[1] = 2 + 48;
+		n = 147483648;
+	}
+	if (t == 1)
+		return (m);
+	else
+		return (n);
+}
+
 char	*ft_itoa(int n)
 {
-	long	nb;
-	int		len;
-	char	*res;
+	char	*number;
+	size_t	len;
+	size_t	i;
+	size_t	m;
 
-	nb = n;
-	len = ft_nblen(n);
-	res = malloc(sizeof(char) * (len + 1));
-	if (!res)
-		return (NULL);
-	res[len] = 0;
-	if (nb == 0)
-		res[0] = '0';
-	if (nb < 0)
+	len = check_n(n);
+	number = (char *)malloc((len + 1) * sizeof(char));
+	if (!number)
+		return (0);
+	m = count(number, n, 1);
+	n = count(number, n, 0);
+	i = len;
+	while (len >= m && len <= 65535)
 	{
-		res[0] = '-';
-		nb *= -1;
-	}
-	while (nb > 0)
-	{
+		if (i == len)
+			number[len] = 0;
+		else
+		{
+			number[len] = (n % 10) + 48;
+			n = n / 10;
+		}
 		len--;
-		res[len] = nb % 10 + '0';
-		nb /= 10;
 	}
-	return (res);
+	return (number);
 }

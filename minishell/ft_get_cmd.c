@@ -28,13 +28,14 @@ void	ft_get_cmd2(t_data *data, char *str, int len, int n)
 	data->cmd[i] = 0;
 	data->cmd = del_char(data->cmd, '\'');
 	data->cmd = del_char(data->cmd, '"');
-	//printf("[%s]\n", data->cmd);
-	while (str[n] != 0 && str[n] == ' ')
+	data->cmd = ft_delete_space(data->cmd);
+	while (str[n] != 0
+		&& (str[n] == ' ' || str[n] == '\t'))
 		n++;
-	data->arg = ft_copy_str(&str[n]);
-	ft_determine_command(data);
-	free(data->cmd);
-	free(data->arg);
+	data->arg = NULL;
+	if (str[n])
+		data->arg = ft_copy_str(&str[n]);
+	data->str = str;
 }
 
 void	ft_get_cmd(t_data *data, char *str)
@@ -42,6 +43,8 @@ void	ft_get_cmd(t_data *data, char *str)
 	t_quotes	quote;
 	int			len;
 
+	if (!str)
+		return ;
 	len = 0;
 	ft_get_value_quote(&quote);
 	while (str[quote.i] != 0)
@@ -49,7 +52,7 @@ void	ft_get_cmd(t_data *data, char *str)
 		ft_check_quotes(&quote, str, quote.i);
 		if (quote.open_s == 0 && quote.open_d == 0)
 		{
-			if (str[quote.i] == ' ')
+			if (str[quote.i] == ' ' || str[quote.i] == '\t')
 				break ;
 		}
 		len++;

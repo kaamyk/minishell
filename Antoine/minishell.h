@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/23 14:29:42 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:18:10 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum s_error
 	DIRECTORY,
 	NOT_VALID,
 	NO_SUCH,
+	NOT_ACCESS,
 }	t_error;
 
 typedef struct s_syntaxe
@@ -101,10 +102,16 @@ typedef struct s_data
 	char	*str;
 	char	*cmd;
 	char	*arg;
-	char	*result;
+	char	*input;
+	char	**output;
+
+	char	**env;
+	int		id_cmd;
+	int		nb_cmd;
 	bool	print;
 	bool	double_input;
-	bool	run;
+	bool	s_exit;
+	int		exit_code;
 }	t_data;
 
 typedef struct	s_env
@@ -116,7 +123,7 @@ typedef struct	s_env
 /*
 main.c
 */
-char	*get_line(char *str);
+char	*take_input(char *str);
 
 /*
 signal.c
@@ -126,36 +133,31 @@ void	ft_signal(void);
 /*
 ft_split_cmd.c
 */
-char	*ft_split_cmd(char *str);
-
+void	ft_rewritten_str(t_data *data);
 char	*ft_add_string(char *s1, char *s2);
 
 /*
 ft_split_cmd2.c
 */
-char	*ft_redirec(char *str);
+char	*ft_rewritten_with_redirection(char *str);
 
 /*
 ft_split_cmd3.c
 */
 char	*ft_redirec3(char *str);
-
 void	ft_redirec4(t_quotes *quote, t_redirec *redirec, char *str);
 
 /*
 ft_check_syntaxe.c
 */
-bool	ft_check_syntaxe(char *str);
+bool	ft_check_syntaxe(t_data *data);
+bool	ft_check_open_quotes(t_data *data);
+bool	ft_check_syntax_inside(t_data *data);
 
 /*
 ft_error.c
 */
 void	ft_error(t_error error, char *command, char *option);
-
-/*
-quotes.c
-*/
-bool	ft_check_open_quotes(char *line);
 
 /*
 ft_delete_space.c
@@ -171,28 +173,28 @@ char	**ft_split_mn(char *str, char c);
 ft_split_mn2.c
 */
 void	ft_check_quotes(t_quotes *quote, char *str, int i);
-
 void	ft_get_value_quote(t_quotes *quote);
-
 char	*ft_copy_str(char *str);
-
 int		ft_count_len(char *str, int c);
-
 void	free_tab_mn(char **tab);
 
 /*
 ft_parsing.c
 */
-void	ft_parsing(char *str);
+void	ft_parsing(t_data *data);
+
+/*
+ft_run.c
+*/
+void	ft_run(t_data *data);
+void	ft_execute_cmd(t_data *data);
+void	ft_free_tab(char **tab, int len);
 
 /*
 ft_classify_str.c
 */
 void	ft_classify_str(t_data *data, char *str);
-
-char	*ft_classify_str2(char *str, char c);
-
-void	ft_determine_command(t_data *data);
+char	*ft_find_str(char *str, char c);
 
 /*
 ft_get_cmd.c
@@ -202,10 +204,8 @@ void	ft_get_cmd(t_data *data, char *str);
 /*
 ft_split_cmd5.c
 */
-void	ft_parsing6(t_tab *tab);
-
+void	ft_parsing6(t_data *data);
 char	*ft_new_string(t_quotes *quote, char *str);
-
 int		ft_without_quotes2(t_quotes *quote, t_tab *tab, char *str, int i);
 
 /*
@@ -222,24 +222,33 @@ void	ft_redirection2(t_data *data, char *file);
 ft_redirection4.c
 */
 char	*ft_creer_big_string(int time, char *string, char *line);
-
 bool	ft_compare_str(char *s1, char *s2);
-
-void	ft_redirection4(t_data *data, char *str);
+char	*ft_redirection3(char *str);
 
 /*
 ft_other_cmd.c
 */
-char	*ft_other_cmd2(char *cmd, bool check);
-
-bool	ft_other_cmd(t_data *data);
-
-char	*read_print2(t_data *data);
+void	ft_other_cmd(t_data *data, char **cmd);
 
 /*
 ft_execute.c
 */
 void	ft_free_all(t_data *data);
+void	ft_builtins(t_data *data, char **cmd);
+
+/*
+ft_titre.c
+*/
+void	ft_titre(void);
+
+/*
+pipex.c
+*/
+int		pipex(t_data *data);
+char	*ft_get_output(int *fd);
+void	error(void);
+void	execute(t_data *data);
+void	ft_exit_code(t_data *data);
 
 /****************************/
 
@@ -255,8 +264,7 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 /*
 change_directory.c
 */
-bool	ft_cd(t_data *data);
-
+bool	ft_cd(char *arg);
 size_t	nb_args(char *command);
 
 /*
@@ -279,6 +287,7 @@ char	*check_inputs(char **l);
 /*
 env.c
 */
+//void	ft_env(void);
 bool	ft_env(t_data *data);
 
 /*
@@ -292,7 +301,6 @@ bool	ft_export(t_data *data);
 unset.c
 */
 bool	input_valid(char *key, char *value, size_t len);
-void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len, bool *exit);
 char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
 bool	ft_unset(char *arg);
 
@@ -314,17 +322,7 @@ void	*free_all(t_env *e, char **l, char *s);
 /*
 echo.c
 */
-size_t	print_quotes(char *arg, char c);
-bool	print_nl(char *arg);
 char	*get_var_name(char *arg);
-bool	print_content(char *arg, t_data *data);
 bool	ft_echo(t_data *data);
-
-/*
-join_print.c
-*/
-char	*join_print(int *fd);
-
-char	*read_print(t_data *data, bool (*f)(t_data *));
 
 #endif

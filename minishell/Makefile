@@ -6,37 +6,46 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/05/26 10:52:59 by anvincen         ###   ########.fr        #
+#    Updated: 2023/07/07 10:07:50 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	main.c \
-		signal.c \
-		ft_delete_space.c \
-		ft_error.c \
-		ft_quotes.c \
-		ft_check_syntaxe.c \
+		ft_utile/ft_titre.c \
+		ft_utile/ft_delete_space.c \
+		ft_utile/ft_error.c \
+		ft_check_syntaxe/ft_check_syntaxe.c \
+		ft_check_syntaxe/ft_check_syntaxe2.c \
+		ft_check_syntaxe/ft_check_syntaxe3.c \
+		ft_split_mn/ft_split_mn.c \
+		ft_split_mn/ft_split_mn2.c \
+		ft_rewritten_str/ft_rewritten_str.c \
+		ft_rewritten_str/ft_rewritten_str2.c \
+		ft_rewritten_str/ft_rewritten_str3.c \
+		ft_parsing/ft_parsing.c \
+		ft_parsing/ft_parsing2.c \
+		ft_redirection/ft_redirection.c \
+		ft_redirection/ft_redirection2.c \
+		ft_redirection/ft_redirection3.c \
+		ft_antoine/signal.c \
+		ft_antoine/utils.c \
+		ft_antoine/export.c \
+		ft_antoine/free.c \
+		ft_antoine/environment.c \
+		ft_antoine/environment_utils.c \
+		ft_antoine/list.c \
+		ft_antoine/env.c \
+		ft_antoine/echo.c \
+		ft_antoine/unset.c \
+		ft_antoine/ft_cd.c \
 		ft_execute.c \
-		ft_split_mn.c \
-		ft_split_mn2.c \
-		ft_split_cmd.c \
-		ft_split_cmd2.c \
-		ft_split_cmd3.c \
-		ft_split_cmd4.c \
-		ft_split_cmd5.c \
 		ft_get_cmd.c \
+		ft_other_cmd.c \
+		ft_run.c \
 		ft_classify_str.c \
-		ft_redirection4.c \
-		utils.c \
-		export.c \
-		free.c \
-		environment.c \
-		environment_utils.c \
-		list.c \
-		env.c \
-		echo.c \
-		unset.c \
-		join_print.c \
+		pipex.c \
+		pipex2.c \
+		pipex3.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -55,25 +64,23 @@ LIBFTS = $(LIBFTPATH)/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
+	@$(RM) file*
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
-	
-	@$(MAKE) clean -sC ./libft
-	$(RM) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 n:
 	cp -rf *.c *.h Makefile ok
 
 clean:
 	@$(MAKE) clean -sC ./libft
-	$(RM) $(OBJ)
+	@$(RM) $(OBJ)
 
 fclean: clean
 	@$(MAKE) fclean -sC ./libft
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 

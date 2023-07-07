@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/27 17:30:21 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/07 11:21:45 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ void	ft_free_all(t_data *data)
 	free_env(g_env);
 }
 
-bool	ft_pwd(t_data *data)
+bool	ft_pwd(void)
 {
 	char	cwd[10000];
 
-	(void)data;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		printf("%s\n", cwd);
@@ -54,60 +53,42 @@ bool	ft_dollar_symbol(char *command)
 	return (false);
 }
 
-void	ft_builtins(t_data *data)
+void	ft_builtins(t_data *data, char **cmd)
 {
-	printf("\t>>>ft_builtins<<<\n");
-	char	*tmp;
-
-	if (data->result)
-		free(data->result);
-	data->result = NULL;
-	if (ft_compare_str(data->cmd, "exit") == true)
+	(void)cmd;
+	if (ft_compare_str(data->cmd, "echo") == true)
 	{
-		ft_free_all(data);
-		exit(0);
-	}
-	else if (ft_compare_str(data->cmd, "pwd") == true)
-	{
-		data->result = read_print(data, ft_pwd);
-	}
-	else if (ft_compare_str(data->cmd, "export") == true)
-	{
-		data->result = read_print(data, ft_export);
-	}
-	else if (ft_compare_str(data->cmd, "unset") == true)
-	{
-		ft_unset(data->arg);
-	}
-	else if (ft_compare_str(data->cmd, "env") == true)
-	{
-		data->result = read_print(data, ft_env);
-	}
-	else if (ft_compare_str(data->cmd, "echo") == true)
-	{
-		data->result = read_print(data, ft_echo);
-	}
-	else if (ft_compare_str(data->cmd, "cd") == true)
-	{
-		data->result = read_print(data, ft_cd);
+		ft_echo(data);
 	}
 	else
 	{
-		tmp = data->cmd;
-		data->cmd = ft_other_cmd2(data->cmd, false);
-		if (data->cmd)
+		data->exit_code = 0;
+		if (ft_compare_str(data->cmd, "pwd") == true)
 		{
-			free(tmp);
-			data->result = read_print2(data);
+			ft_pwd();
+		}
+		else if (ft_compare_str(data->cmd, "export") == true)
+		{
+			ft_export(data);
+			printf(">>>ft_builtins -> apres export() :\n");
+			printf("\t|=>&g_env->key == %p\n", g_env->key);
+			printf("\t|=>len g_env->key == %ld\n", len_list(g_env->key));
+		}
+		else if (ft_compare_str(data->cmd, "unset") == true)
+		{
+			ft_unset(data->arg);
+		}
+		else if (ft_compare_str(data->cmd, "env") == true)
+		{
+			ft_env(data);
+		}
+		else if (ft_compare_str(data->cmd, "cd") == true)
+		{
+			ft_cd(data->arg);
+		}
+		else
+		{
+			ft_other_cmd(data, cmd);
 		}
 	}
-	if (data->run == false)
-		ft_error(NOT_FOUND, data->cmd, 0);
-}
-
-void	ft_determine_command(t_data *data)
-{
-	// printf("[%s %ld]\n", data->cmd, ft_strlen(data->cmd));
-	// printf("[%s %ld]\n", data->arg, ft_strlen(data->arg));
-	ft_builtins(data);
 }

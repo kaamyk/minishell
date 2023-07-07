@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_command.c                                       :+:      :+:    :+:   */
+/*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,17 @@
 
 #include "minishell.h"
 
-void	ft_pwd(void)
+extern t_env	*g_env;
+
+void	ft_free_all(t_data *data)
+{
+	free(data->cmd);
+	free(data->arg);
+	free_tab_mn(data->tab_cmd);
+	free_env(g_env);
+}
+
+bool	ft_pwd(void)
 {
 	char	cwd[10000];
 
@@ -23,8 +33,9 @@ void	ft_pwd(void)
 	else
 	{
 		perror("ft_pwd() error");
-		return ;
+		return (1);
 	}
+	return (0);
 }
 
 bool	ft_dollar_symbol(char *command)
@@ -42,67 +53,38 @@ bool	ft_dollar_symbol(char *command)
 	return (false);
 }
 
-bool	ft_builtins(t_data *data)
+void	ft_builtins(t_data *data, char **cmd)
 {
-	char	*str;
-
-	str = NULL;
-	if (ft_strncmp(data->cmd, "exit", ft_strlen(data->cmd)) == 0)
+	if (ft_compare_str(data->cmd, "echo") == true)
 	{
-		printf("%s\n", data->cmd);
-		exit(0);
+		ft_echo(data);
 	}
-	else if (ft_strncmp(data->cmd, "pwd", ft_strlen(data->cmd)) == 0)
+	else
 	{
-		ft_pwd();
-		return (true);
+		data->exit_code = 0;
+		if (ft_compare_str(data->cmd, "pwd") == true)
+		{
+			ft_pwd();
+		}
+		else if (ft_compare_str(data->cmd, "export") == true)
+		{
+			ft_export(data);
+		}
+		else if (ft_compare_str(data->cmd, "unset") == true)
+		{
+			ft_unset(data->arg);
+		}
+		else if (ft_compare_str(data->cmd, "env") == true)
+		{
+			ft_env(data);
+		}
+		else if (ft_compare_str(data->cmd, "cd") == true)
+		{
+			ft_cd(data->arg);
+		}
+		else
+		{
+			ft_other_cmd(data, cmd);
+		}
 	}
-	else if (ft_strncmp(data->cmd, "export", ft_strlen(data->cmd)) == 0)
-	{
-		ft_export(data->arg);
-		return (true);
-	}
-	else if (ft_strncmp(data->cmd, "unset", ft_strlen(data->cmd)) == 0)
-	{
-		//printf("%s\n", data->cmd);
-		ft_unset(data->arg);
-		print_env(0);
-		return (true);
-	}
-	else if (ft_strncmp(data->cmd, "env", ft_strlen(data->cmd)) == 0)
-	{
-		ft_env();
-		return (true);
-	}
-	else if (ft_strncmp(data->cmd, "echo", ft_strlen(data->cmd)) == 0)
-	{
-		str = read_print(ft_echo, data->arg, data->print);
-		//return (true);
-	}
-	printf("[%s]\n", str);
-	free(str);
-	return (false);
-}
-
-bool	ft_one_arg(char c)
-{
-	if (c == '\n'
-		|| c == ' '
-		|| c == '	'
-		|| c == ':'
-		|| c == '!')
-		return (true);
-	else if (c == '$')
-	{
-		printf("%c\n", c);
-		return (true);
-	}
-	return (false);
-}
-
-void	ft_determine_command(t_data *data)
-{
-	// printf("[%s %ld]\n", data->cmd, ft_strlen(data->cmd));
-	// printf("[%s %ld]\n", data->arg, ft_strlen(data->arg));
-	ft_builtins(data);
 }
