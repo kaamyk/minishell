@@ -12,6 +12,10 @@
 
 #include "../minishell.h"
 
+/************************************/
+/* Get output of the redirection < */
+/************************************/
+
 char	*ft_get_line2(int fd, char *line)
 {
 	int		i;
@@ -50,7 +54,7 @@ char	*get_next_line(int fd)
 	return (ft_get_line2(fd, line));
 }
 
-void	ft_read_file(t_data *data, char *file)
+char	*ft_redirection2(char *file)
 {
 	int		fd;
 	int		i;
@@ -58,6 +62,11 @@ void	ft_read_file(t_data *data, char *file)
 	char	*str;
 
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_error(NO_SUCH, file, 0);
+		return (0);
+	}
 	line = get_next_line(fd);
 	i = 0;
 	str = NULL;
@@ -69,12 +78,5 @@ void	ft_read_file(t_data *data, char *file)
 		i++;
 	}
 	close(fd);
-	if (data->print == false)
-		printf("%s\n", str);
-	free(str);
-}
-
-void	ft_redirection2(t_data *data, char *file)
-{
-	ft_read_file(data, file);
+	return (str);
 }

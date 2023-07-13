@@ -14,24 +14,31 @@
 
 extern t_env	*g_env;
 
+void	execute(t_data *data)
+{
+	ft_get_cmd(data, data->str);
+	ft_builtins(data);
+	if (data->str)
+	{
+		free(data->cmd);
+		free(data->arg);
+	}
+}
+
 void	child_process(t_data *data)
 {
 	pid_t	pid;
 	int		fd[2];
 
-	(void)data;
-	if (pipe(fd) == -1)
-		error();
+	pipe(fd);
 	pid = fork();
-	if (pid == -1)
-		error();
 	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		execute(data);
+		ft_free_tab(data->tab_cmd);
 		free_env(g_env);
-		ft_free_tab(data->tab_cmd, data->nb_cmd);
 		exit(data->exit_code);
 	}
 	else
@@ -43,46 +50,12 @@ void	child_process(t_data *data)
 	}
 }
 
-void	pipex2(t_data *data, int *fd)
+void	ft_pipex(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_cmd - 1)
-	{
-		data->str = data->tab_cmd[i];
+	if (data->print == 0)
 		child_process(data);
-		i++;
-	}
-	dup2(fd[1], STDOUT_FILENO);
-	data->str = data->tab_cmd[data->nb_cmd - 1];
-	execute(data);
-}
-
-int	pipex(t_data *data)
-{
-	int		fd[2];
-	pid_t	pid;
-	char	*str;
-
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		pipex2(data, fd);
-		close(fd[1]);
-		free_env(g_env);
-		ft_free_tab(data->tab_cmd, data->nb_cmd);
-		exit(data->exit_code);
-	}
 	else
 	{
-		str = ft_get_output(fd);
-		printf("[%s]\n", str);
-		free(str);
-		waitpid(pid, &data->exit_code, 0);
-		ft_exit_code(data);
+		execute(data);
 	}
-	return (0);
 }

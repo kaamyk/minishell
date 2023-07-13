@@ -39,6 +39,7 @@
 # include <sys/wait.h>
 
 # define BUFFER_SIZE 1
+# define PATH "/bin/"
 
 # define RED   "\x1B[31m"
 # define GREEN "\x1b[32m"
@@ -56,70 +57,31 @@ typedef enum s_error
 	NOT_ACCESS,
 }	t_error;
 
-typedef struct s_syntaxe
-{
-	bool	doub;
-	bool	open_q;
-	bool	close_q;
-}	t_syntaxe;
-
-typedef struct s_quotes
-{
-	int	i;
-	int	open_s;
-	int	open_d;
-}	t_quotes;
-
-typedef struct s_split
-{
-	char	c;
-	int		p;
-	int		start;
-}	t_split;
-
-typedef struct s_redirec
-{
-	int			time;
-	int			stop;
-	char		*p1;
-	char		*p2;
-	char		*tmp;
-	char		*string;
-	char		*signe;
-}	t_redirec;
-
-typedef struct s_tab
-{
-	int		*tab_position;
-	char	**tab_cmd;
-	int		nb_cmd;
-	int		nb_signe;
-}	t_tab;
-
 typedef struct s_data
 {
 	char	**tab_cmd;
 	char	*str;
+	char	*file;
 	char	*cmd;
 	char	*arg;
-	char	*input;
-	char	**output;
-
-	char	**env;
-	int		id_cmd;
 	int		nb_cmd;
-	bool	print;
-	bool	double_input;
-	bool	s_exit;
 	int		exit_code;
+	bool	print;
+	bool	s_pipe;
+
+	char	**tab_quotes;
+	int		nb_quotes;
+	char	*partie1;
+	char	*partie2;
 }	t_data;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char	**key;
 	char	**value;
 }				t_env;
 
+/******************** ********************/
 /*
 main.c
 */
@@ -130,29 +92,105 @@ signal.c
 */
 void	ft_signal(void);
 
-/*
-ft_split_cmd.c
-*/
-void	ft_rewritten_str(t_data *data);
-char	*ft_add_string(char *s1, char *s2);
-
-/*
-ft_split_cmd2.c
-*/
-char	*ft_rewritten_with_redirection(char *str);
-
-/*
-ft_split_cmd3.c
-*/
-char	*ft_redirec3(char *str);
-void	ft_redirec4(t_quotes *quote, t_redirec *redirec, char *str);
-
+/******************** Check syntaxe ********************/
 /*
 ft_check_syntaxe.c
 */
 bool	ft_check_syntaxe(t_data *data);
 bool	ft_check_open_quotes(t_data *data);
-bool	ft_check_syntax_inside(t_data *data);
+bool	ft_check_syntax_inside(t_data *data, char *str);
+
+/*
+ft_run.c
+*/
+void	ft_execute_cmd(t_data *data);
+void	ft_builtins(t_data *data);
+void	ft_exit_code(t_data *data);
+
+/******************** Parsing ********************/
+/*
+ft_parsing.c
+*/
+bool	ft_parsing(t_data *data);
+int		ft_check_quotes_in_str(char *str);
+
+/*
+ft_parsing2.c
+*/
+char	*ft_step2(t_data *data, char *str);
+
+/*
+ft_parsing3.c
+*/
+char	*ft_delete_horizontal_tab(char *str);
+
+/*
+ft_parsing4.c
+*/
+char	*ft_order_with_space(char *str);
+
+/*
+ft_parsing5.c
+*/
+char	*ft_tab_re(t_data *data, char *str);
+char	**ft_create_tab_re(t_data *data, char *str);
+char	*ft_add_semicolon(char *str);
+
+/*
+ft_parsing6.c
+*/
+char	*ft_put_cmd_at_first(t_data *data, char *str);
+
+/*
+ft_parsing7.c
+*/
+char	*ft_put_reout_at_first(t_data *data, char *str);
+
+/*
+ft_parsing8.c
+*/
+char	**ft_create_tab_cmd(t_data *data, char *str);
+
+/******************** Redirections ********************/
+/*
+ft_redirection.c
+*/
+void	ft_write(t_data *data, char	*file, bool s_double);
+void	here_doc(t_data *data, char *limiter, bool s_double);
+
+/*
+ft_redirection2.c
+*/
+char	*ft_redirection2(char *file);
+
+/*
+ft_redirection3.c
+*/
+char	*ft_redirection3(char *str);
+char	*ft_creer_big_string(int time, char *string, char *line);
+
+/******************** ********************/
+/*
+ft_get_cmd.c
+*/
+void	ft_get_cmd(t_data *data, char *str);
+
+/*
+ft_other_cmd.c
+*/
+void	ft_other_cmd(t_data *data);
+
+/*
+pipex.c
+*/
+void	ft_pipex(t_data *data);
+void	execute(t_data *data);
+
+/******************** Fonctions utiles ********************/
+/*
+ft_titre.c
+*/
+void	ft_titre(void);
 
 /*
 ft_error.c
@@ -170,87 +208,20 @@ ft_split_mn.c
 char	**ft_split_mn(char *str, char c);
 
 /*
-ft_split_mn2.c
+ft_utile.c
 */
-void	ft_check_quotes(t_quotes *quote, char *str, int i);
-void	ft_get_value_quote(t_quotes *quote);
+char	*ft_add_string(char *s1, char *s2);
 char	*ft_copy_str(char *str);
-int		ft_count_len(char *str, int c);
-void	free_tab_mn(char **tab);
-
-/*
-ft_parsing.c
-*/
-void	ft_parsing(t_data *data);
-
-/*
-ft_run.c
-*/
-void	ft_run(t_data *data);
-void	ft_execute_cmd(t_data *data);
-void	ft_free_tab(char **tab, int len);
-
-/*
-ft_classify_str.c
-*/
-void	ft_classify_str(t_data *data, char *str);
-char	*ft_find_str(char *str, char c);
-
-/*
-ft_get_cmd.c
-*/
-void	ft_get_cmd(t_data *data, char *str);
-
-/*
-ft_split_cmd5.c
-*/
-void	ft_parsing6(t_data *data);
-char	*ft_new_string(t_quotes *quote, char *str);
-int		ft_without_quotes2(t_quotes *quote, t_tab *tab, char *str, int i);
-
-/*
-ft_redirection.c
-*/
-void	ft_redirection(t_data *data, char *arg1, char *arg2, bool input);
-
-/*
-ft_redirection2.c
-*/
-void	ft_redirection2(t_data *data, char *file);
-
-/*
-ft_redirection4.c
-*/
-char	*ft_creer_big_string(int time, char *string, char *line);
-bool	ft_compare_str(char *s1, char *s2);
-char	*ft_redirection3(char *str);
-
-/*
-ft_other_cmd.c
-*/
-void	ft_other_cmd(t_data *data, char **cmd);
-
-/*
-ft_execute.c
-*/
+void	ft_free_tab(char **tab);
 void	ft_free_all(t_data *data);
-void	ft_builtins(t_data *data, char **cmd);
+void	ft_print_tab(char **tab);
+bool	ft_compare_str(char *s1, char *s2);
+int		ft_count_signe(char *str);
+bool	ft_find_c(char *str, char c);
+int		ft_nb_c(char *str, char c);
+char	*ft_find_str(char *str);
 
-/*
-ft_titre.c
-*/
-void	ft_titre(void);
-
-/*
-pipex.c
-*/
-int		pipex(t_data *data);
-char	*ft_get_output(int *fd);
-void	error(void);
-void	execute(t_data *data);
-void	ft_exit_code(t_data *data);
-
-/****************************/
+/******************** Fonctions of Antoine ********************/
 
 /*
 list.c
@@ -264,7 +235,7 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 /*
 change_directory.c
 */
-bool	ft_cd(t_data *data);
+bool	ft_cd(char *arg);
 size_t	nb_args(char *command);
 
 /*
@@ -301,9 +272,8 @@ bool	ft_export(t_data *data);
 unset.c
 */
 bool	input_valid(char *key, char *value, size_t len);
-void	pop_unvalid_input(t_env *tmp, size_t r, size_t *len);
 char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
-bool	ft_unset(t_data *data);
+bool	ft_unset(char *arg);
 
 /*
 utils.c
@@ -323,6 +293,12 @@ void	*free_all(t_env *e, char **l, char *s);
 /*
 echo.c
 */
+char	*get_var_name(char *arg);
 bool	ft_echo(t_data *data);
+
+/*
+exit.c
+*/
+void	ft_exit(t_data *data);
 
 #endif

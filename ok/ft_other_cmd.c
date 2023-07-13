@@ -14,45 +14,68 @@
 
 extern t_env	*g_env;
 
-char	*find_path(char *cmd, char **envp)
+char	*ft_get_path(char *cmd)
 {
-	char	**paths;
-	char	*path;
-	int		i;
-	char	*part_path;
+	DIR				*dp;
+	struct dirent	*dirp;
+	char			*dir;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	dir = NULL;
+	dp = opendir("/usr/bin");
+	dirp = readdir(dp);
+	while (dirp != NULL)
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
+		if (ft_compare_str(cmd, dirp->d_name) == true)
+			dir = ft_strjoin("/usr/bin/", cmd);
+		dirp = readdir(dp);
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
+	if (closedir(dp) == -1)
+		perror("closedir");
+	return (dir);
 }
 
-void	ft_other_cmd(t_data *data, char **cmd)
+void	ft_execute_other_cmd(t_data *data)
 {
-	char	*path;
+	char	**argvec;
 
-	path = find_path(cmd[0], data->env);
-	if (!path)
+	argvec = ft_split_mn(data->str, ' ');
+	if (execve(data->cmd, argvec, NULL) == -1)
+	{
+		if (data->print == true)
+			ft_error(NOT_FOUND, data->cmd, 0);
+		data->exit_code = 127;
+	}
+	ft_free_tab(argvec);
+}
+
+void	ft_other_cmd2(t_data *data)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		ft_execute_other_cmd(data);
+	}
+	waitpid(pid, &data->exit_code, 0);
+	ft_exit_code(data);
+}
+
+void	ft_other_cmd(t_data *data)
+{
+	char	*tmp;
+
+	tmp = data->cmd;
+	data->cmd = ft_get_path(data->cmd);
+	if (data->cmd)
+	{
+		ft_other_cmd2(data);
+	}
+	else
 	{
 		data->exit_code = 127;
-		return ;
+		if (data->print == true)
+			ft_error(NOT_FOUND, tmp, 0);
 	}
-	if (execve(path, cmd, data->env) == -1)
-		data->exit_code = 1;
+	free(tmp);
 }

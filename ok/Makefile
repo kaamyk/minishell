@@ -12,18 +12,12 @@
 
 SRC =	main.c \
 		ft_utile/ft_titre.c \
-		ft_utile/ft_delete_space.c \
 		ft_utile/ft_error.c \
+		ft_utile/ft_delete_space.c \
 		ft_check_syntaxe/ft_check_syntaxe.c \
 		ft_check_syntaxe/ft_check_syntaxe2.c \
 		ft_check_syntaxe/ft_check_syntaxe3.c \
 		ft_split_mn/ft_split_mn.c \
-		ft_split_mn/ft_split_mn2.c \
-		ft_rewritten_str/ft_rewritten_str.c \
-		ft_rewritten_str/ft_rewritten_str2.c \
-		ft_rewritten_str/ft_rewritten_str3.c \
-		ft_parsing/ft_parsing.c \
-		ft_parsing/ft_parsing2.c \
 		ft_redirection/ft_redirection.c \
 		ft_redirection/ft_redirection2.c \
 		ft_redirection/ft_redirection3.c \
@@ -38,20 +32,28 @@ SRC =	main.c \
 		ft_antoine/echo.c \
 		ft_antoine/unset.c \
 		ft_antoine/ft_cd.c \
+		ft_antoine/exit.c \
+		ft_parsing/ft_parsing.c \
+		ft_parsing/ft_parsing2.c \
+		ft_parsing/ft_parsing3.c \
+		ft_parsing/ft_parsing4.c \
+		ft_parsing/ft_parsing5.c \
+		ft_parsing/ft_parsing6.c \
+		ft_parsing/ft_parsing7.c \
+		ft_parsing/ft_parsing8.c \
+		ft_utile/ft_utile.c \
+		ft_utile/ft_utile2.c \
 		ft_execute.c \
 		ft_get_cmd.c \
+		ft_buitins.c \
 		ft_other_cmd.c \
-		ft_run.c \
-		ft_classify_str.c \
 		pipex.c \
-		pipex2.c \
-		pipex3.c \
 
 OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc
+CC = gcc
 
 READLINE = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
 

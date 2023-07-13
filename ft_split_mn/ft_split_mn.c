@@ -12,75 +12,109 @@
 
 #include "../minishell.h"
 
-char	*create_str_mn(char **tab, char *str, int len, int i)
+char	*ft_copy_with_quotes(char *str, char c_open)
 {
-	char		*cmd;
-	int			m;
+	int		i;
+	int		nb_quote;
+	char	c_close;
+	char	*new_str;
 
-	cmd = (char *)malloc((len - i + 1) * sizeof(char));
-	if (!cmd)
-	{
-		free_tab_mn(tab);
+	if (c_open == '(')
+		c_close = ')';
+	else
+		c_close = c_open;
+	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!new_str)
 		return (0);
-	}
-	m = 0;
-	while (str[i] != 0 && i < len)
+	nb_quote = 0;
+	i = 0;
+	while (str[i])
 	{
-		cmd[m] = str[i];
+		if (nb_quote == 2 && str[i] == ' ')
+			break ;
+		if (str[i] == c_open || str[i] == c_close)
+			nb_quote++;
+		new_str[i] = str[i];
 		i++;
-		m++;
 	}
-	cmd[m] = 0;
-	return (cmd);
+	new_str[i] = 0;
+	return (new_str);
 }
 
-void	ft_without_quotes3(t_quotes *quote,
-	t_split *sp_tab, char **tab, char *str)
+char	*ft_copy_without_quotes(char *str)
 {
-	if (quote->open_s == 0 && quote->open_d == 0)
+	int		i;
+	int		len;
+	char	*new_str;
+
+	len = 0;
+	while (str[len])
+		len++;
+	new_str = (char *)malloc((len + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	i = 0;
+	while (i < len)
 	{
-		if (str[quote->i] == sp_tab->c && str[quote->i + 1] != 0)
+		if (str[i] == ' ')
+			break ;
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = 0;
+	return (new_str);
+}
+
+char	**ft_create_tab(char **tab, char *str)
+{
+	int		i;
+	int		p;
+	char	c;
+
+	p = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
 		{
-			tab[sp_tab->p] = create_str_mn(tab, str, quote->i, sp_tab->start);
-			sp_tab->start += (ft_strlen(tab[sp_tab->p]) + 1);
-			tab[sp_tab->p] = ft_delete_space(tab[sp_tab->p]);
-			sp_tab->p++;
+			if (i == 0 || str[i - 1] == ' ')
+			{
+				c = ft_check_quotes_in_str(&str[i]);
+				if (c == '\'' || c == '"' || c == '(')
+					tab[p] = ft_copy_with_quotes(&str[i], c);
+				else
+					tab[p] = ft_copy_without_quotes(&str[i]);
+				i += ft_strlen(tab[p]) - 1;
+				p++;
+			}
 		}
+		i++;
 	}
-}
-
-char	**create_tab_mn(char **tab, char *str, char c)
-{
-	t_quotes	quote;
-	t_split		sp_tab;
-
-	sp_tab.start = 0;
-	sp_tab.p = 0;
-	sp_tab.c = c;
-	ft_get_value_quote(&quote);
-	while (str[quote.i] != 0)
-	{
-		ft_check_quotes(&quote, str, quote.i);
-		ft_without_quotes3(&quote, &sp_tab, tab, str);
-		quote.i++;
-	}
-	if (str[quote.i - 1] == c)
-		quote.i--;
-	tab[sp_tab.p] = create_str_mn(tab, str, quote.i, sp_tab.start);
-	tab[sp_tab.p] = ft_delete_space(tab[sp_tab.p]);
-	tab[sp_tab.p + 1] = 0;
+	tab[p] = 0;
 	return (tab);
 }
 
 char	**ft_split_mn(char *str, char c)
 {
-	char	**tab;
 	int		len;
+	int		i;
+	char	**tab;
 
-	len = ft_count_len(str, c);
+	(void)c;
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+		{
+			if (i == 0 || str[i - 1] == ' ')
+				len++;
+		}
+		i++;
+	}
 	tab = (char **)malloc((len + 1) * sizeof(char *));
 	if (!tab)
 		return (0);
-	tab = create_tab_mn(tab, str, c);
+	tab = ft_create_tab(tab, str);
 	return (tab);
 }

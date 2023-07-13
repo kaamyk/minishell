@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+extern t_env	*g_env;
+
 bool	check_nb_arg(char *arg)
 {
 	size_t	i;
@@ -42,7 +44,6 @@ bool	check_alnum(char *arg)
 
 void	ft_exit(t_data *data)
 {
-	printf(">>> ft_exit\n");
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 		exit (0);
 	else if (check_nb_arg(data->arg) != 0)
@@ -52,8 +53,10 @@ void	ft_exit(t_data *data)
 	}
 	else if (check_alnum(data->arg) != 0)
 	{
+		free_all(NULL, data->tab_cmd, NULL);
 		printf("bash: exit: %s: numeric argument required\n", data->arg);
 		exit (2);
 	}
+	free_all(NULL, data->tab_cmd, NULL);
 	exit (ft_atoi(data->arg));
 }

@@ -71,10 +71,8 @@ char	*ft_step2(t_data *data, char *str)
 	char	**tab_pp;
 	char	*tmp;
 
-	data->s_pipe = false;
 	if (ft_find_c(str, '|') == true)
 	{
-		data->s_pipe = true;
 		tab_pp = ft_split(str, '|');
 		tmp = str;
 		str = ft_tab_pp(data, tab_pp);

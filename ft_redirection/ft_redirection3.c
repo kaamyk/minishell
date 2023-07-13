@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_<<.c                                            :+:      :+:    :+:   */
+/*   ft_redirection3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,22 +12,9 @@
 
 #include "../minishell.h"
 
-bool	ft_compare_str(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i])
-	{
-		if (s1[i] != s2[i])
-			break ;
-		i++;
-	}
-	if (s1[i] == 0 && s2[i] == 0)
-		return (true);
-	else
-		return (false);
-}
+/************************************/
+/* Get input of the redirection << */
+/************************************/
 
 char	*ft_creer_big_string(int time, char *string, char *line)
 {

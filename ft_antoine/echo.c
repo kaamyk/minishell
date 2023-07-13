@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/10 12:29:47 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/07 10:34:13 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_var_name(char *arg)
 	size_t	i;
 
 	i = 0;
-	while (ft_isalpha(arg[i]) == 1 || arg[i] == '_')
+	while (ft_isalpha(arg[i]) != 0 || arg[i] == '_')
 		++i;
 	if (i == 0)
 	{

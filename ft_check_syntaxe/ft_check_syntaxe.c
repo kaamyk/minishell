@@ -31,7 +31,7 @@ bool	ft_check_space_string(t_data *data)
 	i = 0;
 	while (data->str[i])
 	{
-		if (data->str[i] == ' ')
+		if (data->str[i] == ' ' || data->str[i] == '\t')
 			space++;
 		i++;
 	}
@@ -70,8 +70,6 @@ bool	ft_check_syntaxe(t_data *data)
 	if (ft_check_open_quotes(data) == true)
 		return (1);
 	if (ft_check_first_last_cmd(data) == true)
-		return (1);
-	if (ft_check_syntax_inside(data) == true)
 		return (1);
 	return (0);
 }

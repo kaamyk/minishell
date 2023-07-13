@@ -6,57 +6,64 @@
 /*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:52:04 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/15 12:52:07 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/07/10 15:34:34 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_get_cmd2(t_data *data, char *str, int len, int n)
+char	*ft_cmd_with_path(char *str)
 {
-	int			i;
+	int		i;
+	char	*tmp;
 
-	data->cmd = (char *)malloc((len + 1) * sizeof(char));
-	if (!data->cmd)
-		return ;
-	i = 0;
-	while (i < len)
+	if (ft_strnstr(str, PATH, 5) != 0)
 	{
-		data->cmd[i] = str[i];
-		i++;
+		i = 0;
+		while (i < 5)
+			i++;
+		if (str[i])
+		{
+			tmp = str;
+			str = ft_copy_str(&str[i]);
+			free(tmp);
+		}
 	}
-	data->cmd[i] = 0;
-	data->cmd = del_char(data->cmd, '\'');
-	data->cmd = del_char(data->cmd, '"');
-	data->cmd = ft_delete_space(data->cmd);
-	while (str[n] != 0
-		&& (str[n] == ' ' || str[n] == '\t'))
-		n++;
-	data->arg = NULL;
-	if (str[n])
-		data->arg = ft_copy_str(&str[n]);
-	data->str = str;
+	return (str);
+}
+
+char	*ft_create_arg(char **tab, char *new_str, int i)
+{
+	if (i == 1)
+		new_str = ft_copy_str(tab[i]);
+	else
+	{
+		new_str = ft_add_string(new_str, " ");
+		new_str = ft_add_string(new_str, tab[i]);
+	}
+	return (new_str);
 }
 
 void	ft_get_cmd(t_data *data, char *str)
 {
-	t_quotes	quote;
-	int			len;
+	int		i;
+	char	*new_str;
+	char	**tab;
 
-	if (!str)
-		return ;
-	len = 0;
-	ft_get_value_quote(&quote);
-	while (str[quote.i] != 0)
+	if (str)
 	{
-		ft_check_quotes(&quote, str, quote.i);
-		if (quote.open_s == 0 && quote.open_d == 0)
+		new_str = NULL;
+		tab = ft_split_mn(str, ' ');
+		i = 0;
+		while (tab[i])
 		{
-			if (str[quote.i] == ' ' || str[quote.i] == '\t')
-				break ;
+			if (i > 0)
+				new_str = ft_create_arg(tab, new_str, i);
+			i++;
 		}
-		len++;
-		quote.i++;
+		data->cmd = ft_copy_str(tab[0]);
+		data->cmd = ft_cmd_with_path(data->cmd);
+		data->arg = new_str;
+		ft_free_tab(tab);
 	}
-	ft_get_cmd2(data, str, len, quote.i);
 }

@@ -69,23 +69,19 @@ bool	ft_check_syntax_inside2(char *str, int i)
 	return (false);
 }
 
-bool	ft_check_syntax_inside(t_data *data)
+bool	ft_check_syntax_inside(t_data *data, char *str)
 {
-	t_quotes	quote;
+	int	i;
 
-	ft_get_value_quote(&quote);
-	while (data->str[quote.i] != 0)
+	i = 0;
+	while (str[i])
 	{
-		ft_check_quotes(&quote, data->str, quote.i);
-		if (quote.open_s == 0 && quote.open_d == 0)
+		if (ft_check_syntax_inside2(str, i) == true)
 		{
-			if (ft_check_syntax_inside2(data->str, quote.i) == true)
-			{
-				data->exit_code = 2;
-				return (true);
-			}
+			data->exit_code = 2;
+			return (true);
 		}
-		quote.i++;
+		i++;
 	}
 	return (false);
 }

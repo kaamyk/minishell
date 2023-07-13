@@ -71,9 +71,8 @@ void	ft_read_line(t_data *data)
 		}
 		else
 		{
-			ft_rewritten_str(data);
-			ft_parsing(data);
-			ft_execute_cmd(data);
+			if (ft_parsing(data) == true)
+				ft_execute_cmd(data);
 		}
 	}
 }
@@ -87,9 +86,7 @@ void	ft_read_line(t_data *data)
 // 	if (ac == 1)
 // 	{
 // 		ft_titre();
-// 		data.env = env;
-// 		data.s_exit = false;
-// 		while (data.s_exit == false)
+// 		while (42)
 // 		{
 // 			ft_signal();
 // 			if (g_env == NULL)
@@ -98,7 +95,7 @@ void	ft_read_line(t_data *data)
 // 			if (!data.str)
 // 				break ;
 // 			ft_read_line(&data);
-// 			printf("exit_code = %d\n", data.exit_code);
+// 			// printf("exit_code = %d\n", data.exit_code);
 // 			printf("\n");
 // 		}
 // 	}
@@ -116,7 +113,6 @@ int	main(int ac, char **av, char **env)
 		g_env = init_env(env);
 	if (ac == 2)
 	{
-		data.env = env;
 		len = ft_strlen(av[1]);
 		line = (char *)malloc((len + 1) * sizeof(char));
 		if (!line)
