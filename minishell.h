@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 15:08:14 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:57:19 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef enum s_error
 	NOT_ACCESS,
 }	t_error;
 
+typedef struct s_env
+{
+	char	**key;
+	char	**value;
+	char	**env;
+}				t_env;
+
 typedef struct s_data
 {
 	char	**tab_cmd;
@@ -81,14 +88,10 @@ typedef struct s_data
 
 	char	**tab_wildcards;
 	char	*str_with_wildcard;
+	
+	t_env	*s_env;
 }	t_data;
 
-typedef struct s_env
-{
-	char	**key;
-	char	**value;
-	char	**env;
-}				t_env;
 
 /******************** ********************/
 /*
@@ -259,6 +262,7 @@ size_t	nb_args(char *command);
 /*
 environment.c
 */
+int		find_var_rank(t_env *env, char *key);
 char	**init_keys(char **l, size_t len);
 char	*isolate_value(char *s);
 char	**init_values(char **l);
@@ -267,31 +271,29 @@ t_env	*init_env(char **env);
 /*
 environment_utils.c
 */
-bool	check_double(char *key, char *value);
-int		find_var_rank(char *key);
-size_t	print_var(char *s);
-bool	print_env(bool a);
+bool	input_valid(t_env *env, char *key, char *value, size_t len);
+bool	check_double(t_env *env, char *key, char *value);
+size_t	print_var(t_env *env, char *s);
+bool	print_env(t_env *env, bool a);
 char	*check_inputs(char **l);
 
 /*
 env.c
 */
-//void	ft_env(void);
 bool	ft_env(t_data *data);
 
 /*
 export.c
 */
-bool	add_variable(char **n_key, char **n_value);
-bool	replace_value(char *n_value, size_t r);
+bool	add_variable(char **n_key, char **n_value, t_env *env, char **full_vl);
+bool	replace_value(t_env *env, char *n_value, int r);
 bool	ft_export(t_data *data);
 
 /*
 unset.c
 */
-bool	input_valid(char *key, char *value, size_t len);
-char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
-bool	ft_unset(char *arg);
+char	**delete_items(t_env *env, t_env *n_env, t_env *tmp, size_t len);
+bool	ft_unset(t_env *env, char *arg);
 
 /*
 utils.c
@@ -306,7 +308,7 @@ free.c
 void	free_ptr(char *ptr);
 void	free_list(char **lst, size_t len);
 void	free_env(t_env *env);
-void	*free_all(t_env *e, char **l, char *s);
+void	*free_all(t_data *data, t_env *e, char **l, char *s);
 
 /*
 echo.c

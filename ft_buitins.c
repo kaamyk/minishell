@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*   ft_buitins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 11:23:28 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:22:15 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_builtins(t_data *data)
 			else if (ft_compare_str(data->cmd, "export") == true)
 				ft_export(data);
 			else if (ft_compare_str(data->cmd, "unset") == true)
-				ft_unset(data->arg);
+				ft_unset(data->s_env, data->arg);
 			else if (ft_compare_str(data->cmd, "env") == true)
 				ft_env(data);
 			else if (ft_compare_str(data->cmd, "cd") == true)

@@ -6,15 +6,15 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/07 10:34:13 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:58:26 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern t_env	*g_env;
+// extern t_env	*g_env;
 
-size_t	print_quotes(char *arg, char c)
+size_t	print_quotes(t_env *env, char *arg, char c)
 {
 	size_t	i;
 
@@ -23,7 +23,7 @@ size_t	print_quotes(char *arg, char c)
 	{
 		if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
 			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
-			i += print_var(get_var_name(arg + i + 1)) + 1;
+			i += print_var(env, get_var_name(arg + i + 1)) + 1;
 		else
 			write(STDOUT_FILENO, &arg[i], 1);
 		++i;
@@ -58,7 +58,7 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-bool	print_content(char *arg, t_data *data)
+bool	print_content(char *arg, t_data *data, t_env *env)
 {
 	size_t	i;
 
@@ -66,7 +66,7 @@ bool	print_content(char *arg, t_data *data)
 	while (arg[i] != 0)
 	{
 		if (arg[i] == '"' || arg[i] == '\'')
-			i += print_quotes(arg + i, arg[i]);
+			i += print_quotes(env, arg + i, arg[i]);
 		else if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' ')
 		{
 			if (arg[i + 1] == '?')
@@ -75,7 +75,7 @@ bool	print_content(char *arg, t_data *data)
 				i += 2;
 			}
 			else
-				i += print_var(get_var_name(arg + i + 1)) + 1;
+				i += print_var(env, get_var_name(arg + i + 1)) + 1;
 		}
 		else
 		{
@@ -102,7 +102,7 @@ bool	ft_echo(t_data *data)
 	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n", 3) != NULL);
 	if (nl == false)
 		i += 2;
-	print_content(data->arg + i, data);
+	print_content(data->arg + i, data, data->s_env);
 	if (nl == true)
 		printf("\n");
 	return (0);

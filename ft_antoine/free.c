@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 15:46:30 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:57:02 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_env(t_env *env)
 	free(env);
 }
 
-void	*free_all(t_env *e, char **l, char *s)
+void	*free_all(t_data *data, t_env *e, char **l, char *s)
 {
 	if (e != NULL)
 		free_env(e);
@@ -59,7 +59,7 @@ void	*free_all(t_env *e, char **l, char *s)
 		free_list(l, len_list(l));
 	if (s != NULL)
 		free(s);
-	if (g_env != NULL)
-		free_env(g_env);
+	if (data->s_env != NULL)
+		free_env(data->s_env);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/23 12:11:05 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:35:03 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@ extern t_env	*g_env;
 bool	ft_env(t_data *data)
 {
 	if (data->arg == 0)
-		print_env(0);
+		print_env(data->s_env, 0);
 	return (0);
 }

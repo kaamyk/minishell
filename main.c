@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 14:48:41 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:53:25 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,12 @@ int	main(int ac, char **av, char **env)
 	data.exit_code = 0;
 	if (ac == 1)
 	{
+		data.s_env = init_env(env);
 		ft_titre();
 		data.exit_code = 0;
 		while (42)
 		{
 			ft_signal();
-			if (g_env == NULL)
-				g_env = init_env(env);
 			data.str = take_input("Minishell$> ");
 			if (!data.str)
 				break ;
@@ -104,7 +103,7 @@ int	main(int ac, char **av, char **env)
 			printf("\n");
 		}
 	}
-	free_env(g_env);
+	free_env(data.s_env);
 	return (data.exit_code);
 }
 

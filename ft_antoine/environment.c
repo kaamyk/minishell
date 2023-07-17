@@ -6,13 +6,25 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/06/15 17:07:31 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:55:01 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern t_env	*g_env;
+int	find_var_rank(t_env *env, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (env->key[i])
+	{
+		if (ft_strncmp(env->key[i], key, ft_strlen(env->key[i])) == 0)
+			return (i);
+		++i;
+	}
+	return (-1);
+}
 
 char	**init_keys(char **l, size_t len)
 {
@@ -86,18 +98,16 @@ t_env	*init_env(char **env)
 	if (invalid != NULL)
 	{
 		printf("bash: export: '%s': not a valid identifier\n", invalid);
-		if (g_env != NULL)
-			free_list(env, len_list(env));
+		free_list(env, len_list(env));
 		return (NULL);
 	}
 	n_env = malloc(sizeof(t_env));
 	if (n_env == NULL)
 		return (free_all(NULL, env, NULL));
+	n_env->env = dup_list(env);
 	n_env->key = init_keys(env, len_list(env));
 	n_env->value = init_values(env);
 	if (n_env->key == NULL || n_env->value == NULL)
 		return (free_all(n_env, env, NULL));
-	if (g_env != NULL)
-		free_list(env, len_list(env));
 	return (n_env);
 }
