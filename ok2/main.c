@@ -56,7 +56,6 @@ void	ft_one_arg(t_data *data, char c)
 
 void	ft_read_line(t_data *data)
 {
-	data->exit_code = 0;
 	if (ft_check_syntaxe(data) == true)
 	{
 		free(data->str);
@@ -71,58 +70,66 @@ void	ft_read_line(t_data *data)
 		}
 		else
 		{
+			//ft_parsing(data);
 			if (ft_parsing(data) == true)
-				ft_execute_cmd(data);
+			{
+				if (data->s_bonus == true)
+					ft_execute_bonus(data);
+				else
+					ft_execute_cmd(data);
+			}
 		}
 	}
-}
-
-int	main(int ac, char **av, char **env)
-{
-	t_data	data;
-
-	(void)av;
-	data.exit_code = 0;
-	if (ac == 1)
-	{
-		ft_titre();
-		while (42)
-		{
-			ft_signal();
-			if (g_env == NULL)
-				g_env = init_env(env);
-			data.str = take_input("Minishell$> ");
-			if (!data.str)
-				break ;
-			ft_read_line(&data);
-			// printf("exit_code = %d\n", data.exit_code);
-			printf("\n");
-		}
-	}
-	free_env(g_env);
-	return (data.exit_code);
 }
 
 // int	main(int ac, char **av, char **env)
 // {
-// 	char	*line;
-// 	int		len;
 // 	t_data	data;
 
-// 	if (g_env == NULL)
-// 		g_env = init_env(env);
-// 	if (ac == 2)
+// 	(void)av;
+// 	data.exit_code = 0;
+// 	if (ac == 1)
 // 	{
-// 		len = ft_strlen(av[1]);
-// 		line = (char *)malloc((len + 1) * sizeof(char));
-// 		if (!line)
-// 			return (0);
-// 		line = ft_memcpy(line, av[1], len);
-// 		line[len] = 0;
-// 		data.str = line;
-// 		ft_read_line(&data);
-// 		printf("exit_code = %d\n", data.exit_code);
+// 		ft_titre();
+		// data.exit_code = 0;
+// 		while (42)
+// 		{
+// 			ft_signal();
+// 			if (g_env == NULL)
+// 				g_env = init_env(env);
+// 			data.str = take_input("Minishell$> ");
+// 			if (!data.str)
+// 				break ;
+// 			ft_read_line(&data);
+// 			printf("\n");
+// 		}
 // 	}
 // 	free_env(g_env);
 // 	return (data.exit_code);
 // }
+
+int	main(int ac, char **av, char **env)
+{
+	char	*line;
+	int		len;
+	t_data	data;
+
+	if (g_env == NULL)
+		g_env = init_env(env);
+	if (ac == 2)
+	{
+		data.exit_code = 0;
+		len = ft_strlen(av[1]);
+		line = (char *)malloc((len + 1) * sizeof(char));
+		if (!line)
+			return (0);
+		line = ft_memcpy(line, av[1], len);
+		line[len] = 0;
+		data.str = line;
+		ft_read_line(&data);
+		//printf("exit_code = %d\n", data.exit_code);
+	}
+	free_env(g_env);
+	//return (data.exit_code);
+	return (0);
+}

@@ -56,6 +56,11 @@ void	ft_other_cmd2(t_data *data)
 	if (pid == 0)
 	{
 		ft_execute_other_cmd(data);
+		if (data->s_bonus)
+		{
+			free(data->tab_logic);
+			ft_free_tab(data->tab_cmd_logic);
+		}
 	}
 	waitpid(pid, &data->exit_code, 0);
 	ft_exit_code(data);

@@ -41,6 +41,8 @@ SRC =	main.c \
 		ft_parsing/ft_parsing6.c \
 		ft_parsing/ft_parsing7.c \
 		ft_parsing/ft_parsing8.c \
+		ft_parsing/ft_parsing9.c \
+		ft_parsing/ft_parsing_bonus.c \
 		ft_utile/ft_utile.c \
 		ft_utile/ft_utile2.c \
 		ft_execute.c \
@@ -48,6 +50,7 @@ SRC =	main.c \
 		ft_buitins.c \
 		ft_other_cmd.c \
 		pipex.c \
+		ft_execute_bonus.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 09:20:55 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:48:41 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_one_arg(t_data *data, char c)
 
 void	ft_read_line(t_data *data)
 {
-	data->exit_code = 0;
 	if (ft_check_syntaxe(data) == true)
 	{
 		free(data->str);
@@ -71,8 +70,14 @@ void	ft_read_line(t_data *data)
 		}
 		else
 		{
+			//ft_parsing(data);
 			if (ft_parsing(data) == true)
-				ft_execute_cmd(data);
+			{
+				if (data->s_bonus == true)
+					ft_execute_bonus(data);
+				else
+					ft_execute_cmd(data);
+			}
 		}
 	}
 }
@@ -86,6 +91,7 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 	{
 		ft_titre();
+		data.exit_code = 0;
 		while (42)
 		{
 			ft_signal();
@@ -95,7 +101,6 @@ int	main(int ac, char **av, char **env)
 			if (!data.str)
 				break ;
 			ft_read_line(&data);
-			// printf("exit_code = %d\n", data.exit_code);
 			printf("\n");
 		}
 	}
@@ -113,6 +118,7 @@ int	main(int ac, char **av, char **env)
 // 		g_env = init_env(env);
 // 	if (ac == 2)
 // 	{
+// 		data.exit_code = 0;
 // 		len = ft_strlen(av[1]);
 // 		line = (char *)malloc((len + 1) * sizeof(char));
 // 		if (!line)
@@ -121,8 +127,9 @@ int	main(int ac, char **av, char **env)
 // 		line[len] = 0;
 // 		data.str = line;
 // 		ft_read_line(&data);
-// 		printf("exit_code = %d\n", data.exit_code);
+// 		//printf("exit_code = %d\n", data.exit_code);
 // 	}
 // 	free_env(g_env);
-// 	return (data.exit_code);
+// 	//return (data.exit_code);
+// 	return (0);
 // }

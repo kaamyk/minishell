@@ -21,3 +21,47 @@
 2.
 	dup2(fd, 1) --> pwd > file
 	dup2(fd, 0) --> pwd < file
+
+3.
+	&&
+		La seconde commande (commande2) est exécutée uniquement
+		si le code de retour de la commande (commande1) est égale à 0 (vrai).
+	||
+		La seconde commande (commande2) est exécutée uniquement
+		si le code de retour de la commande (commande1) est égale à 1 (faux).
+	
+4.
+	&& &&
+		[V] [V] [V]
+		[X] [X] [X]
+	|| ||
+		[X] [V] [X]
+		[V] [X] [X]
+	&& ||
+		[V] [V] [X]
+		[X] [X] [V]
+	|| &&
+		[V] [X] [V]
+		[X] [V] [V]
+
+5.
+	[first] [*]       --> find str start with first
+	[*] [end]         --> find str end with end
+	[*] [center] [*]  --> find small_str in big_str
+
+	[first] [*] [center] [*] [end]
+	--> find [center]
+	--> find [first]
+	--> fins [end]
+
+6.
+	* C *
+
+	F *
+	F * C *
+
+	* E
+	* C * E
+
+	F * E
+	F * C * E

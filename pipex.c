@@ -37,6 +37,11 @@ void	child_process(t_data *data)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		execute(data);
+		if (data->s_bonus)
+		{
+			free(data->tab_logic);
+			ft_free_tab(data->tab_cmd_logic);
+		}
 		ft_free_tab(data->tab_cmd);
 		free_env(g_env);
 		exit(data->exit_code);

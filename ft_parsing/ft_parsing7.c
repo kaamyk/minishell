@@ -1,115 +1,80 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   step7.c                                            :+:      :+:    :+:   */
+/*   step4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 17:24:28 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/07 17:25:24 by xuluu            ###   ########.fr       */
+/*   Created: 2023/07/07 12:57:22 by xuluu             #+#    #+#             */
+/*   Updated: 2023/07/07 12:58:23 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/****************************************/
-/* Put the redirection < or << at first */
-/****************************************/
+/****************************/
+/* Put the command at first */
+/****************************/
 
-int	ft_tablen(char **tab)
+void	ft_partie1(t_data *data, char *str)
 {
 	int	i;
+	int	len;
 
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
-int	*ft_find_not_out(char **tab, int *tab_position, int m, int len)
-{
-	int	i;
-
+	len = ft_strlen(str);
+	data->partie1 = (char *)malloc((len + 1) * sizeof(char));
+	if (!data->partie1)
+		return ;
 	i = 0;
 	while (i < len)
 	{
-		tab[i] = ft_delete_space(tab[i]);
-		if (tab[i][0] != '<')
-		{
-			tab_position[m] = i;
-			m++;
-		}
+		data->partie1[i] = str[i];
 		i++;
 	}
-	return (tab_position);
+	data->partie1[i] = 0;
 }
 
-int	*ft_find_re_out(char **tab, int len)
-{
-	int	i;
-	int	m;
-	int	*tab_position;
-
-	tab_position = (int *)malloc(len * sizeof(int));
-	if (!tab_position)
-		return (0);
-	m = 0;
-	i = 0;
-	while (i < len)
-	{
-		tab[i] = ft_delete_space(tab[i]);
-		if (tab[i][0] == '<')
-		{
-			tab_position[m] = i;
-			m++;
-		}
-		i++;
-	}
-	tab_position = ft_find_not_out(tab, tab_position, m, len);
-	return (tab_position);
-}
-
-char	*ft_check_order(char **tab)
+void	ft_partie2(t_data *data, char *str)
 {
 	int		i;
 	int		len;
-	int		*tab_position;
-	int		p;
-	char	*new_str;
 
-	len = ft_tablen(tab);
-	tab_position = ft_find_re_out(tab, len);
+	i = 0;
+	while (str[i] != 0
+		&& (str[i] == str[0]
+			|| str[i] == ' '))
+		i++;
+	while (str[i] != 0 && str[i] != ' ' && str[i] != '>' && str[i] != '<')
+		i++;
+	len = i;
+	data->partie2 = (char *)malloc((len + 1) * sizeof(char));
+	if (!data->partie2)
+		return ;
 	i = 0;
 	while (i < len)
 	{
-		p = tab_position[i];
-		if (i == 0)
-			new_str = ft_copy_str(tab[p]);
-		else
-		{
-			new_str = ft_add_string(new_str, " ; ");
-			new_str = ft_add_string(new_str, tab[p]);
-		}
-		free(tab[p]);
+		data->partie2[i] = str[i];
 		i++;
 	}
-	free(tab);
-	free(tab_position);
-	return (new_str);
+	data->partie2[i] = 0;
+	ft_partie1(data, &str[i]);
 }
 
 /*
-[wc -l < file] --> [< file wc -l]
+[> file echo salut] --> [echo salut > file]
 */
-char	*ft_put_reout_at_first(t_data *data, char *str)
+char	*ft_put_cmd_at_first(t_data *data, char *str)
 {
-	char	**tab;
+	char	*tmp;
 	char	*new_str;
 
-	new_str = ft_add_semicolon(str);
-	tab = ft_create_tab_re(data, new_str);
-	free(new_str);
-	new_str = ft_check_order(tab);
-	free(str);
+	ft_partie2(data, str);
+	new_str = ft_strjoin(data->partie1, " ");
+	tmp = new_str;
+	new_str = ft_strjoin(new_str, data->partie2);
+	free(tmp);
+	free(data->partie1);
+	free(data->partie2);
+	new_str = ft_delete_space(new_str);
 	return (new_str);
 }

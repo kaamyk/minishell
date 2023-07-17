@@ -45,13 +45,14 @@ bool	ft_check_first_last_cmd(t_data *data)
 	int	i;
 
 	i = ft_strlen(data->str) - 1;
-	if (data->str[0] == '|')
+	if (data->str[0] == '|' || data->str[0] == '&')
 	{
 		ft_error(SYNTAXE, &data->str[0], 0);
 		data->exit_code = 2;
 		return (true);
 	}
-	if (data->str[i] == '|' || data->str[i] == '>' || data->str[i] == '<')
+	if (data->str[i] == '|' || data->str[i] == '&'
+		|| data->str[i] == '>' || data->str[i] == '<')
 	{
 		ft_error(SYNTAXE, &data->str[i], 0);
 		data->exit_code = 2;

@@ -73,6 +73,11 @@ typedef struct s_data
 	int		nb_quotes;
 	char	*partie1;
 	char	*partie2;
+
+	char	**tab_cmd_logic;
+	bool	*tab_logic;
+	int		nb_logic;
+	bool	s_bonus;
 }	t_data;
 
 typedef struct s_env
@@ -112,51 +117,57 @@ void	ft_exit_code(t_data *data);
 ft_parsing.c
 */
 bool	ft_parsing(t_data *data);
-int		ft_check_quotes_in_str(char *str);
+char	**ft_create_tab_cmd(t_data *data, char *str);
 
 /*
 ft_parsing2.c
 */
-char	*ft_step2(t_data *data, char *str);
+int		ft_check_quotes_in_str(char *str);
+char	*ft_create_str_without_quotes(t_data *data, char *str);
 
 /*
 ft_parsing3.c
 */
-char	*ft_delete_horizontal_tab(char *str);
+char	*ft_parsing_mandatory_part2(t_data *data, char *str);
 
 /*
 ft_parsing4.c
 */
-char	*ft_order_with_space(char *str);
+char	*ft_delete_horizontal_tab(char *str);
 
 /*
 ft_parsing5.c
+*/
+char	*ft_order_with_space(char *str);
+
+/*
+ft_parsing6.c
 */
 char	*ft_tab_re(t_data *data, char *str);
 char	**ft_create_tab_re(t_data *data, char *str);
 char	*ft_add_semicolon(char *str);
 
 /*
-ft_parsing6.c
+ft_parsing7.c
 */
 char	*ft_put_cmd_at_first(t_data *data, char *str);
 
 /*
-ft_parsing7.c
+ft_parsing8.c
 */
 char	*ft_put_reout_at_first(t_data *data, char *str);
 
 /*
-ft_parsing8.c
+ft_parsing9.c
 */
-char	**ft_create_tab_cmd(t_data *data, char *str);
+char	*ft_put_file_direction(char *str);
 
 /******************** Redirections ********************/
 /*
 ft_redirection.c
 */
-void	ft_write(t_data *data, char	*file, bool s_double);
-void	here_doc(t_data *data, char *limiter, bool s_double);
+bool	ft_redirection_input(t_data *data, int i);
+bool	ft_redirection_output(t_data *data, char *str);
 
 /*
 ft_redirection2.c
@@ -300,5 +311,17 @@ bool	ft_echo(t_data *data);
 exit.c
 */
 void	ft_exit(t_data *data);
+
+/******************** Bonus ********************/
+/*
+ft_parsing_bonus.c
+*/
+void	ft_parsing_bonus(t_data *data, char *str);
+int		ft_count_len_bonus(char *str);
+
+/*
+ft_execute_bonus.c
+*/
+void	ft_execute_bonus(t_data *data);
 
 #endif

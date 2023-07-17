@@ -32,24 +32,27 @@ bool	ft_pwd(void)
 
 void	ft_builtins(t_data *data)
 {
-	data->exit_code = 0;
 	if (data->str)
 	{
-		if (ft_compare_str(data->cmd, "pwd") == true)
-			ft_pwd();
-		else if (ft_compare_str(data->cmd, "export") == true)
-			ft_export(data);
-		else if (ft_compare_str(data->cmd, "unset") == true)
-			ft_unset(data->arg);
-		else if (ft_compare_str(data->cmd, "env") == true)
-			ft_env(data);
-		else if (ft_compare_str(data->cmd, "echo") == true)
+		if (ft_compare_str(data->cmd, "echo") == true)
 			ft_echo(data);
-		else if (ft_compare_str(data->cmd, "cd") == true)
-			ft_cd(data->arg);
-		else if (ft_compare_str(data->cmd, "exit") == true)
-			ft_exit(data);
 		else
-			ft_other_cmd(data);
+		{
+			data->exit_code = 0;
+			if (ft_compare_str(data->cmd, "pwd") == true)
+				ft_pwd();
+			else if (ft_compare_str(data->cmd, "export") == true)
+				ft_export(data);
+			else if (ft_compare_str(data->cmd, "unset") == true)
+				ft_unset(data->arg);
+			else if (ft_compare_str(data->cmd, "env") == true)
+				ft_env(data);
+			else if (ft_compare_str(data->cmd, "cd") == true)
+				ft_cd(data->arg);
+			else if (ft_compare_str(data->cmd, "exit") == true)
+				ft_exit(data);
+			else
+				ft_other_cmd(data);
+		}
 	}
 }
