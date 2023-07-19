@@ -53,7 +53,7 @@ char	**dup_list(char **l)
 		n_l[i] = ft_strdup(l[i]);
 		if (n_l[i] == NULL)
 		{
-			free_list(n_l, i);
+			free_list(n_l);
 			return (NULL);
 		}
 		++i;
@@ -76,7 +76,7 @@ bool	cpy_list(char **dest, char **src)
 		dest[i] = ft_strdup(src[i]);
 		if (dest[i] == NULL)
 		{
-			free_list(dest, i);
+			free_list(dest);
 			return (1);
 		}
 		++i;
