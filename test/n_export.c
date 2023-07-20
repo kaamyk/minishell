@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/19 19:29:03 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/20 08:49:03 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	check_double(char **env, char *in_k, char *in_v)
 			env_v = isolate_value(env[i]);
 			if (ft_strcmp(env_v, in_v) == 0)
 			{
+				free(in_v);
 				free(env_v);
 				return (0);
 			}
@@ -35,7 +36,6 @@ bool	check_double(char **env, char *in_k, char *in_v)
 		}
 		++i;
 	}
-	free(in_k);
 	free(in_v);
 	return (1);
 }
@@ -45,7 +45,6 @@ char	**add_variable(char **env, char *n_var)
 	char	**n_env;
 	size_t	i;
 
-	printf(">>>add_variable\n");
 	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
 	if (n_env == NULL)
 		return (NULL);
@@ -73,23 +72,15 @@ char	**replace_value(char **env, char *o_var, char *n_var)
 {
 	char	**n_env;
 	size_t	i;
-	size_t	j;
 
-	printf(">>>replace_value\n");
-	printf("\t|=>o_var == %s\n", o_var);
-	printf("\t|=>n_var == %s\n", n_var);
-	n_env = malloc(sizeof(char *) * len_list(env) + 1);
+	n_env = malloc(sizeof(char *) * (len_list(env) + 1));
 	i = 0;
-	j = 0;
-	while (env[i + j])
+	while (env[i])
 	{
-		if (env[i + j] == o_var)
-		{
+		if (env[i] == o_var)
 			n_env[i] = ft_strdup(n_var);
-			++j;
-		}
 		else
-			n_env[i] = ft_strdup(env[i + j]);
+			n_env[i] = ft_strdup(env[i]);
 		if (n_env[i] == NULL)
 		{
 			free_list(n_env);
@@ -105,16 +96,13 @@ char	**replace_value(char **env, char *o_var, char *n_var)
 char	**handle_inputs(char **env, char **inputs, bool *exit)
 {
 	char	**i_keys;
-	char	**i_vals;
 	size_t	i;
 
 	i_keys = get_keys(inputs);
-	i_vals = get_values(inputs);
 	i = 0;
 	while (inputs[i])
 	{
-		printf("handle_inputs => i == %ld\n", i);
-		if (check_double(env, i_keys[i], i_vals[i]) == 0)
+		if (check_double(env, i_keys[i], isolate_value(inputs[i])) == 0)
 		{
 			if (get_var(env, i_keys[i]) != NULL)
 				env = replace_value(env, get_var(env, i_keys[i]), inputs[i]);
@@ -126,14 +114,10 @@ char	**handle_inputs(char **env, char **inputs, bool *exit)
 			}
 		}
 		else
-		{
-			printf("Dans le else double\n");
 			*exit = 1;
-		}
 		++i;
 	}
 	free_list(i_keys);
-	free_list(i_vals);
 	return (env);
 }
 

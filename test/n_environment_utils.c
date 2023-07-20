@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/19 19:27:28 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/20 09:02:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char	*get_var(char **env, char *var)
 		e_tmp = isolate_key(env[i]);
 		if (ft_strcmp(e_tmp, v_key) == 1)
 		{
+			free(v_key);
 			free(e_tmp);
 			return (env[i]);
 		}
