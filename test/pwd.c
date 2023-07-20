@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   n_environment_utils.c                              :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/20 13:48:46 by antoine          ###   ########.fr       */
+/*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
+/*   Updated: 2023/07/20 14:12:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-char	*check_export_inputs(char **var)
+bool	ft_pwd(void)
 {
-	size_t	i;
-	size_t	j;
+	char	cwd[10000];
 
-	i = 0;
-	while (var[i])
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (ft_isalpha(var[i][0]) == 0 && var[i][0] != '_')
-			return (var[i]);
-		j = 1;
-		while (var[i][j])
-		{
-			if (ft_isalnum(var[i][j]) == 0 && var[i][j] != '_')
-				return (var[i]);
-			++j;
-		}
-		++i;
+		printf("%s\n", cwd);
 	}
-	return (NULL);
+	else
+	{
+		perror("ft_pwd() error");
+		return (1);
+	}
+	return (0);
 }

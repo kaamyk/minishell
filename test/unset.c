@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:52:23 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:26:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,28 +101,28 @@ size_t	get_inputs(t_env *env, t_env *tmp, size_t len, bool *exit)
 bool	ft_unset(t_env *env, char *arg)
 {
 	t_env	*n_env;
-	t_env	*tmp;
+	t_env	*inputs;
 	size_t	len;
 	bool	exit;
 
 	exit = 0;
-	tmp = init_env(ft_split(arg, ' '));
-	if (tmp == NULL)
+	inputs = init_env(ft_split(arg, ' '));
+	if (inputs == NULL)
 		return (!exit);
-	len = get_inputs(env, tmp, len_list(tmp->key), &exit);
+	len = get_inputs(env, inputs, len_list(inputs->key), &exit);
 	if (len == 0)
 		return (exit);
 	n_env = malloc(sizeof(t_env));
 	if (n_env == NULL)
-		return (free_all(tmp, NULL, NULL));
+		return (free_all(inputs, NULL, NULL));
 	len = len_list(env->key) - len;
 	n_env->key = malloc(sizeof(char *) * (len + 1));
 	n_env->value = malloc(sizeof(char *) * (len + 1));
 	if (n_env->key == NULL || n_env->value == NULL)
 	{
 		free_env(n_env);
-		return (free_all(tmp, NULL, NULL));
+		return (free_all(inputs, NULL, NULL));
 	}
-	delete_items(env, n_env, tmp, len_list(env->key));
+	delete_items(env, n_env, inputs, len_list(env->key));
 	return (exit);
 }

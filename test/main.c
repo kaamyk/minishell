@@ -6,11 +6,11 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/19 19:36:18 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/20 14:13:01 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./minishell.h"
 
 bool	ft_strcmp(char *s1, char *s2)
 {
@@ -55,6 +55,12 @@ void	ft_execute(t_data *data)
 		ft_export(data);
 	else if (ft_strcmp(data->cmd, "env") == 1)
 		ft_env(data);
+	else if (ft_strcmp(data->cmd, "unset") == 1)
+		ft_unset(data);
+	else if (ft_strcmp(data->cmd, "cd") == 1)
+		ft_cd(data);
+	else if (ft_strcmp(data->cmd, "pwd") == 1)
+		ft_pwd();
 	else
 		printf("command unknown\n");
 }
