@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   n_environment_utils.c                              :+:      :+:    :+:   */
+/*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/21 09:37:49 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 18:19:56 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ size_t	print_var(char **env, char *var)
 		{
 			free(tmp);
 			tmp = isolate_value(env[i]);
-			write(1, tmp, ft_strlen(tmp));
+			printf("%s", tmp);
 			free(tmp);
 			break ;
 		}

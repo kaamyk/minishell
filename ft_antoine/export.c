@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   n_export.c                                         :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 09:37:37 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 17:48:18 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ bool	check_double(char **env, char *in_k, char *in_v)
 	while (env[i])
 	{
 		env_k = isolate_key(env[i]);
-		if (ft_strcmp(env_k, in_k) == 0)
+		if (ft_strcmp(env_k, in_k) == 0 )
 		{
-			free(env_k);
 			env_v = isolate_value(env[i]);
 			if (ft_strcmp(env_v, in_v) == 0)
 			{
+				free(env_k);
 				free(in_v);
 				free(env_v);
 				return (0);
 			}
 			free(env_v);
 		}
+		free(env_k);
 		++i;
 	}
 	free(in_v);

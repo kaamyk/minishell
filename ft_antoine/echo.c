@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 09:19:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 17:16:12 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ size_t	print_quotes(char **env, char *arg, char c)
 			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
 			i += print_var(env, get_var_name(arg + i + 1)) + 1;
 		else
-			write(STDOUT_FILENO, &arg[i], 1);
+			printf("%c", arg[i]);
 		++i;
 	}
 	return (i);
@@ -77,7 +77,7 @@ void	print_content(char *arg, int exit_code, char **env)
 		}
 		else
 		{
-			write(1, arg + i, 1);
+			printf("%c", arg[i]);
 			++i;
 		}
 	}
@@ -96,9 +96,9 @@ bool	ft_echo(t_data *data)
 	}
 	while (data->arg[i] == ' ')
 		++i;
-	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n", 3) != NULL);
+	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n ", 3) != NULL);
 	if (nl == false)
-		i += 2;
+		i += 3;
 	print_content(data->arg + i, data->exit_code, data->env);
 	if (nl == true)
 		printf("\n");

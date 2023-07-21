@@ -1,0 +1,4 @@
+ls 'ft_antoine' => ne marche pas
+echo '$USER' =>' $USER && echo "$USER" => anvincen
+cd unknowm file => affiche deux fois message d'erreur
+echo bonjour > file > file > file

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/20 14:59:40 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 17:54:54 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ bool	ft_cd(t_data *data)
 		if (ft_strcmp(arg, "~/") == 1 && ft_strlen(arg) >= 2)
 			arg = get_complete_path(arg);
 		if (chdir(arg) != 0 || update_pwd(data) != 0)
+		{
+			printf("bash: cd: %s: No such file or directory\n", data->arg);
 			return (1);
-		printf("\tft_cd |=>data-<env = %p\n", data->env);
+		}
 	}
 	return (0);
 }
