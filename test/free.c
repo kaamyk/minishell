@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/19 19:26:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:40:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,3 @@ void	free_list(char **lst)
 	free(lst);
 	lst = NULL;
 }
-
-// void	free_env(t_env *env)
-// {
-// 	if (env == NULL)
-// 		return ;
-// 	if (env->value != NULL)
-// 		free_list(env->value, len_list(env->key));
-// 	if (env->key != NULL)
-// 		free_list(env->key, len_list(env->key));
-// 	free(env);
-// }
-
-// void	*free_all(t_data *data, t_env *e, char **l, char *s)
-// {
-// 	if (e != NULL)
-// 		free_env(e);
-// 	if (l != NULL)
-// 		free_list(l, len_list(l));
-// 	if (s != NULL)
-// 		free(s);
-// 	if (data->env != NULL)
-// 		free_list(data->env);
-// 	return (NULL);
-// }

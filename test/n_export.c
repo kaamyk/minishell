@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/20 14:58:21 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:37:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ bool	ft_export(t_data *data)
 
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 	{
-		print_list(data->env);
+		print_env(data->env, 1);
 		return (0);
 	}
 	exit = 0;

@@ -6,19 +6,19 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/07/20 14:07:41 by antoine          ###   ########.fr        #
+#    Updated: 2023/07/21 09:36:17 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	main.c \
 		n_export.c n_environment.c n_environment_utils.c list.c free.c utils.c\
-		env.c n_unset.c ft_cd.c pwd.c\
+		env.c n_unset.c ft_cd.c pwd.c echo.c \
 
 OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = gcc
+CC = cc
 
 READLINE = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
 

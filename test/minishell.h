@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/20 14:53:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:35:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_data
 {
 	char	*cmd;
 	char	*arg;
+	bool	exit_code;
 	char	**env;
 }				t_data;
 
@@ -46,6 +47,8 @@ bool	ft_export(t_data *data);
 
 //	ENVIRONMENT_UTILS.C
 char	*check_export_inputs(char **l);
+bool	print_env(char **env, bool a);
+size_t	print_var(char **env, char *var);
 
 //	ENVIRONMENT.C
 char	**get_env_var_add(char **env, char **inputs);
@@ -83,5 +86,8 @@ bool	ft_cd(t_data *data);
 
 //	PWD.C
 bool	ft_pwd(void);
+
+//	ECHO.C
+bool	ft_echo(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/20 13:48:46 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:37:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,54 @@ char	*check_export_inputs(char **var)
 		++i;
 	}
 	return (NULL);
+}
+
+bool	print_env(char **env, bool a)
+{
+	char	**key;
+	char	*val;
+	size_t	i;
+
+	key = get_keys(env);
+	i = 0;
+	while (key[i])
+	{
+		val = isolate_value(env[i]);
+		if (a != 0)
+			printf("declare -x ");
+		if (ft_strlen(val) != 0)
+			printf("%s=\"%s\"\n", key[i], val);
+		else
+			printf("%s\n", key[i]);
+		free(val);
+		++i;
+	}
+	free_list(key);
+	return (0);
+}
+
+size_t	print_var(char **env, char *var)
+{
+	char	*tmp;
+	size_t	len;
+	size_t	i;
+
+	i = 0;
+	while (env[i])
+	{
+		tmp = isolate_key(env[i]);
+		if (ft_strcmp(tmp, var) == 1)
+		{
+			free(tmp);
+			tmp = isolate_value(env[i]);
+			write(1, tmp, ft_strlen(tmp));
+			free(tmp);
+			break ;
+		}
+		free(tmp);
+		++i;
+	}
+	len = ft_strlen(var);
+	free(var);
+	return (len);
 }

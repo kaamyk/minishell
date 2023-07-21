@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utile.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:37:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/10 14:38:24 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:41:05 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern t_env	*g_env;
+// extern t_env	*g_env;
 
 char	*ft_add_string(char *s1, char *s2)
 {

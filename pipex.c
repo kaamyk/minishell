@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 10:33:51 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/13 18:13:03 by gcollet          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:43:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_env	*g_env;
+// extern t_env	*g_env;
 
 void	execute(t_data *data)
 {
@@ -43,7 +43,7 @@ void	child_process(t_data *data)
 			ft_free_tab(data->tab_cmd_logic);
 		}
 		ft_free_tab(data->tab_cmd);
-		free_env(g_env);
+		// free_env(g_env);
 		exit(data->exit_code);
 	}
 	else

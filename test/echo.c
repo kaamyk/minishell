@@ -3,33 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:58:26 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/21 09:19:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "./minishell.h"
 
 // extern t_env	*g_env;
-
-size_t	print_quotes(t_env *env, char *arg, char c)
-{
-	size_t	i;
-
-	i = 1;
-	while (arg[i] && arg[i] != c)
-	{
-		if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
-			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
-			i += print_var(env, get_var_name(arg + i + 1)) + 1;
-		else
-			write(STDOUT_FILENO, &arg[i], 1);
-		++i;
-	}
-	return (i);
-}
 
 char	*get_var_name(char *arg)
 {
@@ -46,7 +29,7 @@ char	*get_var_name(char *arg)
 	}
 	var = malloc(i + 1);
 	if (var == NULL)
-		return (free_all(NULL, NULL, NULL));
+		return (NULL);
 	var[i--] = 0;
 	while (1)
 	{
@@ -58,7 +41,24 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-bool	print_content(char *arg, t_data *data, t_env *env)
+size_t	print_quotes(char **env, char *arg, char c)
+{
+	size_t	i;
+
+	i = 1;
+	while (arg[i] && arg[i] != c)
+	{
+		if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
+			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
+			i += print_var(env, get_var_name(arg + i + 1)) + 1;
+		else
+			write(STDOUT_FILENO, &arg[i], 1);
+		++i;
+	}
+	return (i);
+}
+
+void	print_content(char *arg, bool exit_code, char **env)
 {
 	size_t	i;
 
@@ -71,7 +71,7 @@ bool	print_content(char *arg, t_data *data, t_env *env)
 		{
 			if (arg[i + 1] == '?')
 			{
-				printf("%d\n", data->exit_code);
+				printf("%d\n", exit_code);
 				i += 2;
 			}
 			else
@@ -83,7 +83,6 @@ bool	print_content(char *arg, t_data *data, t_env *env)
 			++i;
 		}
 	}
-	return (0);
 }
 
 bool	ft_echo(t_data *data)
@@ -102,7 +101,7 @@ bool	ft_echo(t_data *data)
 	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n", 3) != NULL);
 	if (nl == false)
 		i += 2;
-	print_content(data->arg + i, data, data->s_env);
+	print_content(data->arg + i, data->exit_code, data->env);
 	if (nl == true)
 		printf("\n");
 	return (0);

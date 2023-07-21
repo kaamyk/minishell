@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:52:17 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/17 15:52:52 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:29:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* Set redirects [>] [<] [>>] [<<]*/
 /**********************************/
 
-extern t_env	*g_env;
+//extern t_env	*g_env;
 
 void	here_doc2(char *limiter, int *fd, bool s_double)
 {
@@ -51,7 +51,7 @@ void	here_doc(t_data *data, char *limiter, bool s_double)
 		}
 		free(limiter);
 		ft_free_tab(data->tab_cmd);
-		free_env(g_env);
+		//free_env(g_env);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -84,7 +84,7 @@ void	ft_write(t_data *data, char	*file, bool s_double)
 		}
 		free(file);
 		ft_free_tab(data->tab_cmd);
-		free_env(g_env);
+		//free_env(g_env);
 		exit(data->exit_code);
 	}
 	waitpid(pid, &data->exit_code, 0);
@@ -113,7 +113,7 @@ bool	ft_redirection_output(t_data *data, char *str)
 				ft_free_tab(data->tab_cmd_logic);
 			}
 			ft_free_tab(data->tab_cmd);
-			free_env(g_env);
+			//free_env(g_env);
 			exit(data->exit_code);
 		}
 		waitpid(pid, &data->exit_code, 0);

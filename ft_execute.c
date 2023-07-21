@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_run.c                                           :+:      :+:    :+:   */
+/*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:51:33 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/23 17:52:23 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:42:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_env	*g_env;
+// extern t_env	*g_env;
 
 void	ft_exit_code(t_data *data)
 {
@@ -67,7 +67,7 @@ void	ft_execute_with_pipe(t_data *data)
 			ft_free_tab(data->tab_cmd_logic);
 		}
 		ft_free_tab(data->tab_cmd);
-		free_env(g_env);
+		//free_env(g_env);
 		exit(data->exit_code);
 	}
 	waitpid(pid, &data->exit_code, 0);

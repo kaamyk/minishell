@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/20 14:13:01 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:20:07 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	ft_execute(t_data *data)
 		ft_cd(data);
 	else if (ft_strcmp(data->cmd, "pwd") == 1)
 		ft_pwd();
+	else if (ft_strcmp(data->cmd, "echo") == 1)
+		ft_echo(data);
 	else
 		printf("command unknown\n");
 }
@@ -72,6 +74,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	data.env = dup_list(env);
+	data.exit_code = 0;
 	while (1)
 	{
 		data.cmd = take_input("COMMAND\t$>");

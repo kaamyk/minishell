@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_other_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 10:27:01 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/17 10:27:51 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:42:55 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_env	*g_env;
+// extern t_env	*g_env;
 
 char	*ft_get_path(char *cmd)
 {
