@@ -1,102 +1,143 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   n_export.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:29:41 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/21 09:37:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	add_variable(char **n_key, char **n_value, t_env *env, char **full_vl)
+bool	check_double(char **env, char *in_k, char *in_v)
 {
-	size_t	len_env;
-	char	**tmp;
-
-	if (full_vl == NULL)
-		return (1);
-	len_env = len_list(env->key);
-	tmp = env->env;
-	env->env = join_list(env->env, full_vl, len_env, 1);
-	if (env == NULL)
-		return (1);
-	free_list(tmp, len_env);
-	tmp = env->key;
-	env->key = join_list(env->key, n_key, len_env, 1);
-	if (env->key == NULL)
-		return (1);
-	free_list(tmp, len_env);
-	tmp = env->value;
-	env->value = join_list(env->value, n_value, len_env, 1);
-	if (env->value == NULL)
-		return (1);
-	free_list(tmp, len_env);
-	return (0);
-}
-
-bool	replace_value(t_env *env, char *n_value, int r)
-{
-	char	*tmp;
-
-	if (r < 0)
-		return (1);
-	tmp = env->value[r];
-	env->value[r] = ft_strdup(n_value);
-	if (env->value[r] == NULL)
-	{
-		free_all(NULL, NULL, tmp);
-		return (1);
-	}
-	free(tmp);
-	return (0);
-}
-
-bool	handle_inputs(t_env *env, t_env *res, bool *exit)
-{
+	char	*env_k;
+	char	*env_v;
 	size_t	i;
-	char	*s_tmp;
 
 	i = 0;
-	while (res->key[i])
+	while (env[i])
 	{
-		if (check_double(env, res->key[i], res->value[i]) == 0)
+		env_k = isolate_key(env[i]);
+		if (ft_strcmp(env_k, in_k) == 0)
 		{
-			if (res->value[i] != NULL)
-				s_tmp = ft_strjoin(res->key[i], res->value[i]);
+			free(env_k);
+			env_v = isolate_value(env[i]);
+			if (ft_strcmp(env_v, in_v) == 0)
+			{
+				free(in_v);
+				free(env_v);
+				return (0);
+			}
+			free(env_v);
+		}
+		++i;
+	}
+	free(in_v);
+	return (1);
+}
+
+char	**add_variable(char **env, char *n_var)
+{
+	char	**n_env;
+	size_t	i;
+
+	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
+	if (n_env == NULL)
+		return (NULL);
+	i = 0;
+	while (env[i])
+	{
+		n_env[i] = ft_strdup(env[i]);
+		if (n_env[i] == NULL)
+			break ;
+		++i;
+	}
+	if (i > 0 && n_env[i - 1] != NULL)
+		n_env[i] = ft_strdup(n_var);
+	else
+	{
+		free_list(n_env);
+		return (NULL);
+	}
+	n_env[i + 1] = NULL;
+	free_list(env);
+	return (n_env);
+}
+
+char	**replace_value(char **env, char *o_var, char *n_var)
+{
+	char	**n_env;
+	size_t	i;
+
+	n_env = malloc(sizeof(char *) * (len_list(env) + 1));
+	i = 0;
+	while (env[i])
+	{
+		if (env[i] == o_var)
+			n_env[i] = ft_strdup(n_var);
+		else
+			n_env[i] = ft_strdup(env[i]);
+		if (n_env[i] == NULL)
+		{
+			free_list(n_env);
+			return (env);
+		}
+		++i;
+	}
+	n_env[i] = NULL;
+	free_list(env);
+	return (n_env);
+}
+
+char	**handle_inputs(char **env, char **inputs, bool *exit)
+{
+	char	**i_keys;
+	size_t	i;
+
+	i_keys = get_keys(inputs);
+	i = 0;
+	while (inputs[i])
+	{
+		if (check_double(env, i_keys[i], isolate_value(inputs[i])) == 0)
+		{
+			if (get_var(env, i_keys[i]) != NULL)
+				env = replace_value(env, get_var(env, i_keys[i]), inputs[i]);
 			else
-				s_tmp = res->key[i];
-			if (replace_value(env, res->value[i],
-					find_var_rank(env, res->key[i])) != 0)
-				return (1);
-			else
-				if (add_variable(&res->key[i], &res->value[i],
-						env, &s_tmp) != 0)
-					return (1);
+			{
+				env = add_variable(env, inputs[i]);
+				if (env == NULL)
+					break ;
+			}
 		}
 		else
 			*exit = 1;
 		++i;
 	}
-	return (0);
+	free_list(i_keys);
+	return (env);
 }
 
 bool	ft_export(t_data *data)
 {
-	t_env	*res;
+	char	**inputs;
 	bool	exit;
 
-	exit = 0;
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
-		return (print_env(data->s_env, 1));
-	res = init_env(ft_split(data->arg, ' '));
-	if (res == NULL)
+	{
+		print_env(data->env, 1);
+		return (0);
+	}
+	exit = 0;
+	inputs = ft_split(data->arg, ' ');
+	if (inputs == NULL)
+		return (NULL);
+	data->env = handle_inputs(data->env, inputs, &exit);
+	free_list(inputs);
+	if (data->env == NULL)
 		return (1);
-	if (handle_inputs(data->s_env, res, &exit) != 0)
-		return (1);
-	free_env(res);
 	return (exit);
 }

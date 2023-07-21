@@ -1,127 +1,106 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_utils.c                                :+:      :+:    :+:   */
+/*   n_environment_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/17 18:39:51 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/21 09:37:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	input_valid(t_env *env, char *key, char *value, size_t len)
+bool	ft_strcmp(char *s1, char *s2)
 {
-	char	*v;
-	int		r;
 	size_t	i;
 
 	i = 0;
-	while (i < len)
+	if ((s1 == NULL) ^ (s2 == NULL))
+		return (false);
+	else if (s1 == NULL && s1 == NULL)
+		return (true);
+	while (s1[i] || s2[i])
 	{
-		if (key[ft_strlen(key) - 1] != '=')
-		{
-			r = find_var_rank(env, key);
-			if (r == -1)
-				return (1);
-			v = env->value[r];
-			if (value != NULL && v != NULL
-				&& ft_strncmp(v, value, ft_strlen(v) != 0)
-				&& ft_strncmp(v, value, ft_strlen(value)) != 0)
-				return (1);
-		}
-		++i;
+		if (s1[i] != s2[i])
+			return (false);
+		i++;
 	}
-	return (0);
+	if (s1[i] == 0 && s2[i] == 0)
+		return (true);
+	else
+		return (false);
 }
 
-bool	check_double(t_env *env, char *key, char *value)
-{
-	size_t	l_value;
-	size_t	l_val_env;
-	size_t	i;
-
-	l_value = 0;
-	if (value != NULL)
-		l_value = ft_strlen(value);
-	i = 0;
-	while (env->key[i])
-	{
-		if (ft_strncmp(env->key[i], key, ft_strlen(env->key[i])) == 0)
-		{
-			l_val_env = 0;
-			if (env->value[i] != NULL)
-				l_val_env = ft_strlen(env->value[i]);
-			if ((l_val_env != 0 && l_value == 0)
-				|| (env->value[i] != NULL
-					&& ft_strncmp(env->value[i], value, l_val_env) == 0
-					&& ft_strncmp(env->value[i], value, l_value) == 0))
-				return (1);
-		}
-		++i;
-	}
-	return (0);
-}
-
-size_t	print_var(t_env *env, char *var)
-{
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen(var);
-	i = 0;
-	while (env->key[i])
-	{
-		if (ft_strncmp(env->key[i], var, ft_strlen(env->key[i])) == 0
-			&& ft_strncmp(env->key[i], var, ft_strlen(var)) == 0)
-		{
-			write(1, env->value[i], ft_strlen(env->value[i]));
-			break ;
-		}
-		++i;
-	}
-	free(var);
-	return (len);
-}
-
-bool	print_env(t_env *env, bool a)
+char	*check_export_inputs(char **var)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
-	while (env->key[i])
+	while (var[i])
 	{
-		if (a == 0)
+		if (ft_isalpha(var[i][0]) == 0 && var[i][0] != '_')
+			return (var[i]);
+		j = 1;
+		while (var[i][j])
 		{
-			if (env->value[i] != NULL)
-				printf("%s=\"%s\"\n", env->key[i], env->value[i]);
-			else
-				printf("%s\n", env->key[i]);
+			if (ft_isalnum(var[i][j]) == 0 && var[i][j] != '_')
+				return (var[i]);
+			++j;
 		}
-		else if (a != 0)
-		{
-			if (env->value[i] != NULL)
-				printf("declare -x %s=\"%s\"\n", env->key[i], env->value[i]);
-			else
-				printf("declare -x %s\n", env->key[i]);
-		}
-		++i;
-	}
-	return (0);
-}
-
-char	*check_inputs(char **l)
-{
-	size_t	i;
-
-	i = 0;
-	while (l[i])
-	{
-		if (l[i][0] == '=')
-			return (l[i]);
 		++i;
 	}
 	return (NULL);
+}
+
+bool	print_env(char **env, bool a)
+{
+	char	**key;
+	char	*val;
+	size_t	i;
+
+	key = get_keys(env);
+	i = 0;
+	while (key[i])
+	{
+		val = isolate_value(env[i]);
+		if (a != 0)
+			printf("declare -x ");
+		if (ft_strlen(val) != 0)
+			printf("%s=\"%s\"\n", key[i], val);
+		else
+			printf("%s\n", key[i]);
+		free(val);
+		++i;
+	}
+	free_list(key);
+	return (0);
+}
+
+size_t	print_var(char **env, char *var)
+{
+	char	*tmp;
+	size_t	len;
+	size_t	i;
+
+	i = 0;
+	while (env[i])
+	{
+		tmp = isolate_key(env[i]);
+		if (ft_strcmp(tmp, var) == 1)
+		{
+			free(tmp);
+			tmp = isolate_value(env[i]);
+			write(1, tmp, ft_strlen(tmp));
+			free(tmp);
+			break ;
+		}
+		free(tmp);
+		++i;
+	}
+	len = ft_strlen(var);
+	free(var);
+	return (len);
 }

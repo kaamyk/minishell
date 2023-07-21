@@ -16,15 +16,11 @@
 /* Add space center the command  */
 /*********************************/
 
-char	*ft_signe_space_str(char *str, int len)
+char	*ft_signe_space_str(char *str, char *new_str)
 {
 	int		i;
 	int		m;
-	char	*new_str;
 
-	new_str = (char *)malloc((len + 1) * sizeof(char));
-	if (!new_str)
-		return (0);
 	i = 0;
 	m = 0;
 	while (str[i])
@@ -34,19 +30,12 @@ char	*ft_signe_space_str(char *str, int len)
 		{
 			if (str[i - 1] == '|' || str[i - 1] == '&'
 				|| str[i - 1] == '>' || str[i - 1] == '<')
-			{
-				new_str[m] = ' ';
-				m++;
-			}
+				new_str[m++] = ' ';
 		}
 		else if (i > 0 && str[i - 1] != '|' && str[i - 1] != '&'
 			&& str[i - 1] != '>' && str[i - 1] != '<')
-		{
-			new_str[m] = ' ';
-			m++;
-		}
-		new_str[m] = str[i];
-		m++;
+			new_str[m++] = ' ';
+		new_str[m++] = str[i];
 		i++;
 	}
 	new_str[m] = 0;
@@ -74,7 +63,10 @@ char	*ft_order_with_space(char *str)
 		i++;
 	}
 	len = ft_strlen(str) + (nb_signe * 2);
-	new_str = ft_signe_space_str(str, len);
+	new_str = (char *)malloc((len + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	new_str = ft_signe_space_str(str, new_str);
 	free(str);
 	return (new_str);
 }

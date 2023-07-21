@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 15:55:21 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/21 09:40:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-extern t_env	*g_env;
 
 void	print_list(char **l)
 {
@@ -53,7 +51,7 @@ char	**dup_list(char **l)
 		n_l[i] = ft_strdup(l[i]);
 		if (n_l[i] == NULL)
 		{
-			free_list(n_l, i);
+			free_list(n_l);
 			return (NULL);
 		}
 		++i;
@@ -61,12 +59,12 @@ char	**dup_list(char **l)
 	return (n_l);
 }
 
-bool	cpy_list(char **dest, char **src, size_t l_src)
+bool	cpy_list(char **dest, char **src)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < l_src)
+	while (src[i])
 	{
 		if (src[i] == NULL)
 		{
@@ -76,7 +74,7 @@ bool	cpy_list(char **dest, char **src, size_t l_src)
 		dest[i] = ft_strdup(src[i]);
 		if (dest[i] == NULL)
 		{
-			free_list(dest, i);
+			free_list(dest);
 			return (1);
 		}
 		++i;
@@ -95,9 +93,9 @@ char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2)
 	res = ft_calloc (len, sizeof(char *));
 	if (res == NULL)
 		return (NULL);
-	if (cpy_list(res, lst1, len_l1) == 1)
+	if (cpy_list(res, lst1) == 1)
 		return (NULL);
-	if (cpy_list(res + len_l1, lst2, len_l2))
+	if (cpy_list(res + len_l1, lst2))
 		return (NULL);
 	return (res);
 }

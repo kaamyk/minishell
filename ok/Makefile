@@ -17,10 +17,12 @@ SRC =	main.c \
 		ft_check_syntaxe/ft_check_syntaxe.c \
 		ft_check_syntaxe/ft_check_syntaxe2.c \
 		ft_check_syntaxe/ft_check_syntaxe3.c \
+		ft_check_syntaxe/ft_check_syntaxe4.c \
 		ft_split_mn/ft_split_mn.c \
-		ft_redirection/ft_redirection.c \
-		ft_redirection/ft_redirection2.c \
-		ft_redirection/ft_redirection3.c \
+		ft_redirection/ft_redirection_input.c \
+		ft_redirection/ft_redirection_output.c \
+		ft_redirection/ft_redirection_output2.c \
+		ft_redirection/ft_redirection_output3.c \
 		ft_antoine/signal.c \
 		ft_antoine/utils.c \
 		ft_antoine/export.c \
@@ -33,6 +35,7 @@ SRC =	main.c \
 		ft_antoine/unset.c \
 		ft_antoine/ft_cd.c \
 		ft_antoine/exit.c \
+		ft_antoine/pwd.c \
 		ft_parsing/ft_parsing.c \
 		ft_parsing/ft_parsing2.c \
 		ft_parsing/ft_parsing3.c \
@@ -47,10 +50,17 @@ SRC =	main.c \
 		ft_utile/ft_utile2.c \
 		ft_execute.c \
 		ft_get_cmd.c \
-		ft_buitins.c \
+		ft_builtins.c \
 		ft_other_cmd.c \
 		pipex.c \
 		ft_execute_bonus.c \
+		ft_wildcards/ft_wildcards.c \
+		ft_wildcards/ft_wildcards2.c \
+		ft_wildcards/ft_wildcards3.c \
+		ft_wildcards/ft_find_center.c \
+		ft_wildcards/ft_find_first.c \
+		ft_wildcards/ft_find_end.c \
+		ft_wildcards/ft_wildcards_is_center.c \
 
 OBJ = $(SRC:.c=.o)
 

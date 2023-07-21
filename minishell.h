@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:57:19 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:18:10 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ typedef enum s_error
 	NOT_ACCESS,
 }	t_error;
 
-typedef struct s_env
-{
-	char	**key;
-	char	**value;
-	char	**env;
-}				t_env;
-
 typedef struct s_data
 {
 	char	**tab_cmd;
@@ -88,10 +81,12 @@ typedef struct s_data
 
 	char	**tab_wildcards;
 	char	*str_with_wildcard;
-	
-	t_env	*s_env;
-}	t_data;
 
+	char	*output;
+	bool	s_heredoc;
+
+	char	**env;
+}	t_data;
 
 /******************** ********************/
 /*
@@ -111,6 +106,7 @@ ft_check_syntaxe.c
 bool	ft_check_syntaxe(t_data *data);
 bool	ft_check_open_quotes(t_data *data);
 bool	ft_check_syntax_inside(t_data *data, char *str);
+bool	ft_check_syntax_inside2(t_data *data, char *str, int i);
 
 /*
 ft_run.c
@@ -206,6 +202,7 @@ pipex.c
 */
 void	ft_pipex(t_data *data);
 void	execute(t_data *data);
+void	child_process(t_data *data);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -241,79 +238,64 @@ int		ft_count_signe(char *str);
 bool	ft_find_c(char *str, char c);
 int		ft_nb_c(char *str, char c);
 char	*ft_find_str(char *str);
+void	ft_free_end(t_data *data);
 
 /******************** Fonctions of Antoine ********************/
 
-/*
-list.c
-*/
+//	ENV.C
+bool	ft_env(t_data *data);
+
+// 	EXPORT.C
+bool	check_double(char **env, char *in_k, char *in_v);
+char	**replace_value(char **env, char *o_var, char *n_var);
+char	**add_variable(char **env, char *n_var);
+char	**handle_inputs(char **env, char **inputs, bool *exit);
+bool	ft_export(t_data *data);
+
+//	ENVIRONMENT_UTILS.C
+bool	ft_strcmp(char *s1, char *s2);
+char	*check_export_inputs(char **l);
+bool	print_env(char **env, bool a);
+size_t	print_var(char **env, char *var);
+
+//	ENVIRONMENT.C
+char	**get_env_var_add(char **env, char **inputs);
+char	*isolate_value(char *var);
+char	*isolate_key(char *var);
+char	**get_keys(char **env);
+char	*get_var(char **env, char *var);
+
+//	LIST.C
 void	print_list(char **l);
 size_t	len_list(char **l);
 char	**dup_list(char **l);
-bool	cpy_list(char **dest, char **src, size_t l_src);
+bool	cpy_list(char **dest, char **src);
 char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 
-/*
-change_directory.c
-*/
-bool	ft_cd(char *arg);
-size_t	nb_args(char *command);
+//	FREE.C
+void	free_ptr(char *ptr);
+void	free_list(char **lst);
+//void	*free_all(t_data *data, t_env *e, char **l, char *s);
 
-/*
-environment.c
-*/
-int		find_var_rank(t_env *env, char *key);
-char	**init_keys(char **l, size_t len);
-char	*isolate_value(char *s);
-char	**init_values(char **l);
-t_env	*init_env(char **env);
-
-/*
-environment_utils.c
-*/
-bool	input_valid(t_env *env, char *key, char *value, size_t len);
-bool	check_double(t_env *env, char *key, char *value);
-size_t	print_var(t_env *env, char *s);
-bool	print_env(t_env *env, bool a);
-char	*check_inputs(char **l);
-
-/*
-env.c
-*/
-bool	ft_env(t_data *data);
-
-/*
-export.c
-*/
-bool	add_variable(char **n_key, char **n_value, t_env *env, char **full_vl);
-bool	replace_value(t_env *env, char *n_value, int r);
-bool	ft_export(t_data *data);
-
-/*
-unset.c
-*/
-char	**delete_items(t_env *env, t_env *n_env, t_env *tmp, size_t len);
-bool	ft_unset(t_env *env, char *arg);
-
-/*
-utils.c
-*/
+//	UTILS.C
 size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
 
-/*
-free.c
-*/
-void	free_ptr(char *ptr);
-void	free_list(char **lst, size_t len);
-void	free_env(t_env *env);
-void	*free_all(t_data *data, t_env *e, char **l, char *s);
+//	UNSET.C
+bool	input_valid(char **env, char *inpt_var);
+char	**pop_unvalid_input(char **inputs, char *to_pop, size_t *l, bool *exit);
+char	**check_inputs(char **env, char **inputs, size_t *len, bool *exit);
+char	**delete_vars(char **env, char **inputs, size_t len);
+bool	ft_unset(t_data *data);
 
-/*
-echo.c
-*/
-char	*get_var_name(char *arg);
+//	FT_CD.C
+bool	ft_cd(t_data *data);
+
+//	PWD.C
+bool	ft_pwd(void);
+
+//	ECHO.C
 bool	ft_echo(t_data *data);
 
 /*
@@ -336,13 +318,13 @@ void	ft_execute_bonus(t_data *data);
 /*
 ft_wildcards.c
 */
-void	ft_wildcards(t_data *data, char *str);
+char	*ft_wildcards(t_data *data, char *str);
 bool	ft_find(char *s1, char *s2);
 
 /*
 ft_wildcards2.c
 */
-char	*ft_get_current_file_directory(t_data *data, char *directorie);
+char	*ft_get_current_directory(t_data *data);
 
 /*
 ft_wildcards3.c

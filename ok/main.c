@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-t_env	*g_env = NULL;
-
 char	*take_input(char *str)
 {
 	char	*line;
@@ -82,54 +80,54 @@ void	ft_read_line(t_data *data)
 	}
 }
 
-// int	main(int ac, char **av, char **env)
-// {
-// 	t_data	data;
-
-// 	(void)av;
-// 	data.exit_code = 0;
-// 	if (ac == 1)
-// 	{
-// 		ft_titre();
-		// data.exit_code = 0;
-// 		while (42)
-// 		{
-// 			ft_signal();
-// 			if (g_env == NULL)
-// 				g_env = init_env(env);
-// 			data.str = take_input("Minishell$> ");
-// 			if (!data.str)
-// 				break ;
-// 			ft_read_line(&data);
-// 			printf("\n");
-// 		}
-// 	}
-// 	free_env(g_env);
-// 	return (data.exit_code);
-// }
-
 int	main(int ac, char **av, char **env)
 {
-	char	*line;
-	int		len;
 	t_data	data;
 
-	if (g_env == NULL)
-		g_env = init_env(env);
-	if (ac == 2)
+	(void)av;
+	data.exit_code = 0;
+	data.env = dup_list(env);
+	if (ac == 1)
 	{
+		ft_titre();
 		data.exit_code = 0;
-		len = ft_strlen(av[1]);
-		line = (char *)malloc((len + 1) * sizeof(char));
-		if (!line)
-			return (0);
-		line = ft_memcpy(line, av[1], len);
-		line[len] = 0;
-		data.str = line;
-		ft_read_line(&data);
-		//printf("exit_code = %d\n", data.exit_code);
+		while (42)
+		{
+			ft_signal();
+			data.str = take_input("Minishell$> ");
+			if (!data.str)
+				break ;
+			ft_read_line(&data);
+			printf("\n");
+		}
 	}
-	free_env(g_env);
-	//return (data.exit_code);
-	return (0);
+	free_list(data.env);
+	return (data.exit_code);
 }
+
+// int	main(int ac, char **av, char **env)
+// {
+// 	char	*line;
+// 	int		len;
+// 	t_data	data;
+
+// 	if (g_env == NULL)
+// 		g_env = init_env(env);
+// 	if (ac == 2)
+// 	{
+// 		data.env = env;
+// 		data.exit_code = 0;
+// 		len = ft_strlen(av[1]);
+// 		line = (char *)malloc((len + 1) * sizeof(char));
+// 		if (!line)
+// 			return (0);
+// 		line = ft_memcpy(line, av[1], len);
+// 		line[len] = 0;
+// 		data.str = line;
+// 		ft_read_line(&data);
+// 		//printf("exit_code = %d\n", data.exit_code);
+// 	}
+// 	free_list(data->env);
+// 	//return (data.exit_code);
+// 	return (0);
+// }

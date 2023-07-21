@@ -72,3 +72,14 @@ char	*ft_find_str(char *str)
 	ft_free_tab(tab);
 	return (limiter);
 }
+
+void	ft_free_end(t_data *data)
+{
+	if (data->s_bonus)
+	{
+		free(data->tab_logic);
+		ft_free_tab(data->tab_cmd_logic);
+	}
+	ft_free_tab(data->tab_cmd);
+	free_list(data->env);
+}

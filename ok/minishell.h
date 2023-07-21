@@ -78,13 +78,15 @@ typedef struct s_data
 	bool	*tab_logic;
 	int		nb_logic;
 	bool	s_bonus;
-}	t_data;
 
-typedef struct s_env
-{
-	char	**key;
-	char	**value;
-}				t_env;
+	char	**tab_wildcards;
+	char	*str_with_wildcard;
+
+	char	*output;
+	bool	s_heredoc;
+
+	char	**env;
+}	t_data;
 
 /******************** ********************/
 /*
@@ -104,6 +106,7 @@ ft_check_syntaxe.c
 bool	ft_check_syntaxe(t_data *data);
 bool	ft_check_open_quotes(t_data *data);
 bool	ft_check_syntax_inside(t_data *data, char *str);
+bool	ft_check_syntax_inside2(t_data *data, char *str, int i);
 
 /*
 ft_run.c
@@ -118,12 +121,15 @@ ft_parsing.c
 */
 bool	ft_parsing(t_data *data);
 char	**ft_create_tab_cmd(t_data *data, char *str);
+char	*ft_read_string(t_data *data, char *str);
+char	*ft_rewritten_strr2(char **tab, char *new_str, int i);
 
 /*
 ft_parsing2.c
 */
 int		ft_check_quotes_in_str(char *str);
 char	*ft_create_str_without_quotes(t_data *data, char *str);
+char	*ft_create_string_summary(t_data *data, char *str);
 
 /*
 ft_parsing3.c
@@ -196,6 +202,7 @@ pipex.c
 */
 void	ft_pipex(t_data *data);
 void	execute(t_data *data);
+void	child_process(t_data *data);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -231,80 +238,64 @@ int		ft_count_signe(char *str);
 bool	ft_find_c(char *str, char c);
 int		ft_nb_c(char *str, char c);
 char	*ft_find_str(char *str);
+void	ft_free_end(t_data *data);
 
 /******************** Fonctions of Antoine ********************/
 
-/*
-list.c
-*/
+//	ENV.C
+bool	ft_env(t_data *data);
+
+// 	EXPORT.C
+bool	check_double(char **env, char *in_k, char *in_v);
+char	**replace_value(char **env, char *o_var, char *n_var);
+char	**add_variable(char **env, char *n_var);
+char	**handle_inputs(char **env, char **inputs, bool *exit);
+bool	ft_export(t_data *data);
+
+//	ENVIRONMENT_UTILS.C
+bool	ft_strcmp(char *s1, char *s2);
+char	*check_export_inputs(char **l);
+bool	print_env(char **env, bool a);
+size_t	print_var(char **env, char *var);
+
+//	ENVIRONMENT.C
+char	**get_env_var_add(char **env, char **inputs);
+char	*isolate_value(char *var);
+char	*isolate_key(char *var);
+char	**get_keys(char **env);
+char	*get_var(char **env, char *var);
+
+//	LIST.C
 void	print_list(char **l);
 size_t	len_list(char **l);
 char	**dup_list(char **l);
-bool	cpy_list(char **dest, char **src, size_t l_src);
+bool	cpy_list(char **dest, char **src);
 char	**join_list(char **lst1, char **lst2, size_t len_l1, size_t len_l2);
 
-/*
-change_directory.c
-*/
-bool	ft_cd(char *arg);
-size_t	nb_args(char *command);
+//	FREE.C
+void	free_ptr(char *ptr);
+void	free_list(char **lst);
+//void	*free_all(t_data *data, t_env *e, char **l, char *s);
 
-/*
-environment.c
-*/
-char	**init_keys(char **l, size_t len);
-char	*isolate_value(char *s);
-char	**init_values(char **l);
-t_env	*init_env(char **env);
-
-/*
-environment_utils.c
-*/
-bool	check_double(char *key, char *value);
-int		find_var_rank(char *key);
-size_t	print_var(char *s);
-bool	print_env(bool a);
-char	*check_inputs(char **l);
-
-/*
-env.c
-*/
-//void	ft_env(void);
-bool	ft_env(t_data *data);
-
-/*
-export.c
-*/
-bool	add_variable(char **n_key, char **n_value);
-bool	replace_value(char *n_value, size_t r);
-bool	ft_export(t_data *data);
-
-/*
-unset.c
-*/
-bool	input_valid(char *key, char *value, size_t len);
-char	**delete_items(t_env *n_env, t_env *tmp, size_t lenunset);
-bool	ft_unset(char *arg);
-
-/*
-utils.c
-*/
+//	UTILS.C
 size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
 
-/*
-free.c
-*/
-void	free_ptr(char *ptr);
-void	free_list(char **lst, size_t len);
-void	free_env(t_env *env);
-void	*free_all(t_env *e, char **l, char *s);
+//	UNSET.C
+bool	input_valid(char **env, char *inpt_var);
+char	**pop_unvalid_input(char **inputs, char *to_pop, size_t *l, bool *exit);
+char	**check_inputs(char **env, char **inputs, size_t *len, bool *exit);
+char	**delete_vars(char **env, char **inputs, size_t len);
+bool	ft_unset(t_data *data);
 
-/*
-echo.c
-*/
-char	*get_var_name(char *arg);
+//	FT_CD.C
+bool	ft_cd(t_data *data);
+
+//	PWD.C
+bool	ft_pwd(void);
+
+//	ECHO.C
 bool	ft_echo(t_data *data);
 
 /*
@@ -323,5 +314,49 @@ int		ft_count_len_bonus(char *str);
 ft_execute_bonus.c
 */
 void	ft_execute_bonus(t_data *data);
+
+/*
+ft_wildcards.c
+*/
+char	*ft_wildcards(t_data *data, char *str);
+bool	ft_find(char *s1, char *s2);
+
+/*
+ft_wildcards2.c
+*/
+char	*ft_get_current_directory(t_data *data);
+
+/*
+ft_wildcards3.c
+*/
+void	ft_start_with_wildcards(char *str, char *list_fd);
+
+/*
+ft_wildcards4.c
+*/
+char	*ft_one_wildcard(char *str);
+
+/*
+ft_find_center.c
+*/
+char	*ft_find_center(char *str, char *list_fd);
+char	*ft_find_center_in_list(char *str, char *list_fd);
+
+/*
+ft_find_first.c
+*/
+char	*ft_find_first(char *str, char *list_fd);
+char	*ft_find_first_in_list(char *str, char *list_fd);
+
+/*
+ft_find_end.c
+*/
+char	*ft_find_end(char *str, char *list_fd);
+char	*ft_find_end_in_list(char *str, char *list_fd);
+
+/*
+ft_wildcards_is_center.c
+*/
+char	*ft_wildcards_is_center(char *str, char *list_fd);
 
 #endif

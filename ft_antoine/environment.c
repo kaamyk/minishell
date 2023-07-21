@@ -1,113 +1,110 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   n_environment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/17 18:55:01 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:49:31 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_var_rank(t_env *env, char *key)
+char	**get_env_var_add(char **env, char **inputs)
 {
-	int	i;
-
-	i = 0;
-	while (env->key[i])
-	{
-		if (ft_strncmp(env->key[i], key, ft_strlen(env->key[i])) == 0)
-			return (i);
-		++i;
-	}
-	return (-1);
-}
-
-char	**init_keys(char **l, size_t len)
-{
-	char	**res;
-	size_t	rank;
+	char	**add;
 	size_t	i;
 
-	if (l == NULL)
+	add = malloc(sizeof(char *) * (len_list(inputs) + 1));
+	if (add == NULL)
 		return (NULL);
 	i = 0;
-	res = malloc(sizeof(char *) * (len + 1));
-	while (l[i])
+	while (inputs[i])
 	{
-		rank = rank_char(l[i], '=');
-		res[i] = malloc(rank + 1);
-		ft_strlcpy(res[i], l[i], rank + 1);
+		add[i] = get_var(env, inputs[i]);
 		++i;
 	}
-	res[i] = NULL;
-	return (res);
+	add[i] = NULL;
+	return (add);
 }
 
-char	*isolate_value(char *s)
+char	*isolate_value(char *var)
 {
 	char	*res;
 	size_t	len;
 	size_t	r_sep;
 
-	if (s == NULL || ft_strchr(s, '=') == 0)
-		return (NULL);
-	r_sep = rank_char(s, '=');
-	len = ft_strlen(s) - r_sep;
+
+	r_sep = rank_char(var, '=');
+	if (var == NULL || ft_strchr(var, '=') == 0)
+		len = 0;
+	else
+		len = ft_strlen(var) - r_sep;
 	if (len == 0)
 	{
 		res = ft_calloc(1, 1);
-		return (NULL);
+		return (res);
 	}
 	else
-		res = del_char(ft_substr(s, r_sep + 1, len + 1), '"');
+		res = del_char(ft_substr(var, r_sep + 1, len + 1), '"');
 	return (res);
 }
 
-char	**init_values(char **l)
+char	*isolate_key(char *var)
+{
+	char	*res;
+	size_t	rank;
+
+	rank = rank_char(var, '=');
+	res = malloc(rank + 1);
+	ft_strlcpy(res, var, rank + 1);
+	return (res);
+}
+
+char	**get_keys(char **env)
 {
 	char	**res;
+	char	*env_k;
 	size_t	i;
 
-	res = malloc(sizeof(char *) * (len_list(l) + 1));
-	if (res == NULL)
-		return (free_all(NULL, l, NULL));
+	if (env == NULL)
+		return (NULL);
+	res = malloc(sizeof(char *) * (len_list(env) + 1));
 	i = 0;
-	while (l[i] != NULL)
+	while (env[i])
 	{
-		res[i] = isolate_value(l[i]);
-		if (res[i] == NULL && ft_strchr(l[i], '=') != 0)
-			return (NULL);
+		res[i] = malloc(rank_char(env[i], '=') + 1);
+		env_k = isolate_key(env[i]);
+		ft_strlcpy(res[i], env_k, rank_char(env[i], '=') + 1);
+		free(env_k);
 		++i;
 	}
 	res[i] = NULL;
 	return (res);
 }
 
-t_env	*init_env(char **env)
+char	*get_var(char **env, char *var)
 {
-	t_env	*n_env;
-	char	*invalid;
+	char	*e_tmp;
+	char	*v_key;
+	size_t	i;
 
-	if (env == NULL)
-		return (NULL);
-	invalid = check_inputs(env);
-	if (invalid != NULL)
+	v_key = isolate_key(var);
+	i = 0;
+	while (env[i])
 	{
-		printf("bash: export: '%s': not a valid identifier\n", invalid);
-		free_list(env, len_list(env));
-		return (NULL);
+		e_tmp = isolate_key(env[i]);
+		if (ft_strcmp(e_tmp, v_key) == 1)
+		{
+			free(v_key);
+			free(e_tmp);
+			return (env[i]);
+		}
+		free(e_tmp);
+		++i;
 	}
-	n_env = malloc(sizeof(t_env));
-	if (n_env == NULL)
-		return (free_all(NULL, env, NULL));
-	n_env->env = dup_list(env);
-	n_env->key = init_keys(env, len_list(env));
-	n_env->value = init_values(env);
-	if (n_env->key == NULL || n_env->value == NULL)
-		return (free_all(n_env, env, NULL));
-	return (n_env);
+	free(v_key);
+	return (NULL);
 }

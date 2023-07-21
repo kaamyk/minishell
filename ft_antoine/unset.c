@@ -1,128 +1,127 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   n_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:52:23 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:58:19 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	pop_unvalid_input(t_env *env, size_t r, size_t *len, bool *exit)
+bool	input_valid(char **env, char *inpt_var)
 {
-	size_t	j;
+	char	*ptr;
 
-	*exit = 1;
-	j = r + 1;
-	while (j < *len)
-	{
-		env->key[j - 1] = env->key[j];
-		env->value[j - 1] = env->value[j];
-		++j;
-	}
-	env->key[j] = NULL;
-	env->value[j] = NULL;
-	--(*len);
+	ptr = get_var(env, inpt_var);
+	if (ptr == NULL)
+		return (0);
+	return (1);
 }
 
-bool	is_to_pop(t_env *env, t_env *tmp, size_t r)
+char	**pop_unvalid_input(char **inputs, char *to_pop, size_t *l, bool *exit)
 {
-	char	*k;
-	char	*v;
+	char	**res;
+	size_t	i;
+	bool	j;
+
+	res = malloc(sizeof(char *) * (len_list(inputs) + 1));
+	if (res == NULL)
+		return (inputs);
+	*exit = 1;
+	i = 0;
+	j = 0;
+	while (inputs[i + j])
+	{
+		if (inputs[i + j] != to_pop)
+			res[i] = ft_strdup(inputs[i + j]);
+		else
+			j = !j;
+		++i;
+	}
+	res[i] = NULL;
+	free_list(inputs);
+	--(*l);
+	return (res);
+}
+
+char	**check_inputs(char **env, char **inputs, size_t *len, bool *exit)
+{
 	size_t	i;
 
-	v = env->value[r];
-	k = env->key[r];
 	i = 0;
-	while (tmp->key[i])
+	while (inputs[i])
 	{
-		if (ft_strncmp(k, tmp->key[i], ft_strlen(k)) == 0
-			&& ft_strncmp(k, tmp->key[i], ft_strlen(tmp->key[i])) == 0)
-		{
-			if (tmp->value[i] == NULL)
-				return (1);
-			else if ((v != NULL && tmp->value[i] != NULL)
-				&& ft_strncmp(v, tmp->value[i], ft_strlen(tmp->value[i])) == 0
-				&& ft_strncmp(v, tmp->value[i], ft_strlen(v) == 0))
-				return (1);
-		}
+		if (input_valid(env, inputs[i]) == 0)
+			inputs = pop_unvalid_input(inputs, env[i], len, exit);
+		++i;
+	}
+	return (inputs);
+}
+
+bool	ft_ptr_inlist(char **l, char **ptr)
+{
+	size_t	i;
+
+	i = 0;
+	while (l[i])
+	{
+		if (l[i] == *ptr)
+			return (1);
 		++i;
 	}
 	return (0);
 }
 
-char	**delete_items(t_env *env, t_env *n_env, t_env *tmp, size_t len)
+char	**delete_vars(char **env, char **inputs, size_t len)
 {
+	char	**res;
+	char	**add;
 	size_t	i;
-	size_t	j;
+	size_t	k;
 
+	res = malloc(sizeof(char *) * ((len_list(env) - len) + 2));
+	if (res == NULL)
+		return (env);
+	add = get_env_var_add(env, inputs);
 	i = 0;
-	j = 0;
-	while (i + j < len)
+	k = 0;
+	while (env[i + k])
 	{
-		if (is_to_pop(env, tmp, i + j) == 0)
+		if (ft_ptr_inlist(add, &env[i + k]) == 1)
+			++k;
+		else
 		{
-			n_env->key[i] = ft_strdup(env->key[i + j]);
-			if (env->value[i + j] != NULL)
-				n_env->value[i] = ft_strdup(env->value[i + j]);
-			else
-				n_env->value[i] = NULL;
+			res[i] = ft_strdup(env[i + k]);
 			++i;
 		}
-		else
-			++j;
 	}
-	free_env(tmp);
-	n_env->key[i] = NULL;
-	n_env->value[i] = NULL;
-	free_env(env);
-	env = n_env;
-	return (env->key);
+	res[i] = NULL;
+	free(add);
+	free_list(env);
+	return (res);
 }
 
-size_t	get_inputs(t_env *env, t_env *tmp, size_t len, bool *exit)
+bool	ft_unset(t_data *data)
 {
-	size_t	i;
-
-	i = 0;
-	while (tmp->key[i])
-	{
-		if (input_valid(env, tmp->key[i], tmp->value[i], len) != 0)
-			pop_unvalid_input(tmp, i, &len, exit);
-		++i;
-	}
-	return (len);
-}
-
-bool	ft_unset(t_env *env, char *arg)
-{
-	t_env	*n_env;
-	t_env	*tmp;
+	char	**inputs;
 	size_t	len;
 	bool	exit;
 
 	exit = 0;
-	tmp = init_env(ft_split(arg, ' '));
-	if (tmp == NULL)
-		return (!exit);
-	len = get_inputs(env, tmp, len_list(tmp->key), &exit);
+	if (data->arg == NULL || ft_strlen(data->arg) == 0)
+		return (exit);
+	inputs = ft_split(data->arg, ' ');
+	if (inputs == NULL)
+		return (1);
+	len = len_list(inputs);
+	inputs = check_inputs(data->env, inputs, &len, &exit);
 	if (len == 0)
 		return (exit);
-	n_env = malloc(sizeof(t_env));
-	if (n_env == NULL)
-		return (free_all(tmp, NULL, NULL));
-	len = len_list(env->key) - len;
-	n_env->key = malloc(sizeof(char *) * (len + 1));
-	n_env->value = malloc(sizeof(char *) * (len + 1));
-	if (n_env->key == NULL || n_env->value == NULL)
-	{
-		free_env(n_env);
-		return (free_all(tmp, NULL, NULL));
-	}
-	delete_items(env, n_env, tmp, len_list(env->key));
-	return (exit);
+	data->env = delete_vars(data->env, inputs, len);
+	free_list(inputs);
+	return (0);
 }

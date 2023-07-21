@@ -6,13 +6,11 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/10 17:07:13 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/21 09:39:46 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-extern t_env	*g_env;
 
 bool	check_nb_arg(char *arg)
 {
@@ -53,10 +51,11 @@ void	ft_exit(t_data *data)
 	}
 	else if (check_alnum(data->arg) != 0)
 	{
-		free_all(NULL, data->tab_cmd, NULL);
+		free_list(data->tab_cmd);
+		free_list(data->env);
 		printf("bash: exit: %s: numeric argument required\n", data->arg);
 		exit (2);
 	}
-	free_all(NULL, data->tab_cmd, NULL);
+	free_list(data->tab_cmd);
 	exit (ft_atoi(data->arg));
 }

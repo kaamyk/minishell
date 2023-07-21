@@ -68,7 +68,21 @@ char	*ft_read_pipe(int *fd)
 	return (res);
 }
 
-char	*ft_get_current_file_directory(t_data *data, char *directorie)
+void	ft_lire_current_directory(t_data *data, int *fd)
+{
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	data->str = "ls .";
+	execute(data);
+	free(data->str_with_wildcard);
+	ft_free_tab(data->tab_wildcards);
+	ft_free_tab(data->tab_quotes);
+	ft_free_end(data);
+	exit(data->exit_code);
+}
+
+char	*ft_get_current_directory(t_data *data)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -79,22 +93,7 @@ char	*ft_get_current_file_directory(t_data *data, char *directorie)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		data->str = ft_copy_str("ls ");
-		data->str = ft_add_string(data->str, directorie);
-		execute(data);
-		if (data->s_bonus)
-		{
-			free(data->tab_logic);
-			ft_free_tab(data->tab_cmd_logic);
-		}
-		free(data->str);
-		ft_free_tab(data->tab_cmd);
-		ft_free_tab(data->tab_wildcards);
-		free_env(g_env);
-		exit(data->exit_code);
+		ft_lire_current_directory(data, fd);
 	}
 	else
 	{

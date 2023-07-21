@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   n_environment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 09:40:04 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
+/*   Updated: 2023/07/18 16:50:14 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_ptr(char *ptr)
+int	find_var_rank(char *input, char *key, char *value)
 {
-	if (ptr != NULL)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-}
+	char	*i_key;
+	char	*i_value;
+	int	i;
 
-void	free_list(char **lst)
-{
-	size_t	i;
-
-	if (lst != NULL)
+	i_key = init_keys(&inputs, 1);
+	i_value = init_values(&inputs);
+	i = 0;
+	while (inputs[i])
 	{
-		i = 0;
-		while (lst[i])
-		{
-			free_ptr(lst[i]);
-			++i;
-		}
+		if (ft_strncmp(key))
 	}
-	free(lst);
-	lst = NULL;
 }

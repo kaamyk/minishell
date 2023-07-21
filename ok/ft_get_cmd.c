@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/**********************************/
+/* Create [data->cmd] [data->arg] */
+/**********************************/
+
 char	*ft_cmd_with_path(char *str)
 {
 	int		i;
