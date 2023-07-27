@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 17:48:18 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:09:58 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	check_double(char **env, char *in_k, char *in_v)
 	while (env[i])
 	{
 		env_k = isolate_key(env[i]);
-		if (ft_strcmp(env_k, in_k) == 0 )
+		if (ft_strcmp(env_k, in_k) == 0)
 		{
 			env_v = isolate_value(env[i]);
 			if (ft_strcmp(env_v, in_v) == 0)

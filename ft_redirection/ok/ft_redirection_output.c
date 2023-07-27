@@ -16,36 +16,70 @@
 /* Redirections [<] [<<]*/
 /************************/
 
-void	ft_put_value_in_data_output(t_data *data, char *line)
+/*
+Change le valuer pour afficher pour la redirection << ou <
+(< file) --> (< contenue_du_file)
+(<< limiter) --> (<< contenue_du_input)
+si (<< limiter) input est vide (just Enter) --> (;)
+*/
+void	ft_redirection_output2(t_data *data, int i, char *line)
 {
-	if (!data->output)
-		data->output = ft_copy_str(line);
-	else
+	char	*tmp;
+
+	if (data->tab_cmd[i + 1] != 0 && data->tab_cmd[i + 1][0] != '<')
 	{
-		data->output = ft_add_string(data->output, "\n");
-		data->output = ft_add_string(data->output, line);
+		if (line)
+		{
+			tmp = data->tab_cmd[i];
+			if (data->tab_cmd[i][1] == '<')
+				data->tab_cmd[i] = ft_copy_str("<< ");
+			else
+				data->tab_cmd[i] = ft_copy_str("< ");
+			free(tmp);
+			data->tab_cmd[i] = ft_add_string(data->tab_cmd[i], line);
+		}
+		else
+		{
+			tmp = data->tab_cmd[i];
+			data->tab_cmd[i] = ft_copy_str(";");
+			free(tmp);
+		}
 	}
 }
 
-bool	ft_redirection_output(t_data *data, char *str)
+void	ft_redirection_output(t_data *data, int i)
 {
 	char	*limiter;
 	char	*line;
 
-	if (str[0] == '<')
+	limiter = ft_find_str(data->tab_cmd[i]);
+	line = NULL;
+	if (data->tab_cmd[i][1] == '<')
+		line = ft_redirection3(limiter);
+	else
+		line = ft_redirection2(limiter);
+	ft_redirection_output2(data, i, line);
+	free(limiter);
+	free(line);
+}
+
+bool	ft_check_infile(t_data *data)
+{
+	int		i;
+	bool	check;
+	char	**tab;
+
+	check = false;
+	tab = data->tab_cmd;
+	i = 0;
+	while (tab[i])
 	{
-		data->s_heredoc = true;
-		data->file = str;
-		limiter = ft_find_str(data->file);
-		if (str[1] == '<')
-			line = ft_redirection3(limiter);
-		else
-			line = ft_redirection2(limiter);
-		if (line)
-			ft_put_value_in_data_output(data, line);
-		free(limiter);
-		free(line);
-		return (1);
+		if (tab[i][0] == '<')
+		{
+			check = true;
+			ft_redirection_output(data, i);
+		}
+		i++;
 	}
-	return (0);
+	return (check);
 }

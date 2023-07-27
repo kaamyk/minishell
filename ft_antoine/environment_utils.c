@@ -6,11 +6,25 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/21 18:19:56 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:09:26 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	ft_ptr_inlist(char **l, char **ptr)
+{
+	size_t	i;
+
+	i = 0;
+	while (l[i])
+	{
+		if (l[i] == *ptr)
+			return (1);
+		++i;
+	}
+	return (0);
+}
 
 bool	ft_strcmp(char *s1, char *s2)
 {

@@ -13,16 +13,16 @@
 SRC =	main.c \
 		ft_utile/ft_titre.c \
 		ft_utile/ft_error.c \
+		ft_utile/ft_read_pipe.c \
 		ft_utile/ft_delete_space.c \
+		ft_utile/ft_delete_quotes.c \
+		ft_utile/ft_utile.c \
+		ft_utile/ft_utile2.c \
 		ft_check_syntaxe/ft_check_syntaxe.c \
 		ft_check_syntaxe/ft_check_syntaxe2.c \
 		ft_check_syntaxe/ft_check_syntaxe3.c \
 		ft_check_syntaxe/ft_check_syntaxe4.c \
 		ft_split_mn/ft_split_mn.c \
-		ft_redirection/ft_redirection_input.c \
-		ft_redirection/ft_redirection_output.c \
-		ft_redirection/ft_redirection_output2.c \
-		ft_redirection/ft_redirection_output3.c \
 		ft_antoine/signal.c \
 		ft_antoine/utils.c \
 		ft_antoine/export.c \
@@ -46,20 +46,22 @@ SRC =	main.c \
 		ft_parsing/ft_parsing8.c \
 		ft_parsing/ft_parsing9.c \
 		ft_parsing/ft_parsing_bonus.c \
-		ft_utile/ft_utile.c \
-		ft_utile/ft_utile2.c \
-		ft_execute.c \
 		ft_get_cmd.c \
+		ft_run.c \
+		ft_run_other_cmd.c \
+		ft_run_with_pipe.c \
+		ft_run_bonus.c \
 		ft_builtins.c \
-		ft_other_cmd.c \
-		pipex.c \
-		ft_execute_bonus.c \
-		ft_wildcards/ft_wildcards.c \
+		ft_redirection/ft_redirection_input.c \
+		ft_redirection/ft_redirection_output.c \
+		ft_redirection/ft_redirection_output2.c \
+		ft_redirection/ft_redirection_output3.c \
+		ft_wildcards/ft_find_center.c \
+		ft_wildcards/ft_find_end.c \
+		ft_wildcards/ft_find_first.c \
 		ft_wildcards/ft_wildcards2.c \
 		ft_wildcards/ft_wildcards3.c \
-		ft_wildcards/ft_find_center.c \
-		ft_wildcards/ft_find_first.c \
-		ft_wildcards/ft_find_end.c \
+		ft_wildcards/ft_wildcards.c \
 		ft_wildcards/ft_wildcards_is_center.c \
 
 OBJ = $(SRC:.c=.o)

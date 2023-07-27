@@ -14,7 +14,7 @@
 
 void	ft_error(t_error error, char *command, char *option)
 {
-	printf("bash: ");
+	printf(RED "bash: ");
 	if (error == SYNTAXE)
 		printf("syntaxe error near unexpected token '%c'.", command[0]);
 	else if (error == NOT_FOUND)
@@ -27,5 +27,5 @@ void	ft_error(t_error error, char *command, char *option)
 		printf("%s: No such file or directory", command);
 	else if (error == NOT_ACCESS)
 		printf("%s: Permission non accordée", command);
-	printf("\n");
+	printf("\n" RESET);
 }

@@ -37,10 +37,6 @@ void	ft_one_arg(t_data *data, char c)
 		|| c == ':'
 		|| c == '!')
 		return ;
-	else if (c == '$')
-	{
-		printf("%c\n", c);
-	}
 	else if (c == '/')
 	{
 		ft_error(DIRECTORY, "/", NULL);
@@ -68,13 +64,12 @@ void	ft_read_line(t_data *data)
 		}
 		else
 		{
-			//ft_parsing(data);
 			if (ft_parsing(data) == true)
 			{
 				if (data->s_bonus == true)
-					ft_execute_bonus(data);
+					ft_run_bonus(data);
 				else
-					ft_execute_cmd(data);
+					ft_run_cmd(data);
 			}
 		}
 	}
@@ -94,11 +89,10 @@ int	main(int ac, char **av, char **env)
 		while (42)
 		{
 			ft_signal();
-			data.str = take_input("Minishell$> ");
+			data.str = take_input(KMAG "Minishell$> " RESET);
 			if (!data.str)
 				break ;
 			ft_read_line(&data);
-			printf("\n");
 		}
 	}
 	free_list(data.env);
@@ -111,11 +105,9 @@ int	main(int ac, char **av, char **env)
 // 	int		len;
 // 	t_data	data;
 
-// 	if (g_env == NULL)
-// 		g_env = init_env(env);
 // 	if (ac == 2)
 // 	{
-// 		data.env = env;
+// 		data.env = dup_list(env);
 // 		data.exit_code = 0;
 // 		len = ft_strlen(av[1]);
 // 		line = (char *)malloc((len + 1) * sizeof(char));
@@ -125,9 +117,8 @@ int	main(int ac, char **av, char **env)
 // 		line[len] = 0;
 // 		data.str = line;
 // 		ft_read_line(&data);
-// 		//printf("exit_code = %d\n", data.exit_code);
+// 		printf("exit_code = %d\n", data.exit_code);
+// 		free_list(data.env);
 // 	}
-// 	free_list(data->env);
-// 	//return (data.exit_code);
-// 	return (0);
+// 	return (data.exit_code);
 // }

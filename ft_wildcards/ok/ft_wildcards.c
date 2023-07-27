@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern t_env	*g_env;
-
 bool	ft_find(char *s1, char *s2)
 {
 	int	i;

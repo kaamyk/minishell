@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 17:16:12 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:46:41 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,24 @@ size_t	print_quotes(char **env, char *arg, char c)
 	size_t	i;
 
 	i = 1;
-	while (arg[i] && arg[i] != c)
+	if (c == '\'')
 	{
-		if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' '
-			&& arg[i + 1] != '?' && ft_isalpha(arg[i + 1]) == 1)
-			i += print_var(env, get_var_name(arg + i + 1)) + 1;
-		else
+		while (arg[i] && arg[i] != c)
+		{
 			printf("%c", arg[i]);
-		++i;
+			++i;
+		}
+	}
+	else if (c == '"')
+	{
+		while (arg[i] && arg[i] != c)
+		{
+			if (arg[i] == '$' && ft_isalpha(arg[i + 1]) != 0)
+				i += print_var(env, get_var_name(arg + i + 1));
+			else
+				printf("%c", arg[i]);
+			++i;
+		}
 	}
 	return (i);
 }
@@ -94,11 +104,13 @@ bool	ft_echo(t_data *data)
 		write(1, "\n", 1);
 		return (0);
 	}
-	while (data->arg[i] == ' ')
-		++i;
-	nl = !(data->arg[0] == '-' && ft_strnstr(data->arg, "-n ", 3) != NULL);
+	nl = !(data->arg[i] == '-'
+			&& (ft_strnstr(data->arg, "-n ", 3) != NULL
+				|| ft_strcmp(data->arg, "-n") == 1));
 	if (nl == false)
-		i += 3;
+		i += 2;
+	while (data->arg[i] == ' ' || data->arg[i] == '\t')
+		++i;
 	print_content(data->arg + i, data->exit_code, data->env);
 	if (nl == true)
 		printf("\n");

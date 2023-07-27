@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/21 17:51:49 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:27:08 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,6 @@ char	**check_inputs(char **env, char **inputs, size_t *len, bool *exit)
 	return (inputs);
 }
 
-bool	ft_ptr_inlist(char **l, char **ptr)
-{
-	size_t	i;
-
-	i = 0;
-	while (l[i])
-	{
-		if (l[i] == *ptr)
-			return (1);
-		++i;
-	}
-	return (0);
-}
-
 char	**delete_vars(char **env, char **inputs, size_t len)
 {
 	char	**res;
@@ -120,7 +106,10 @@ bool	ft_unset(t_data *data)
 	len = len_list(inputs);
 	inputs = check_inputs(data->env, inputs, &len, &exit);
 	if (len == 0)
+	{
+		free_list(inputs);
 		return (exit);
+	}
 	data->env = delete_vars(data->env, inputs, len);
 	free_list(inputs);
 	return (0);

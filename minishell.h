@@ -43,6 +43,7 @@
 
 # define RED   "\x1B[31m"
 # define GREEN "\x1b[32m"
+# define KMAG  "\x1B[35m"
 # define RESET "\x1B[0m"
 
 typedef struct sigaction	t_sig;
@@ -66,8 +67,6 @@ typedef struct s_data
 	char	*arg;
 	int		nb_cmd;
 	int		exit_code;
-	bool	print;
-	bool	s_pipe;
 
 	char	**tab_quotes;
 	int		nb_quotes;
@@ -82,8 +81,12 @@ typedef struct s_data
 	char	**tab_wildcards;
 	char	*str_with_wildcard;
 
-	char	*output;
-	bool	s_heredoc;
+	bool	s_pipe;
+	bool	s_infile;
+	bool	s_outfile;
+
+	char	*file_direction;
+	int		id;
 
 	char	**env;
 }	t_data;
@@ -107,13 +110,6 @@ bool	ft_check_syntaxe(t_data *data);
 bool	ft_check_open_quotes(t_data *data);
 bool	ft_check_syntax_inside(t_data *data, char *str);
 bool	ft_check_syntax_inside2(t_data *data, char *str, int i);
-
-/*
-ft_run.c
-*/
-void	ft_execute_cmd(t_data *data);
-void	ft_builtins(t_data *data);
-void	ft_exit_code(t_data *data);
 
 /******************** Parsing ********************/
 /*
@@ -172,8 +168,9 @@ char	*ft_put_file_direction(char *str);
 /*
 ft_redirection.c
 */
-bool	ft_redirection_input(t_data *data, int i);
-bool	ft_redirection_output(t_data *data, char *str);
+bool	ft_check_infile(t_data *data);
+bool	ft_check_outfile(t_data *data);
+void	ft_redirection_input(t_data *data, int i, int *fd, int tmp_fd);
 
 /*
 ft_redirection2.c
@@ -186,23 +183,36 @@ ft_redirection3.c
 char	*ft_redirection3(char *str);
 char	*ft_creer_big_string(int time, char *string, char *line);
 
-/******************** ********************/
+/******************** Run command ********************/
+/*
+ft_run.c
+*/
+void	ft_run_cmd(t_data *data);
+void	ft_run(t_data *data, int i);
+
+/*
+ft_run_other_cmd.c
+*/
+void	ft_exit_code(t_data *data);
+void	ft_other_cmd_without_pipe(t_data *data);
+void	ft_other_cmd_with_pipe(t_data *data);
+
+/*
+ft_run_with_pipe.c
+*/
+void	ft_run_cmd_with_pipe(t_data *data);
+
 /*
 ft_get_cmd.c
 */
 void	ft_get_cmd(t_data *data, char *str);
+char	*ft_cmd_with_path(char *str);
 
 /*
-ft_other_cmd.c
+ft_builtins.c
 */
-void	ft_other_cmd(t_data *data);
-
-/*
-pipex.c
-*/
-void	ft_pipex(t_data *data);
-void	execute(t_data *data);
-void	child_process(t_data *data);
+bool	ft_check_builtins(t_data *data);
+void	ft_builtins(t_data *data, int id_cmd);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -221,9 +231,19 @@ ft_delete_space.c
 char	*ft_delete_space(char *str);
 
 /*
+ft_delete_quotes.c
+*/
+void	ft_delete_quotes(char **tab);
+
+/*
 ft_split_mn.c
 */
 char	**ft_split_mn(char *str, char c);
+
+/*
+ft_read_pipe.c
+*/
+char	*ft_read_pipe(int port_read);
 
 /*
 ft_utile.c
@@ -253,6 +273,7 @@ char	**handle_inputs(char **env, char **inputs, bool *exit);
 bool	ft_export(t_data *data);
 
 //	ENVIRONMENT_UTILS.C
+bool	ft_ptr_inlist(char **l, char **ptr);
 bool	ft_strcmp(char *s1, char *s2);
 char	*check_export_inputs(char **l);
 bool	print_env(char **env, bool a);
@@ -311,9 +332,9 @@ void	ft_parsing_bonus(t_data *data, char *str);
 int		ft_count_len_bonus(char *str);
 
 /*
-ft_execute_bonus.c
+ft_run_bonus.c
 */
-void	ft_execute_bonus(t_data *data);
+void	ft_run_bonus(t_data *data);
 
 /*
 ft_wildcards.c

@@ -10,6 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
+link
+	microshell --> use pipe for [pwd | grep h | wc -c]
+		https://github.com/shackbei/microshell-42/blob/main/microshell.c
+
 1.
 	<< limuted
 		--> fork()
@@ -65,3 +69,64 @@
 
 	F * E
 	F * C * E
+
+7.
+	chaque Fork() a pid_t id
+	1 fork == 1 pid_t
+	5 fork == 5 pid_t
+	...
+
+	close tout les fd apres utiliser
+
+	stdin --> CAT --> fd[1] --> fd[0] --> CAT --> fd[1] --> fd[0] --> ls
+	fd[0] == stdin
+
+	cat | cat | ls
+	--> 3 Fork()
+	fork1:
+		stdin
+		dup2(fd[1], Stdout);
+	fork2:
+		dup2(fd[0], Stdin);
+		dup2(fd[1], Stdout);
+	fork3:
+		dup2(fd[0], Stdout);
+
+7.
+	chaque Fork() a pid_t id
+	1 fork == 1 pid_t
+	5 fork == 5 pid_t
+	...
+
+	close tout les fd apres utiliser
+
+	stdin --> CAT --> fd[1] --> fd[0] --> CAT --> fd[1] --> fd[0] --> ls
+	fd[0] == stdin
+
+	cat | cat | ls
+	--> 3 Fork()
+	fork1:
+		stdin
+		dup2(fd[1], Stdout);
+	fork2:
+		dup2(fd[0], Stdin);
+		dup2(fd[1], Stdout);
+	fork3:
+		dup2(fd[0], Stdout);
+
+8.
+	Creer 3e fd --> tmp_fd
+	permet arreter de melanger l'ordre dans le pipe
+	tmp_fd = dup(STDIN_FILENO);
+	fd[1] --> fd[0];
+	tmp_fd = fd[0];
+
+9.
+	execute les commandes dans le process enfant
+	wait tous les process enfant dans le parent
+	mettre pipe(fd) dans la boucle du process enfant
+		--> permet chaque process enfant qui peut
+			lire dans dup2(tmp_fd, 0)
+			ecrit dans dup2(fd[1], 1)
+	creer un tmp_fd
+		--> permet tous les enfants execute dans 1 ordre (pas melanger)

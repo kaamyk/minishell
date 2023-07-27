@@ -16,65 +16,17 @@
 /* List current files and directories */
 /**************************************/
 
-extern t_env	*g_env;
-
-char	*ft_delete_end_new_line(char *str)
-{
-	int		i;
-	int		len;
-	char	*new_str;
-
-	if (!str)
-		return (str);
-	len = ft_strlen(str) - 1;
-	while (len > 0 && str[len] == '\n')
-		len--;
-	len++;
-	new_str = (char *)malloc((len + 1) * sizeof(char));
-	if (!new_str)
-		return (0);
-	i = 0;
-	while (i < len)
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	new_str[i] = 0;
-	free(str);
-	return (new_str);
-}
-
-char	*ft_read_pipe(int *fd)
-{
-	char	*res;
-	char	*buffer;
-	ssize_t	bytes;
-
-	res = NULL;
-	buffer = ft_calloc(1024, 1);
-	while (1)
-	{
-		bytes = read(fd[0], buffer, 1);
-		if (bytes <= 0)
-			break ;
-		if (res == NULL)
-			res = ft_strdup(buffer);
-		else
-			res = ft_add_string(res, buffer);
-	}
-	free(buffer);
-	close(fd[0]);
-	res = ft_delete_end_new_line(res);
-	return (res);
-}
-
 void	ft_lire_current_directory(t_data *data, int *fd)
 {
+	char	*argv[3];
+
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	data->str = "ls .";
-	execute(data);
+	argv[0] = "/bin/ls";
+	argv[1] = ".";
+	argv[2] = NULL;
+	execve(argv[0], argv, data->env);
 	free(data->str_with_wildcard);
 	ft_free_tab(data->tab_wildcards);
 	ft_free_tab(data->tab_quotes);
@@ -98,7 +50,7 @@ char	*ft_get_current_directory(t_data *data)
 	else
 	{
 		close(fd[1]);
-		str = ft_read_pipe(fd);
+		str = ft_read_pipe(fd[0]);
 		waitpid(pid, &data->exit_code, 0);
 		ft_exit_code(data);
 	}

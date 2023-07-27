@@ -16,3 +16,9 @@
 	diviser par direction
 	change: >> file echo salut --> echo salut >> file
 	change: wc -l << file --> << file wc -l
+
+3. Executer
+	Builtins --> sans pipe ou fork
+	Other
+		1 cmd --> fork
+		> 1 cmd --> pipe + fork

@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wildcards2.c                                    :+:      :+:    :+:   */
+/*   ft_redirection_input.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 12:47:24 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 12:47:29 by xuluu            ###   ########.fr       */
+/*   Created: 2023/06/17 15:52:17 by xuluu             #+#    #+#             */
+/*   Updated: 2023/06/17 15:52:52 by xuluu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/**************************************/
-/* List current files and directories */
-/**************************************/
-
-extern t_env	*g_env;
+/******************************************/
+/* Read in pipe fd[0] and return a string */
+/******************************************/
 
 char	*ft_delete_end_new_line(char *str)
 {
@@ -44,7 +42,7 @@ char	*ft_delete_end_new_line(char *str)
 	return (new_str);
 }
 
-char	*ft_read_pipe(int *fd)
+char	*ft_read_pipe(int port_read)
 {
 	char	*res;
 	char	*buffer;
@@ -54,7 +52,7 @@ char	*ft_read_pipe(int *fd)
 	buffer = ft_calloc(1024, 1);
 	while (1)
 	{
-		bytes = read(fd[0], buffer, 1);
+		bytes = read(port_read, buffer, 1);
 		if (bytes <= 0)
 			break ;
 		if (res == NULL)
@@ -63,47 +61,7 @@ char	*ft_read_pipe(int *fd)
 			res = ft_add_string(res, buffer);
 	}
 	free(buffer);
-	close(fd[0]);
+	close(port_read);
 	res = ft_delete_end_new_line(res);
 	return (res);
-}
-
-char	*ft_get_current_file_directory(t_data *data, char *directorie)
-{
-	int		fd[2];
-	pid_t	pid;
-	char	*str;
-
-	str = NULL;
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		data->str = ft_copy_str("ls ");
-		data->str = ft_add_string(data->str, directorie);
-		execute(data);
-		if (data->s_bonus)
-		{
-			free(data->tab_logic);
-			ft_free_tab(data->tab_cmd_logic);
-		}
-		free(data->str);
-		ft_free_tab(data->tab_cmd);
-		ft_free_tab(data->tab_wildcards);
-		free(data->str_with_wildcard);
-		ft_free_tab(data->tab_quotes);
-		free_env(g_env);
-		exit(data->exit_code);
-	}
-	else
-	{
-		close(fd[1]);
-		str = ft_read_pipe(fd);
-		waitpid(pid, &data->exit_code, 0);
-		ft_exit_code(data);
-	}
-	return (str);
 }
