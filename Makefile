@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/05/26 10:52:59 by anvincen         ###   ########.fr        #
+#    Updated: 2023/07/28 09:12:46 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,8 +85,8 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
 
-	@$(MAKE) clean -sC ./libft
-	@$(RM) $(OBJ)
+# 	@$(MAKE) clean -sC ./libft
+# 	@$(RM) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@
