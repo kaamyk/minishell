@@ -12,33 +12,56 @@
 
 #include "../minishell.h"
 
-/************************/
-/* Redirections [>] [>>]*/
-/************************/
+/******************************************/
+/* Read in pipe fd[0] and return a string */
+/******************************************/
 
-void	ft_redirection_input(t_data *data, int i, int *fd, int tmp_fd)
+char	*ft_delete_end_new_line(char *str)
 {
-	char	*file;
-	char	*str;
-	int		fd_file;
+	int		i;
+	int		len;
+	char	*new_str;
 
-	file = ft_find_str(data->file);
-	close(fd[0]);
-	close(fd[1]);
-	if (data->tab_cmd[i][1] == '>')
-		fd_file = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
-	else
-		fd_file = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	if (i != 0)
+	if (!str)
+		return (str);
+	len = ft_strlen(str) - 1;
+	while (len > 0 && str[len] == '\n')
+		len--;
+	len++;
+	new_str = (char *)malloc((len + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	i = 0;
+	while (i < len)
 	{
-		dup2(fd_file, STDOUT_FILENO);
-		str = ft_read_pipe(tmp_fd);
-		if (str)
-		{
-			printf("%s\n", str);
-			free(str);
-		}
+		new_str[i] = str[i];
+		i++;
 	}
-	close(fd_file);
-	free(file);
+	new_str[i] = 0;
+	free(str);
+	return (new_str);
+}
+
+char	*ft_read_pipe(int port_read)
+{
+	char	*res;
+	char	*buffer;
+	ssize_t	bytes;
+
+	res = NULL;
+	buffer = ft_calloc(1024, 1);
+	while (1)
+	{
+		bytes = read(port_read, buffer, 1);
+		if (bytes <= 0)
+			break ;
+		if (res == NULL)
+			res = ft_strdup(buffer);
+		else
+			res = ft_add_string(res, buffer);
+	}
+	free(buffer);
+	close(port_read);
+	res = ft_delete_end_new_line(res);
+	return (res);
 }

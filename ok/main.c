@@ -23,7 +23,7 @@ char	*take_input(char *str)
 		line = NULL;
 	}
 	line = readline(str);
-	if (line)
+	if (str[0] != '>' && line)
 		add_history(line);
 	return (line);
 }

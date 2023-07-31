@@ -17,7 +17,8 @@ check ; or \
 */
 bool	ft_check_special_characters(t_data *data, char character)
 {
-	if (character == ';' || character == '\\')
+	if (character == ';' || character == '\\'
+		|| character == '(' || character == ')')
 	{
 		ft_error(SYNTAXE, &character, 0);
 		data->exit_code = 2;

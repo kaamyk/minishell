@@ -16,26 +16,6 @@
 /* Create [data->cmd] [data->arg] */
 /**********************************/
 
-char	*ft_cmd_with_path(char *str)
-{
-	int		i;
-	char	*tmp;
-
-	if (ft_strnstr(str, PATH, 5) != 0)
-	{
-		i = 0;
-		while (i < 5)
-			i++;
-		if (str[i])
-		{
-			tmp = str;
-			str = ft_copy_str(&str[i]);
-			free(tmp);
-		}
-	}
-	return (str);
-}
-
 char	*ft_create_arg(char **tab, char *new_str, int i)
 {
 	if (i == 1)
@@ -66,7 +46,8 @@ void	ft_get_cmd(t_data *data, char *str)
 			i++;
 		}
 		data->cmd = ft_copy_str(tab[0]);
-		data->cmd = ft_cmd_with_path(data->cmd);
+		data->cmd = ft_delete_quotes(data, data->cmd);
+		new_str = ft_delete_quotes(data, new_str);
 		data->arg = new_str;
 		ft_free_tab(tab);
 	}

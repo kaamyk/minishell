@@ -36,6 +36,7 @@ SRC =	main.c \
 		ft_antoine/ft_cd.c \
 		ft_antoine/exit.c \
 		ft_antoine/pwd.c \
+		ft_antoine/ft_get_value.c \
 		ft_parsing/ft_parsing.c \
 		ft_parsing/ft_parsing2.c \
 		ft_parsing/ft_parsing3.c \
@@ -49,9 +50,13 @@ SRC =	main.c \
 		ft_get_cmd.c \
 		ft_run.c \
 		ft_run_other_cmd.c \
+		ft_run_other_cmd2.c \
 		ft_run_with_pipe.c \
 		ft_run_bonus.c \
 		ft_builtins.c \
+		ft_cmd_special.c \
+		ft_signe_dollar.c \
+		ft_signe_dollar2.c \
 		ft_redirection/ft_redirection_input.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \

@@ -39,57 +39,17 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-size_t	print_quotes(char **env, char *arg, char c)
-{
-	size_t	i;
-
-	i = 1;
-	if (c == '\'')
-	{
-		while (arg[i] && arg[i] != c)
-		{
-			printf("%c", arg[i]);
-			++i;
-		}
-	}
-	else if (c == '"')
-	{
-		while (arg[i] && arg[i] != c)
-		{
-			if (arg[i] == '$' && ft_isalpha(arg[i + 1]) != 0)
-				i += print_var(env, get_var_name(arg + i + 1));
-			else
-				printf("%c", arg[i]);
-			++i;
-		}
-	}
-	return (i);
-}
-
 void	print_content(char *arg, int exit_code, char **env)
 {
 	size_t	i;
 
+	(void) exit_code;
+	(void) env;
 	i = 0;
 	while (arg[i] != 0)
 	{
-		if (arg[i] == '"' || arg[i] == '\'')
-			i += print_quotes(env, arg + i, arg[i]);
-		else if (arg[i] == '$' && arg[i + 1] != 0 && arg[i + 1] != ' ')
-		{
-			if (arg[i + 1] == '?')
-			{
-				printf("%d", exit_code);
-				i += 2;
-			}
-			else
-				i += print_var(env, get_var_name(arg + i + 1)) + 1;
-		}
-		else
-		{
-			printf("%c", arg[i]);
-			++i;
-		}
+		printf("%c", arg[i]);
+		++i;
 	}
 }
 

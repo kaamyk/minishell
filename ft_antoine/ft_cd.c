@@ -114,10 +114,8 @@ bool	ft_cd(t_data *data)
 	exit = &data->exit_code;
 	if (arg != NULL && check_nb_args(arg, exit) != 0)
 		printf("bash: cd: too many arguments\n");
-	else
+	else if (update_pwd(data, 1, exit) == 0)
 	{
-		if (update_pwd(data, 1, exit) != 0)
-			return (*exit);
 		if (arg == NULL || ft_strlen(arg) == 0 || ft_strcmp(arg, "~") == 1)
 		{
 			if (chdir(getenv("HOME")) != 0)
@@ -125,7 +123,8 @@ bool	ft_cd(t_data *data)
 		}
 		else if (*exit == 0 && ft_strcmp(arg, "~/") == 1 && ft_strlen(arg) >= 2)
 			arg = get_complete_path(arg, exit);
-		if (*exit == 0 && (chdir(arg) != 0 || update_pwd(data, 0, exit) != 0))
+		if (*exit == 0 && ((arg && chdir(arg) != 0)
+				|| update_pwd(data, 0, exit) != 0))
 		{
 			printf("bash: cd: %s: No such file or directory\n", data->arg);
 			*exit = 1;

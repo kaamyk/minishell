@@ -27,42 +27,16 @@ void	ft_exit_code(t_data *data)
 		data->exit_code = 127;
 }
 
-char	*find_path2(char *cmd, char **paths)
+void	ft_delete_q(t_data *data, char **tab)
 {
-	char	*part_path;
-	char	*path;
-	int		i;
+	int	i;
 
 	i = 0;
-	while (paths[i])
+	while (tab[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-		{
-			ft_free_tab(paths);
-			return (path);
-		}
-		free(path);
+		tab[i] = ft_delete_quotes(data, tab[i]);
 		i++;
 	}
-	ft_free_tab(paths);
-	return (0);
-}
-
-char	*find_path(char *cmd, char **envp)
-{
-	int		i;
-	char	**paths;
-
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	if (envp[i] == NULL)
-		return (0);
-	paths = ft_split(envp[i] + 5, ':');
-	return (find_path2(cmd, paths));
 }
 
 void	ft_other_cmd_with_pipe(t_data *data)
@@ -71,17 +45,23 @@ void	ft_other_cmd_with_pipe(t_data *data)
 	char	*path;
 
 	cmd = ft_split_mn(data->str, ' ');
-	ft_delete_quotes(cmd);
-	cmd[0] = ft_cmd_with_path(cmd[0]);
-	path = find_path(cmd[0], data->env);
+	ft_delete_q(data, cmd);
+	path = NULL;
+	if (ft_strnstr(cmd[0], PATH, 5) != 0)
+		path = ft_copy_str(cmd[0]);
+	else if (ft_strrchr(cmd[0], '/') == 0)
+		path = find_path(cmd[0], data->env);
 	if (path)
 	{
 		if (execve(path, cmd, data->env) == -1)
 			data->exit_code = 127;
+		else
+			data->exit_code = 0;
 	}
 	else
 		data->exit_code = 127;
-	free(path);
+	if (path)
+		free(path);
 	ft_free_tab(cmd);
 }
 

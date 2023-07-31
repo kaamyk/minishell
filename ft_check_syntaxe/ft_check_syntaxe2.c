@@ -23,14 +23,6 @@ int	ft_single_double_quote(char *str, int i)
 	return (i);
 }
 
-int	ft_guillemets(char *str, int i)
-{
-	i++;
-	while (str[i] != 0 && str[i] != ')')
-		i++;
-	return (i);
-}
-
 bool	ft_check_open_quotes(t_data *data)
 {
 	int	i;
@@ -38,20 +30,14 @@ bool	ft_check_open_quotes(t_data *data)
 	i = 0;
 	while (data->str[i])
 	{
-		if (data->str[i] == ')')
-		{
-			data->exit_code = 130;
-			return (true);
-		}
-		else if (data->str[i] == '\'')
+		if (data->str[i] == '\'')
 			i = ft_single_double_quote(data->str, i);
 		else if (data->str[i] == '"')
 			i = ft_single_double_quote(data->str, i);
-		else if (data->str[i] == '(')
-			i = ft_guillemets(data->str, i);
 		if (data->str[i] == 0)
 		{
 			data->exit_code = 130;
+			ft_error(SYNTAXE, &data->str[i], 0);
 			return (true);
 		}
 		i++;

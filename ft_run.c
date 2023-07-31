@@ -17,18 +17,30 @@
 /* [echo] [pwd] [cd] [exit] [env] [export] [unset] */
 /***************************************************/
 
-void	ft_run(t_data *data, int i)
+bool	ft_check_pipe(t_data *data, int i)
 {
 	char	*tmp;
 
 	if (data->tab_cmd[i][0] == '|')
 	{
+		ft_sleep(21474836);
+		data->tab_cmd[i] = ft_delete_space(data->tab_cmd[i]);
 		if (ft_strlen(data->tab_cmd[i]) == 1)
-			return ;
+		{
+			data->exit_code = 0;
+			return (1);
+		}
 		tmp = data->tab_cmd[i];
 		data->tab_cmd[i] = ft_copy_str(&data->tab_cmd[i][2]);
 		free(tmp);
 	}
+	return (0);
+}
+
+void	ft_run(t_data *data, int i)
+{
+	if (ft_check_pipe(data, i) == 1 || !data->tab_cmd[i])
+		return ;
 	data->tab_cmd[i] = ft_wildcards(data, data->tab_cmd[i]);
 	ft_get_cmd(data, data->tab_cmd[i]);
 	if (ft_check_builtins(data) == 0)
@@ -38,6 +50,7 @@ void	ft_run(t_data *data, int i)
 			ft_other_cmd_with_pipe(data);
 		else
 			ft_other_cmd_without_pipe(data);
+		data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 	}
 }
 
@@ -57,45 +70,27 @@ void	ft_run_cmd_without_pipe(t_data *data)
 	}
 }
 
-/*
-<< limiter export salut > file
-La commande change le valuer de la variable env
-*/
-int	ft_cmd_special(t_data *data)
-{
-	int		id;
-
-	id = 0;
-	if (ft_compare_str(data->cmd, "cd") == true)
-		id = 3;
-	else if (ft_compare_str(data->cmd, "exit") == true)
-		id = 4;
-	else if (ft_compare_str(data->cmd, "export") == true && data->arg)
-		id = 6;
-	else if (ft_compare_str(data->cmd, "unset") == true && data->arg)
-		id = 7;
-	return (id);
-}
-
-void	ft_one_cmd(t_data *data)
+void	ft_check_infile_outfile_dollar(t_data *data)
 {
 	int		i;
-	int		id;
-	char	**tab;
 
-	tab = data->tab_cmd;
+	data->s_infile = false;
+	data->s_outfile = false;
 	i = 0;
-	while (tab[i])
+	while (data->tab_cmd[i])
 	{
-		if (tab[i][0] != '>' && tab[i][0] != '<')
+		ft_signe_dollar(data, i);
+		if (data->tab_cmd[i][0] == '<')
 		{
-			ft_get_cmd(data, tab[i]);
-			id = ft_cmd_special(data);
-			if (id != 0)
-				ft_builtins(data, id);
-			free(data->cmd);
-			if (data->arg)
-				free(data->arg);
+			data->s_infile = true;
+			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
+			if (data->tab_cmd[i][1] == '<')
+				ft_redirection_output(data, i);
+		}
+		else if (data->tab_cmd[i][0] == '>')
+		{
+			data->s_outfile = true;
+			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 		}
 		i++;
 	}
@@ -104,8 +99,7 @@ void	ft_one_cmd(t_data *data)
 void	ft_run_cmd(t_data *data)
 {
 	data->str_with_wildcard = NULL;
-	data->s_infile = ft_check_infile(data);
-	data->s_outfile = ft_check_outfile(data);
+	ft_check_infile_outfile_dollar(data);
 	if (data->s_pipe == true
 		|| data->s_infile == true
 		|| data->s_outfile == true)
@@ -114,6 +108,6 @@ void	ft_run_cmd(t_data *data)
 		ft_run_cmd_without_pipe(data);
 	if (data->s_pipe == false
 		&& (data->s_infile == true || data->s_outfile == true))
-		ft_one_cmd(data);
-	ft_free_tab(data->tab_cmd);
+		ft_cmd_special(data);
+	ft_free_tab_with_len(data->tab_cmd, data->nb_cmd);
 }

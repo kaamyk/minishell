@@ -33,18 +33,20 @@ void	ft_run_in_pipe(t_data *data, int i, int *fd, int tmp_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (data->s_infile == true
-		&& data->tab_cmd[i][0] == '<'
-		&& data->tab_cmd[i + 1] != 0
-		&& data->tab_cmd[i + 1][0] != '<'
-		&& data->tab_cmd[i + 1][0] != '|')
+	if (data->s_infile == true && data->tab_cmd[i][0] == '<')
 	{
-		if (data->tab_cmd[i][1] == '<')
-			printf("%s\n", &data->tab_cmd[i][3]);
+		if (data->tab_cmd[i + 1] == 0 || (data->tab_cmd[i + 1][0] != '<'
+			&& data->tab_cmd[i + 1][0] != '|'))
+		{
+			if (data->tab_cmd[i][1] == '<')
+				printf("%s\n", &data->tab_cmd[i][3]);
+			else
+				ft_redirection_output(data, i);
+		}
 		else
-			printf("%s", &data->tab_cmd[i][2]);
+			data->exit_code = 0;
 	}
-	else if (data->tab_cmd[i][0] != '<' && data->tab_cmd[i][0] != ';')
+	else
 		ft_run(data, i);
 }
 
@@ -72,13 +74,14 @@ void	ft_child_process(t_data *data, int *fd, pid_t *pid)
 
 	tmp_fd = dup(STDIN_FILENO);
 	i = 0;
-	while (data->tab_cmd[i])
+	while (i < data->nb_cmd)
 	{
 		pipe(fd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			ft_run_in_child_process(data, i, fd, tmp_fd);
+			if (data->tab_cmd[i])
+				ft_run_in_child_process(data, i, fd, tmp_fd);
 			ft_free_end(data);
 			exit(data->exit_code);
 		}
@@ -111,14 +114,16 @@ void	ft_run_cmd_with_pipe(t_data *data)
 	{
 		waitpid(pid[i], &data->exit_code, 0);
 		ft_exit_code(data);
-		if (data->exit_code == 127)
+		// printf("(%d)", data->exit_code);
+		if (data->tab_cmd[i] && data->exit_code != 0)
 		{
-			if (data->tab_cmd[i][0] == '|')
-				ft_error(NOT_FOUND, &data->tab_cmd[i][2], 0);
-			else
+			if (data->exit_code == 127)
 				ft_error(NOT_FOUND, data->tab_cmd[i], 0);
+			else if (data->exit_code == 1 && data->tab_cmd[i][0] == '<')
+				ft_error(NO_SUCH, &data->tab_cmd[i][2], 0);
 		}
 		i++;
 	}
 	free(pid);
+	// printf("\n");
 }

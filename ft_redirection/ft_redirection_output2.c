@@ -54,7 +54,7 @@ char	*get_next_line(int fd)
 	return (ft_get_line2(fd, line));
 }
 
-char	*ft_redirection2(char *file)
+char	*ft_redirection2(t_data *data, char *file)
 {
 	int		fd;
 	int		i;
@@ -64,7 +64,7 @@ char	*ft_redirection2(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_error(NO_SUCH, file, 0);
+		data->exit_code = 1;
 		return (0);
 	}
 	line = get_next_line(fd);

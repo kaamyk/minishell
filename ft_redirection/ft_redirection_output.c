@@ -31,20 +31,25 @@ void	ft_redirection_output2(t_data *data, int i, char *line)
 		if (line)
 		{
 			tmp = data->tab_cmd[i];
-			if (data->tab_cmd[i][1] == '<')
-				data->tab_cmd[i] = ft_copy_str("<< ");
-			else
-				data->tab_cmd[i] = ft_copy_str("< ");
+			data->tab_cmd[i] = ft_copy_str("<< ");
 			free(tmp);
 			data->tab_cmd[i] = ft_add_string(data->tab_cmd[i], line);
 		}
 		else
 		{
-			tmp = data->tab_cmd[i];
-			data->tab_cmd[i] = ft_copy_str(";");
-			free(tmp);
+			free(data->tab_cmd[i]);
+			data->tab_cmd[i] = NULL;
 		}
 	}
+}
+
+void	ft_sleep(int limiter)
+{
+	int	time;
+
+	time = 0;
+	while (time < limiter)
+		time++;
 }
 
 void	ft_redirection_output(t_data *data, int i)
@@ -55,31 +60,17 @@ void	ft_redirection_output(t_data *data, int i)
 	limiter = ft_find_str(data->tab_cmd[i]);
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
+	{
 		line = ft_redirection3(limiter);
+		ft_redirection_output2(data, i, line);
+	}
 	else
-		line = ft_redirection2(limiter);
-	ft_redirection_output2(data, i, line);
+	{
+		ft_sleep(21474836);
+		line = ft_redirection2(data, limiter);
+		if (line)
+			printf("%s", line);
+	}
 	free(limiter);
 	free(line);
-}
-
-bool	ft_check_infile(t_data *data)
-{
-	int		i;
-	bool	check;
-	char	**tab;
-
-	check = false;
-	tab = data->tab_cmd;
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i][0] == '<')
-		{
-			check = true;
-			ft_redirection_output(data, i);
-		}
-		i++;
-	}
-	return (check);
 }

@@ -92,29 +92,3 @@ bool	print_env(char **env, bool a)
 	free_list(key);
 	return (0);
 }
-
-size_t	print_var(char **env, char *var)
-{
-	char	*tmp;
-	size_t	len;
-	size_t	i;
-
-	i = 0;
-	while (env[i])
-	{
-		tmp = isolate_key(env[i]);
-		if (ft_strcmp(tmp, var) == 1)
-		{
-			free(tmp);
-			tmp = isolate_value(env[i]);
-			printf("%s", tmp);
-			free(tmp);
-			break ;
-		}
-		free(tmp);
-		++i;
-	}
-	len = ft_strlen(var);
-	free(var);
-	return (len);
-}

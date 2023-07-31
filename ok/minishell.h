@@ -88,6 +88,10 @@ typedef struct s_data
 	char	*file_direction;
 	int		id;
 
+	char	*str_dollar;
+	char	*str_quotes;
+	int		i_quotes;
+
 	char	**env;
 }	t_data;
 
@@ -171,11 +175,13 @@ ft_redirection.c
 bool	ft_check_infile(t_data *data);
 bool	ft_check_outfile(t_data *data);
 void	ft_redirection_input(t_data *data, int i, int *fd, int tmp_fd);
+void	ft_redirection_output(t_data *data, int i);
+void	ft_sleep(int limiter);
 
 /*
 ft_redirection2.c
 */
-char	*ft_redirection2(char *file);
+char	*ft_redirection2(t_data *data, char *file);
 
 /*
 ft_redirection3.c
@@ -196,6 +202,7 @@ ft_run_other_cmd.c
 void	ft_exit_code(t_data *data);
 void	ft_other_cmd_without_pipe(t_data *data);
 void	ft_other_cmd_with_pipe(t_data *data);
+char	*find_path(char *cmd, char **envp);
 
 /*
 ft_run_with_pipe.c
@@ -213,6 +220,19 @@ ft_builtins.c
 */
 bool	ft_check_builtins(t_data *data);
 void	ft_builtins(t_data *data, int id_cmd);
+
+/*
+ft_cmd_special.c
+*/
+void	ft_cmd_special(t_data *data);
+
+/*
+ft_signe_dollar.c
+*/
+void	ft_signe_dollar(t_data *data, int i);
+void	ft_add_dollar(t_data *data, char *str, bool big);
+int		ft_found_dollar(t_data *data, char *str);
+char	*ft_character_to_string(char character);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -233,7 +253,8 @@ char	*ft_delete_space(char *str);
 /*
 ft_delete_quotes.c
 */
-void	ft_delete_quotes(char **tab);
+// void	ft_delete_quotes(char **tab);
+char	*ft_delete_quotes(t_data *data, char *str);
 
 /*
 ft_split_mn.c
@@ -252,7 +273,7 @@ char	*ft_add_string(char *s1, char *s2);
 char	*ft_copy_str(char *str);
 void	ft_free_tab(char **tab);
 void	ft_free_all(t_data *data);
-void	ft_print_tab(char **tab);
+void	ft_free_tab_with_len(char **tab, int len);
 bool	ft_compare_str(char *s1, char *s2);
 int		ft_count_signe(char *str);
 bool	ft_find_c(char *str, char c);
@@ -323,6 +344,12 @@ bool	ft_echo(t_data *data);
 exit.c
 */
 void	ft_exit(t_data *data);
+
+/*
+ft_get_value.c
+*/
+char	*ft_get_value(char **env, char *key);
+char	*ft_del_quotes(char *s);
 
 /******************** Bonus ********************/
 /*

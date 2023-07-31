@@ -92,7 +92,7 @@ link
 	fork3:
 		dup2(fd[0], Stdout);
 
-7.
+8.
 	chaque Fork() a pid_t id
 	1 fork == 1 pid_t
 	5 fork == 5 pid_t
@@ -114,14 +114,14 @@ link
 	fork3:
 		dup2(fd[0], Stdout);
 
-8.
+9.
 	Creer 3e fd --> tmp_fd
 	permet arreter de melanger l'ordre dans le pipe
 	tmp_fd = dup(STDIN_FILENO);
 	fd[1] --> fd[0];
 	tmp_fd = fd[0];
 
-9.
+10.
 	execute les commandes dans le process enfant
 	wait tous les process enfant dans le parent
 	mettre pipe(fd) dans la boucle du process enfant
@@ -130,3 +130,11 @@ link
 			ecrit dans dup2(fd[1], 1)
 	creer un tmp_fd
 		--> permet tous les enfants execute dans 1 ordre (pas melanger)
+
+11.
+	$USER --> root
+	"$USER" --> root
+	"'$USER'" --> 'root'
+
+	'$USER' --> $USER
+	'"$USER"' --> "$USER"
