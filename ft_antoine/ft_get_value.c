@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/28 09:12:25 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/31 18:14:30 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_get_value(char **env, char *key)
 	char	*var;
 	char	*value;
 
-	var = get_var(env, &key[1]);
+	var = get_var(env, &key[0]);
 	if (var == NULL)
 		return (NULL);
 	value = isolate_value(var);
@@ -42,27 +42,3 @@ char	*ft_del_quotes(char *s)
 		res = NULL;
 	return (res);
 }
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	char	**env;
-// 	char	*value;
-// 	char	*s;
-// 	char	*tmp;
-
-// 	(void)ac;
-// 	(void)av;
-// 	env = dup_list(envp);
-// 	value = ft_get_value(env, "USER");
-// 	printf("value USER = %s\n", value);
-// 	free(value);
-// 	value = ft_get_value(env, "UFT");
-// 	printf("value UFT = %s\n", value);
-// 	free(value);
-// 	tmp = NULL;
-// 	scanf("s with quotes : %s", tmp);
-// 	s = ft_del_quotes(tmp);
-// 	free(tmp);
-// 	printf("s sans quotes = %s\n", s);
-// 	return (0);
-// }

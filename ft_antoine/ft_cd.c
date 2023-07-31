@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/28 10:40:26 by antoine          ###   ########.fr       */
+/*   Updated: 2023/07/31 18:18:15 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// bool	check_nb_args(char *arg)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (arg[i] == ' ')
-// 		++i;
-// 	while (arg[i])
-// 	{
-// 		if (arg[i] == ' ')
-// 		{
-// 			while (arg[i] == ' ' && arg[i + 1])
-// 			{
-// 				if (arg[i + 1] != ' ')
-// 					return (true);
-// 				++i;
-// 			}
-// 		}
-// 		++i;
-// 	}
-// 	return (false);
-// }
 
 bool	check_nb_args(char *arg, int *exit)
 {
@@ -105,6 +82,25 @@ bool	update_pwd(t_data *data, bool a, int *exit)
 	return (*exit);
 }
 
+bool	cd_home(t_data *data, int *exit)
+{
+	char	*home_path;
+
+	home_path = ft_get_value(data->env, "HOME");
+	if (home_path != NULL && chdir(home_path) != 0)
+	{
+		perror("bash: cd");
+		*exit = 1;
+	}
+	else if (home_path == NULL)
+	{
+		write(STDERR_FILENO, "bash: cd: HOME not set\n", 23);
+		*exit = 1;
+	}
+	free(home_path);
+	return (0);
+}
+
 bool	ft_cd(t_data *data)
 {
 	char	*arg;
@@ -113,21 +109,22 @@ bool	ft_cd(t_data *data)
 	arg = data->arg;
 	exit = &data->exit_code;
 	if (arg != NULL && check_nb_args(arg, exit) != 0)
-		printf("bash: cd: too many arguments\n");
-	else if (update_pwd(data, 1, exit) == 0)
+		write(STDERR_FILENO, "bash: cd: too much argument\n", 29);
+	if (update_pwd(data, 1, exit) == 0)
 	{
-		if (arg == NULL || ft_strlen(arg) == 0 || ft_strcmp(arg, "~") == 1)
-		{
-			if (chdir(getenv("HOME")) != 0)
-				*exit = 1;
-		}
+		if (arg == NULL || ft_strlen(arg) == 0 || ft_strcmp(arg, "~") == 1
+			|| ft_strcmp(arg, "~/") == 1)
+			cd_home(data, exit);
 		else if (*exit == 0 && ft_strcmp(arg, "~/") == 1 && ft_strlen(arg) >= 2)
 			arg = get_complete_path(arg, exit);
-		if (*exit == 0 && ((arg && chdir(arg) != 0)
-				|| update_pwd(data, 0, exit) != 0))
+		if (*exit == 0)
 		{
-			printf("bash: cd: %s: No such file or directory\n", data->arg);
-			*exit = 1;
+			if (arg != NULL && chdir(arg) != 0)
+			{
+				perror("bash: cd");
+				*exit = 1;
+				(void) update_pwd(data, 0, exit);
+			}
 		}
 	}
 	return (*exit);
