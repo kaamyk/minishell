@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/27 15:46:41 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:33:04 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ bool	ft_echo(t_data *data)
 	print_content(data->arg + i, data->exit_code, data->env);
 	if (nl == true)
 		printf("\n");
+	data->exit_code = 0;
 	return (0);
 }

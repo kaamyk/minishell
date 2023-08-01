@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/31 18:18:15 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:29:59 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ char	*get_complete_path(char *arg, int *exit)
 {
 	char	*res;
 
+	printf("ft arg == %p\n", arg);
 	res = ft_strjoin(getenv("HOME"), arg + 1);
 	if (res == NULL)
 	{
 		*exit = 1;
 		return (NULL);
 	}
+	free(arg);
 	return (res);
 }
 
@@ -107,19 +109,20 @@ bool	ft_cd(t_data *data)
 	int		*exit;
 
 	arg = data->arg;
+	printf("arg == %p\n", arg);
+	printf("data->arg == %p\n", data->arg);
 	exit = &data->exit_code;
 	if (arg != NULL && check_nb_args(arg, exit) != 0)
 		write(STDERR_FILENO, "bash: cd: too much argument\n", 29);
 	if (update_pwd(data, 1, exit) == 0)
 	{
-		if (arg == NULL || ft_strlen(arg) == 0 || ft_strcmp(arg, "~") == 1
-			|| ft_strcmp(arg, "~/") == 1)
+		if (arg == NULL || ft_strcmp(arg, "~") || ft_strcmp(arg, "~/"))
 			cd_home(data, exit);
-		else if (*exit == 0 && ft_strcmp(arg, "~/") == 1 && ft_strlen(arg) >= 2)
-			arg = get_complete_path(arg, exit);
+		else if (ft_strncmp(arg, "~/", 2) == 0 && ft_strlen(arg) > 2)
+			data->arg = get_complete_path(data->arg, exit);
 		if (*exit == 0)
 		{
-			if (arg != NULL && chdir(arg) != 0)
+			if (data->arg && chdir(data->arg) != 0)
 			{
 				perror("bash: cd");
 				*exit = 1;
