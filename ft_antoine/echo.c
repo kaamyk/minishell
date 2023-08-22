@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/27 15:46:41 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:49:50 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,25 @@ void	print_content(char *arg, int exit_code, char **env)
 	}
 }
 
+bool	opt_nl(char *arg)
+{
+	size_t	i;
+
+	if (arg[0] != '-')
+		return (true);
+	else
+	{
+		i = 1;
+		while (arg[i] && arg[i] != ' ')
+		{
+			if (arg[i] != 'n')
+				return (true);
+			++i;
+		}
+	}
+	return (false);
+}
+
 bool	ft_echo(t_data *data)
 {
 	bool	nl;
@@ -64,15 +83,17 @@ bool	ft_echo(t_data *data)
 		write(1, "\n", 1);
 		return (0);
 	}
-	nl = !(data->arg[i] == '-'
-			&& (ft_strnstr(data->arg, "-n ", 3) != NULL
-				|| ft_strcmp(data->arg, "-n") == 1));
+	nl = opt_nl(data->arg);
 	if (nl == false)
 		i += 2;
-	while (data->arg[i] == ' ' || data->arg[i] == '\t')
+	while (data->arg[i] || data->arg[i] == 'n' || data->arg[i] == ' ' || data->arg[i] == '\t')
 		++i;
+	printf("data->arg + i == [%s]\n", data->arg + i);
+	while (data->arg + i && ft_strncmp(data->arg + i, "-n", 2) == 0)
+		i += 2;
 	print_content(data->arg + i, data->exit_code, data->env);
 	if (nl == true)
 		printf("\n");
+	data->exit_code = 0;
 	return (0);
 }

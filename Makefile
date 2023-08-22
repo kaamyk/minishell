@@ -6,7 +6,7 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/08/21 16:08:50 by anvincen         ###   ########.fr        #
+#    Updated: 2023/08/22 17:38:52 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,8 +93,8 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
 
-	@$(MAKE) clean -sC ./libft
-	@$(RM) $(OBJ)
+# 	@$(MAKE) clean -sC ./libft
+# 	@$(RM) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@
