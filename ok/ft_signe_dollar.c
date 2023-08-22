@@ -13,46 +13,6 @@
 #include "minishell.h"
 
 /*
-str_copy = '$USER "$USER"'
-*/
-void	ft_ignore2(t_data *data, char *str, int len)
-{
-	int		i;
-	char	*new_str;
-
-	new_str = (char *)malloc((len + 1) * sizeof(char));
-	if (!new_str)
-		return ;
-	i = 0;
-	while (i < len)
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	new_str[i] = 0;
-	ft_add_dollar(data, new_str, true);
-}
-
-int	ft_ignore(t_data *data, char *str)
-{
-	int		i;
-	int		nb_signe;
-
-	nb_signe = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			nb_signe++;
-		if (nb_signe == 2)
-			break ;
-		i++;
-	}
-	ft_ignore2(data, str, i + 1);
-	return (i);
-}
-
-/*
 Find in "$USER '$USER'"
 */
 int	ft_find_dollar_in_quotes(t_data *data, char *str)
@@ -81,12 +41,36 @@ int	ft_find_dollar_in_quotes(t_data *data, char *str)
 }
 
 /*
-Find $USER
+Change ~
 */
-int	ft_find_dollar_out_quotes(t_data *data, char *str)
+int	ft_change_rel_abs_path(t_data *data, char *str)
 {
 	int		i;
+	char	*path;
+	char	*tmp;
 
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ' || str[i] == '$')
+			break ;
+		i++;
+	}
+	path = ft_substr(str, 0, i);
+	tmp = path;
+	path = get_complete_path(path, &data->exit_code);
+	free(tmp);
+	ft_add_dollar(data, path, false);
+	if (str[i] == 0 || str[i] == ' ' || str[i] == '$')
+		i--;
+	return (i);
+}
+
+/*
+Find $USER
+*/
+int	ft_find_dollar_out_quotes(t_data *data, char *str, int i)
+{
 	data->str_quotes = NULL;
 	i = 0;
 	while (str[i])
@@ -96,6 +80,11 @@ int	ft_find_dollar_out_quotes(t_data *data, char *str)
 			if (i > 0)
 				i--;
 			break ;
+		}
+		else if (str[i] == '~')
+		{
+			if (i == 0 || str[i - 1] == ' ')
+				i += ft_change_rel_abs_path(data, &str[i]);
 		}
 		else if (str[i] == '$')
 			i += ft_found_dollar(data, &str[i]);
@@ -109,11 +98,22 @@ int	ft_find_dollar_out_quotes(t_data *data, char *str)
 	return (i);
 }
 
+void	ft_add_str_dollar(t_data *data, int i)
+{
+	free(data->tab_cmd[i]);
+	if (data->str_dollar)
+		data->tab_cmd[i] = ft_copy_str(data->str_dollar);
+	else
+		data->tab_cmd[i] = NULL;
+	free (data->str_dollar);
+}
+
 void	ft_signe_dollar(t_data *data, int i)
 {
 	int	m;
 
-	if (ft_find_c(data->tab_cmd[i], '$') == true)
+	if (ft_find_c(data->tab_cmd[i], '$') == true
+		|| ft_find_c(data->tab_cmd[i], '~') == true)
 	{
 		data->str_dollar = NULL;
 		m = 0;
@@ -124,16 +124,11 @@ void	ft_signe_dollar(t_data *data, int i)
 			else if (data->tab_cmd[i][m] == '\'')
 				m += ft_ignore(data, &data->tab_cmd[i][m]);
 			else
-				m += ft_find_dollar_out_quotes(data, &data->tab_cmd[i][m]);
+				m += ft_find_dollar_out_quotes(data, &data->tab_cmd[i][m], 0);
 			if (data->tab_cmd[i][m] == 0)
 				break ;
 			m++;
 		}
-		free(data->tab_cmd[i]);
-		if (data->str_dollar)
-			data->tab_cmd[i] = ft_copy_str(data->str_dollar);
-		else
-			data->tab_cmd[i] = NULL;
-		free (data->str_dollar);
+		ft_add_str_dollar(data, i);
 	}
 }

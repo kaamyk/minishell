@@ -6,7 +6,7 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/07/31 18:14:29 by anvincen         ###   ########.fr        #
+#    Updated: 2023/08/21 16:08:50 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC =	main.c \
 		ft_antoine/exit.c \
 		ft_antoine/pwd.c \
 		ft_antoine/ft_get_value.c \
+		ft_antoine/del_unused_dollar.c \
 		ft_parsing/ft_parsing.c \
 		ft_parsing/ft_parsing2.c \
 		ft_parsing/ft_parsing3.c \
@@ -53,10 +54,12 @@ SRC =	main.c \
 		ft_run_other_cmd2.c \
 		ft_run_with_pipe.c \
 		ft_run_bonus.c \
+		ft_print_error.c \
 		ft_builtins.c \
 		ft_cmd_special.c \
 		ft_signe_dollar.c \
 		ft_signe_dollar2.c \
+		ft_signe_dollar3.c \
 		ft_redirection/ft_redirection_input.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \
@@ -90,8 +93,8 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
 
-# 	@$(MAKE) clean -sC ./libft
-# 	@$(RM) $(OBJ)
+	@$(MAKE) clean -sC ./libft
+	@$(RM) $(OBJ)
 
 $(OBJ): %.o: %.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@

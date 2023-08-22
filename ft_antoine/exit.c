@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/31 18:26:03 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:16:10 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ bool	check_alnum(char *arg)
 	size_t	i;
 
 	i = 0;
+	if (ft_isdigit(arg[i]) == 0 && arg[i] != ' ' && arg[i] != '-')
+		return (1);
+	++i;
 	while (arg[i] != 0)
 	{
 		if (ft_isdigit(arg[i]) == 0 && arg[i] != ' ')
@@ -42,8 +45,16 @@ bool	check_alnum(char *arg)
 
 void	ft_exit(t_data *data)
 {
+	int	ret;
+
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 		exit (0);
+	else if (check_nb_arg(data->arg) != 0)
+	{
+		write(STDERR_FILENO, "bash: exit: too many arguments\n", 32);
+		data->exit_code = 1;
+		return ;
+	}
 	else if (check_alnum(data->arg) != 0)
 	{
 		free_list(data->tab_cmd);
@@ -53,11 +64,9 @@ void	ft_exit(t_data *data)
 		write(STDERR_FILENO, ": numeric argument required\n", 28);
 		exit (2);
 	}
-	else if (check_nb_arg(data->arg) != 0)
-	{
-		write(STDERR_FILENO, "bash: exit: too many arguments\n", 32);
-		return ;
-	}
+	ret = ft_atoi(data->arg);
+	if (ret < 0)
+		exit (255 + ret + 1);
 	free_list(data->tab_cmd);
 	exit (ft_atoi(data->arg));
 }

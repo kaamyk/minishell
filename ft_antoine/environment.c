@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/27 15:09:45 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:55 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**get_env_var_add(char **env, char **inputs)
 	i = 0;
 	while (inputs[i])
 	{
-		add[i] = get_var(env, inputs[i]);
+		add[i] = get_var(env, inputs[i], 1);
 		++i;
 	}
 	add[i] = NULL;
@@ -84,13 +84,16 @@ char	**get_keys(char **env)
 	return (res);
 }
 
-char	*get_var(char **env, char *var)
+char	*get_var(char **env, char *var, bool e)
 {
 	char	*e_tmp;
 	char	*v_key;
 	size_t	i;
 
-	v_key = isolate_key(var);
+	if (e == 1)
+		v_key = isolate_key(var);
+	else
+		v_key = ft_strdup(var);
 	i = 0;
 	while (env[i])
 	{

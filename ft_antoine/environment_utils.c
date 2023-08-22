@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/27 15:09:26 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:50 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,22 @@ char	*check_export_inputs(char **var)
 	return (NULL);
 }
 
+void	print_line(char *key, char *val, bool a)
+{
+	if (val != NULL)
+	{
+		if (a != 0)
+		{
+			if (ft_strlen(val) != 0)
+				printf("%s=\"%s\"\n", key, val);
+			else
+				printf("%s\n", key);
+		}
+		else if (ft_strlen(val) != 0)
+			printf("%s=%s\n", key, val);
+	}
+}
+
 bool	print_env(char **env, bool a)
 {
 	char	**key;
@@ -82,10 +98,7 @@ bool	print_env(char **env, bool a)
 		val = isolate_value(env[i]);
 		if (a != 0)
 			printf("declare -x ");
-		if (ft_strlen(val) != 0)
-			printf("%s=\"%s\"\n", key[i], val);
-		else
-			printf("%s\n", key[i]);
+		print_line(key[i], val, a);
 		free(val);
 		++i;
 	}

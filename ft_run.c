@@ -50,7 +50,6 @@ void	ft_run(t_data *data, int i)
 			ft_other_cmd_with_pipe(data);
 		else
 			ft_other_cmd_without_pipe(data);
-		data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 	}
 }
 
@@ -64,8 +63,8 @@ void	ft_run_cmd_without_pipe(t_data *data)
 	while (tab[i])
 	{
 		ft_run(data, i);
-		if (data->exit_code == 127)
-			ft_error(NOT_FOUND, data->tab_cmd[i], 0);
+		if (data->exit_code != 0)
+			ft_check_exit_code(data, i);
 		i++;
 	}
 }
@@ -79,15 +78,16 @@ void	ft_check_infile_outfile_dollar(t_data *data)
 	i = 0;
 	while (data->tab_cmd[i])
 	{
+		data->tab_cmd[i] = del_unused_dollar(data->tab_cmd[i]);
 		ft_signe_dollar(data, i);
-		if (data->tab_cmd[i][0] == '<')
+		if (data->tab_cmd[i] && data->tab_cmd[i][0] == '<')
 		{
 			data->s_infile = true;
 			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 			if (data->tab_cmd[i][1] == '<')
 				ft_redirection_output(data, i);
 		}
-		else if (data->tab_cmd[i][0] == '>')
+		else if (data->tab_cmd[i] && data->tab_cmd[i][0] == '>')
 		{
 			data->s_outfile = true;
 			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);

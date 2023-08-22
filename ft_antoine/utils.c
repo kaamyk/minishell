@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/19 15:48:39 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:47 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+size_t	define_len(char *s, size_t *len)
+{
+	char	c;
+
+	while (s[*len] && s[*len] != '$')
+	{
+		if (s[*len] && (s[*len] == '\'' || s[*len] == '"'))
+		{
+			c = s[*len];
+			++(*len);
+			while (s[*len] && s[*len] != c)
+				++(*len);
+		}
+		else
+			++(*len);
+	}
+	return (*len);
+}
 
 size_t	rank_char(char *s, char c)
 {
@@ -64,4 +83,18 @@ char	*del_char(char *s, char c)
 	res[j] = 0;
 	free(s);
 	return (res);
+}
+
+bool	check_tab_double(char **tab, char *to_check)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i] != to_check && ft_strcmp(tab[i], to_check) == 1)
+			return (1);
+		++i;
+	}
+	return (0);
 }

@@ -19,12 +19,7 @@
 
 void	ft_exit_code(t_data *data)
 {
-	if (data->exit_code == 256)
-		data->exit_code = 1;
-	else if (data->exit_code == 512)
-		data->exit_code = 2;
-	else if (data->exit_code == 32512)
-		data->exit_code = 127;
+	data->exit_code = data->exit_code / 256;
 }
 
 void	ft_delete_q(t_data *data, char **tab)
@@ -39,6 +34,35 @@ void	ft_delete_q(t_data *data, char **tab)
 	}
 }
 
+char	*ft_check_path(t_data *data, char *str)
+{
+	char	*path;
+	int		is_exist;
+
+	path = NULL;
+	if (ft_strrchr(str, '/') == 0)
+	{
+		path = find_path(str, data->env);
+		if (!path)
+			data->exit_code = 127;
+	}
+	else
+	{
+		is_exist = access(str, F_OK | X_OK);
+		if (is_exist != -1)
+		{
+			if (ft_strncmp(str, "/bin", 4) == 0
+				&& ft_strlen(str) > 6 && str[4] == '/' && str[5] != 0)
+				path = ft_copy_str(str);
+			else
+				data->exit_code = 126;
+		}
+		else
+			data->exit_code = 127;
+	}
+	return (path);
+}
+
 void	ft_other_cmd_with_pipe(t_data *data)
 {
 	char	**cmd;
@@ -46,20 +70,12 @@ void	ft_other_cmd_with_pipe(t_data *data)
 
 	cmd = ft_split_mn(data->str, ' ');
 	ft_delete_q(data, cmd);
-	path = NULL;
-	if (ft_strnstr(cmd[0], PATH, 5) != 0)
-		path = ft_copy_str(cmd[0]);
-	else if (ft_strrchr(cmd[0], '/') == 0)
-		path = find_path(cmd[0], data->env);
+	path = ft_check_path(data, cmd[0]);
 	if (path)
 	{
-		if (execve(path, cmd, data->env) == -1)
-			data->exit_code = 127;
-		else
-			data->exit_code = 0;
+		execve(path, cmd, data->env);
+		printf("bash: %s\n", strerror(errno));
 	}
-	else
-		data->exit_code = 127;
 	if (path)
 		free(path);
 	ft_free_tab(cmd);

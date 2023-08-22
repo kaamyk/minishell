@@ -233,6 +233,12 @@ void	ft_signe_dollar(t_data *data, int i);
 void	ft_add_dollar(t_data *data, char *str, bool big);
 int		ft_found_dollar(t_data *data, char *str);
 char	*ft_character_to_string(char character);
+int		ft_ignore(t_data *data, char *str);
+
+/*
+ft_print_error.c
+*/
+void	ft_check_exit_code(t_data *data, int i);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -333,6 +339,7 @@ bool	ft_unset(t_data *data);
 
 //	FT_CD.C
 bool	ft_cd(t_data *data);
+char	*get_complete_path(char *arg, int *exit);
 
 //	PWD.C
 bool	ft_pwd(void);

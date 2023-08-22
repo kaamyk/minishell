@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/27 15:27:08 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:20 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	input_valid(char **env, char *inpt_var)
 {
 	char	*ptr;
 
-	ptr = get_var(env, inpt_var);
+	ptr = get_var(env, inpt_var, 0);
 	if (ptr == NULL)
 		return (0);
 	return (1);
@@ -34,15 +34,15 @@ char	**pop_unvalid_input(char **inputs, char *to_pop, size_t *l, bool *exit)
 	*exit = 1;
 	i = 0;
 	j = 0;
-	while (inputs[i + j])
+	while (inputs[i])
 	{
-		if (inputs[i + j] != to_pop)
-			res[i] = ft_strdup(inputs[i + j]);
+		if (inputs[i] != to_pop)
+			res[i - j] = ft_strdup(inputs[i]);
 		else
 			j = !j;
 		++i;
 	}
-	res[i] = NULL;
+	res[i - j] = NULL;
 	free_list(inputs);
 	--(*l);
 	return (res);
@@ -50,13 +50,22 @@ char	**pop_unvalid_input(char **inputs, char *to_pop, size_t *l, bool *exit)
 
 char	**check_inputs(char **env, char **inputs, size_t *len, bool *exit)
 {
+	char	*i_key;
 	size_t	i;
 
 	i = 0;
-	while (inputs[i])
+	while (i < *len)
 	{
-		if (input_valid(env, inputs[i]) == 0)
-			inputs = pop_unvalid_input(inputs, env[i], len, exit);
+		i_key = isolate_key(inputs[i]);
+		if (input_valid(env, inputs[i]) == 0
+			|| check_tab_double(inputs, inputs[i]) == 1)
+		{
+			inputs = pop_unvalid_input(inputs, inputs[i], len, exit);
+			i = 0;
+			free(i_key);
+			continue ;
+		}
+		free(i_key);
 		++i;
 	}
 	return (inputs);

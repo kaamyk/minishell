@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/01 09:29:59 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:30:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*get_complete_path(char *arg, int *exit)
 {
 	char	*res;
 
-	printf("ft arg == %p\n", arg);
 	res = ft_strjoin(getenv("HOME"), arg + 1);
 	if (res == NULL)
 	{
@@ -75,9 +74,9 @@ bool	update_pwd(t_data *data, bool a, int *exit)
 		return (1);
 	}
 	if (a == 0)
-		data->env = replace_value(data->env, get_var(data->env, "PWD"), n_v);
+		data->env = replace_vl(data->env, get_var(data->env, "PWD", 0), n_v);
 	else
-		data->env = replace_value(data->env, get_var(data->env, "OLDPWD"), n_v);
+		data->env = replace_vl(data->env, get_var(data->env, "OLDPWD", 0), n_v);
 	if (data->env == NULL)
 		*exit = 1;
 	free(n_v);
@@ -109,8 +108,6 @@ bool	ft_cd(t_data *data)
 	int		*exit;
 
 	arg = data->arg;
-	printf("arg == %p\n", arg);
-	printf("data->arg == %p\n", data->arg);
 	exit = &data->exit_code;
 	if (arg != NULL && check_nb_args(arg, exit) != 0)
 		write(STDERR_FILENO, "bash: cd: too much argument\n", 29);
@@ -126,8 +123,8 @@ bool	ft_cd(t_data *data)
 			{
 				perror("bash: cd");
 				*exit = 1;
-				(void) update_pwd(data, 0, exit);
 			}
+			(void) update_pwd(data, 0, exit);
 		}
 	}
 	return (*exit);

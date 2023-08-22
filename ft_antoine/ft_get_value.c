@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/07/31 18:14:30 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:31:01 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_get_value(char **env, char *key)
 	char	*var;
 	char	*value;
 
-	var = get_var(env, &key[0]);
+	var = get_var(env, &key[1], 0);
 	if (var == NULL)
 		return (NULL);
 	value = isolate_value(var);

@@ -114,16 +114,8 @@ void	ft_run_cmd_with_pipe(t_data *data)
 	{
 		waitpid(pid[i], &data->exit_code, 0);
 		ft_exit_code(data);
-		// printf("(%d)", data->exit_code);
-		if (data->tab_cmd[i] && data->exit_code != 0)
-		{
-			if (data->exit_code == 127)
-				ft_error(NOT_FOUND, data->tab_cmd[i], 0);
-			else if (data->exit_code == 1 && data->tab_cmd[i][0] == '<')
-				ft_error(NO_SUCH, &data->tab_cmd[i][2], 0);
-		}
+		ft_check_exit_code(data, i);
 		i++;
 	}
 	free(pid);
-	// printf("\n");
 }

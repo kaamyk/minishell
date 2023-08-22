@@ -57,7 +57,7 @@ void	ft_read_line(t_data *data)
 	}
 	else
 	{
-		if (ft_strlen(data->str) == 1)
+		if (ft_strlen(data->str) == 1 && data->str[0] != '~')
 		{
 			ft_one_arg(data, data->str[0]);
 			free(data->str);

@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/31 18:14:30 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:48 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,12 @@ void	ft_signe_dollar(t_data *data, int i);
 void	ft_add_dollar(t_data *data, char *str, bool big);
 int		ft_found_dollar(t_data *data, char *str);
 char	*ft_character_to_string(char character);
+int		ft_ignore(t_data *data, char *str);
+
+/*
+ft_print_error.c
+*/
+void	ft_check_exit_code(t_data *data, int i);
 
 /******************** Fonctions utiles ********************/
 /*
@@ -288,7 +294,7 @@ bool	ft_env(t_data *data);
 
 // 	EXPORT.C
 bool	check_double(char **env, char *in_k, char *in_v);
-char	**replace_value(char **env, char *o_var, char *n_var);
+char	**replace_vl(char **env, char *o_var, char *n_var);
 char	**add_variable(char **env, char *n_var);
 char	**handle_inputs(char **env, char **inputs, bool *exit);
 bool	ft_export(t_data *data);
@@ -305,7 +311,7 @@ char	**get_env_var_add(char **env, char **inputs);
 char	*isolate_value(char *var);
 char	*isolate_key(char *var);
 char	**get_keys(char **env);
-char	*get_var(char **env, char *var);
+char	*get_var(char **env, char *var, bool e);
 
 //	LIST.C
 void	print_list(char **l);
@@ -320,9 +326,11 @@ void	free_list(char **lst);
 //void	*free_all(t_data *data, t_env *e, char **l, char *s);
 
 //	UTILS.C
+size_t	define_len(char *s, size_t *len);
 size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
+bool	check_tab_double(char **tab, char *to_check);
 
 //	UNSET.C
 bool	input_valid(char **env, char *inpt_var);
@@ -333,6 +341,7 @@ bool	ft_unset(t_data *data);
 
 //	FT_CD.C
 bool	ft_cd(t_data *data);
+char	*get_complete_path(char *arg, int *exit);
 
 //	PWD.C
 bool	ft_pwd(void);
@@ -350,6 +359,11 @@ ft_get_value.c
 */
 char	*ft_get_value(char **env, char *key);
 char	*ft_del_quotes(char *s);
+
+/*
+del_unused_dollar.c
+*/
+char	*del_unused_dollar(char	*s);
 
 /******************** Bonus ********************/
 /*

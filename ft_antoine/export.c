@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/27 15:09:58 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:59 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**add_variable(char **env, char *n_var)
 	return (n_env);
 }
 
-char	**replace_value(char **env, char *o_var, char *n_var)
+char	**replace_vl(char **env, char *o_var, char *n_var)
 {
 	char	**n_env;
 	size_t	i;
@@ -105,8 +105,8 @@ char	**handle_inputs(char **env, char **inputs, bool *exit)
 	{
 		if (check_double(env, i_keys[i], isolate_value(inputs[i])) == 0)
 		{
-			if (get_var(env, i_keys[i]) != NULL)
-				env = replace_value(env, get_var(env, i_keys[i]), inputs[i]);
+			if (get_var(env, i_keys[i], 1) != NULL)
+				env = replace_vl(env, get_var(env, i_keys[i], 1), inputs[i]);
 			else
 			{
 				env = add_variable(env, inputs[i]);

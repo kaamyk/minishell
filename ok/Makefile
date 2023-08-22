@@ -53,10 +53,12 @@ SRC =	main.c \
 		ft_run_other_cmd2.c \
 		ft_run_with_pipe.c \
 		ft_run_bonus.c \
+		ft_print_error.c \
 		ft_builtins.c \
 		ft_cmd_special.c \
 		ft_signe_dollar.c \
 		ft_signe_dollar2.c \
+		ft_signe_dollar3.c \
 		ft_redirection/ft_redirection_input.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \
