@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/08/22 11:47:55 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:20:32 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,20 @@ char	*isolate_value(char *var)
 		len = ft_strlen(var) - r_sep;
 	if (len == 0)
 	{
-		res = ft_calloc(1, 1);
-		return (res);
+		if (ft_strchr(var, '=') != 0)
+		{
+			res = ft_calloc(1, 1);
+			return (res);
+		}
+		else
+			return (NULL);
 	}
+	// if (ft_strchr(var, '=') == 0 & len == 0)
+	// {
+	// 	res = ft_calloc(1, 1);
+	// 	return (res);
+	// }
+	// else if (ft_strchr(var, '=') != 0 & len == 0)
 	else
 		res = del_char(ft_substr(var, r_sep + 1, len + 1), '"');
 	return (res);

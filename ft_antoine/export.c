@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/22 11:47:59 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:13:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**add_variable(char **env, char *n_var)
 	char	**n_env;
 	size_t	i;
 
+	printf("add_variable => n_var == %s\n", n_var);
 	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
 	if (n_env == NULL)
 		return (NULL);
@@ -127,6 +128,7 @@ bool	ft_export(t_data *data)
 	char	**inputs;
 	bool	exit;
 
+	printf("ft_export => data->arg == [%s]\n", data->arg);
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 	{
 		print_env(data->env, 1);

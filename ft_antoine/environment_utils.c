@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/08/22 11:47:50 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:21:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ void	print_line(char *key, char *val, bool a)
 	{
 		if (a != 0)
 		{
-			if (ft_strlen(val) != 0)
+			if (val != NULL)
 				printf("%s=\"%s\"\n", key, val);
-			else
-				printf("%s\n", key);
 		}
 		else if (ft_strlen(val) != 0)
 			printf("%s=%s\n", key, val);
 	}
+	else
+		printf("%s\n", key);
 }
 
 bool	print_env(char **env, bool a)
