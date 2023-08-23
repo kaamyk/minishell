@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 16:49:22 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:12:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ char	**add_variable(t_data *data, char **env, char *n_var)
 	if (check_export_inputs(n_var) == 1)
 		return (export_error(data, env, n_var));
 	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
-	if (n_env == NULL)
-		return (env);
 	i = 0;
-	while (env[i])
+	while (n_env != NULL && env[i])
 	{
 		n_env[i] = ft_strdup(env[i]);
 		if (n_env[i++] == NULL)
@@ -63,7 +61,8 @@ char	**add_variable(t_data *data, char **env, char *n_var)
 		n_env[i] = ft_strdup(n_var);
 	else
 	{
-		free_list(n_env);
+		if (n_env != NULL)
+			free_list(n_env);
 		return (env);
 	}
 	n_env[i + 1] = NULL;
