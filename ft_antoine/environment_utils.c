@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/08/23 15:21:25 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 16:46:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,20 @@ bool	ft_strcmp(char *s1, char *s2)
 		return (false);
 }
 
-char	*check_export_inputs(char **var)
+bool	check_export_inputs(char *var)
 {
-	size_t	i;
 	size_t	j;
 
-	i = 0;
-	while (var[i])
+	if (ft_isalpha(var[0]) == 0 && var[0] != '_')
+		return (1);
+	j = 1;
+	while (var[j])
 	{
-		if (ft_isalpha(var[i][0]) == 0 && var[i][0] != '_')
-			return (var[i]);
-		j = 1;
-		while (var[i][j])
-		{
-			if (ft_isalnum(var[i][j]) == 0 && var[i][j] != '_')
-				return (var[i]);
-			++j;
-		}
-		++i;
+		if (ft_isalnum(var[j]) == 0 && var[j] != '_' && var[j] != '=')
+			return (1);
+		++j;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	print_line(char *key, char *val, bool a)

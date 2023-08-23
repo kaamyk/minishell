@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/22 11:47:48 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:47:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ void	ft_titre(void);
 ft_error.c
 */
 void	ft_error(t_error error, char *command, char *option);
+void	export_error(t_data *data, char **env, char *unvalid_var);
 
 /*
 ft_delete_space.c
@@ -302,7 +303,7 @@ bool	ft_export(t_data *data);
 //	ENVIRONMENT_UTILS.C
 bool	ft_ptr_inlist(char **l, char **ptr);
 bool	ft_strcmp(char *s1, char *s2);
-char	*check_export_inputs(char **l);
+bool	check_export_inputs(char *var);
 bool	print_env(char **env, bool a);
 size_t	print_var(char **env, char *var);
 

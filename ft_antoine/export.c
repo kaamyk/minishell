@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 15:13:57 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 16:49:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,21 @@ bool	check_double(char **env, char *in_k, char *in_v)
 	return (1);
 }
 
-char	**add_variable(char **env, char *n_var)
+char	**add_variable(t_data *data, char **env, char *n_var)
 {
 	char	**n_env;
 	size_t	i;
 
-	printf("add_variable => n_var == %s\n", n_var);
+	if (check_export_inputs(n_var) == 1)
+		return (export_error(data, env, n_var));
 	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
 	if (n_env == NULL)
-		return (NULL);
+		return (env);
 	i = 0;
 	while (env[i])
 	{
 		n_env[i] = ft_strdup(env[i]);
-		if (n_env[i] == NULL)
+		if (n_env[i++] == NULL)
 			break ;
 		++i;
 	}
@@ -63,7 +64,7 @@ char	**add_variable(char **env, char *n_var)
 	else
 	{
 		free_list(n_env);
-		return (NULL);
+		return (env);
 	}
 	n_env[i + 1] = NULL;
 	free_list(env);

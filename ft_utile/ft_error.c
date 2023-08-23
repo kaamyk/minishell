@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 12:18:21 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 09:49:33 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:45:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,13 @@ void	ft_error(t_error error, char *command, char *option)
 			printf("%s: Permission non accordée", command);
 		printf("\n");
 	}
+}
+
+void	export_error(t_data *data, char **env, char *unvalid_var)
+{
+	write(STDERR_FILENO, "bash: export: `", 15);
+	write(STDERR_FILENO, unvalid_var, ft_strlen(unvalid_var));
+	write(STDERR_FILENO, "': not a valid identifier\n", 26);
+	data->exit_code = 1;
+	return (env);
 }
