@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 12:18:21 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 16:45:29 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:35:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_error(t_error error, char *command, char *option)
 	}
 }
 
-void	export_error(t_data *data, char **env, char *unvalid_var)
+char	**export_error(t_data *data, char **env, char *unvalid_var)
 {
 	write(STDERR_FILENO, "bash: export: `", 15);
 	write(STDERR_FILENO, unvalid_var, ft_strlen(unvalid_var));

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 17:12:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:37:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**replace_vl(char **env, char *o_var, char *n_var)
 	return (n_env);
 }
 
-char	**handle_inputs(char **env, char **inputs, bool *exit)
+char	**handle_inputs(t_data *data, char **env, char **inputs, bool *exit)
 {
 	char	**i_keys;
 	size_t	i;
@@ -110,7 +110,7 @@ char	**handle_inputs(char **env, char **inputs, bool *exit)
 				env = replace_vl(env, get_var(env, i_keys[i], 1), inputs[i]);
 			else
 			{
-				env = add_variable(env, inputs[i]);
+				env = add_variable(data, env, inputs[i]);
 				if (env == NULL)
 					break ;
 			}
@@ -128,7 +128,6 @@ bool	ft_export(t_data *data)
 	char	**inputs;
 	bool	exit;
 
-	printf("ft_export => data->arg == [%s]\n", data->arg);
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 	{
 		print_env(data->env, 1);
@@ -138,7 +137,7 @@ bool	ft_export(t_data *data)
 	inputs = ft_split(data->arg, ' ');
 	if (inputs == NULL)
 		return (NULL);
-	data->env = handle_inputs(data->env, inputs, &exit);
+	data->env = handle_inputs(data, data->env, inputs, &exit);
 	free_list(inputs);
 	if (data->env == NULL)
 		return (1);
