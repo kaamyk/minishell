@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_unused_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:39:16 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/21 16:08:32 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:01:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ char	*del_unused_dollar(char	*s)
 		++i;
 	}
 	free(s);
+	printf("fin del_unused_dollar => res == [%s]\n", res);
 	return (res);
 }

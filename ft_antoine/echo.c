@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/22 17:49:50 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:46:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ char	*get_var_name(char *arg)
 	return (var);
 }
 
-void	print_content(char *arg, int exit_code, char **env)
+void	print_content(char *arg)
 {
 	size_t	i;
 
-	(void) exit_code;
-	(void) env;
 	i = 0;
 	while (arg[i] != 0)
 	{
@@ -72,6 +70,34 @@ bool	opt_nl(char *arg)
 	return (false);
 }
 
+size_t	skip_opt(char *arg)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (arg[i] && arg[i] == '-')
+	{
+		if (ft_strncmp(arg + i, "-n", 2) == 0)
+		{
+			if (arg[i + 2] == 0 || arg[i + 2] == ' ')
+				i += 2 + ((size_t)((arg[i + 2] == ' ') & 1));
+			else
+			{
+				j = 2;
+				while (arg[i + j] && arg[i + j] != ' ')
+				{
+					if (arg[i + j] != 'n')
+						return (i);
+					++j;
+				}
+				i += j + ((size_t)((arg[i + j] == ' ') & 1));
+			}
+		}
+	}
+	return (i);
+}
+
 bool	ft_echo(t_data *data)
 {
 	bool	nl;
@@ -83,15 +109,15 @@ bool	ft_echo(t_data *data)
 		write(1, "\n", 1);
 		return (0);
 	}
+	printf("arg[%ld] == [%s]\n", i, data->arg + i);
 	nl = opt_nl(data->arg);
-	if (nl == false)
-		i += 2;
-	while (data->arg[i] || data->arg[i] == 'n' || data->arg[i] == ' ' || data->arg[i] == '\t')
-		++i;
-	printf("data->arg + i == [%s]\n", data->arg + i);
-	while (data->arg + i && ft_strncmp(data->arg + i, "-n", 2) == 0)
-		i += 2;
-	print_content(data->arg + i, data->exit_code, data->env);
+	// while (data->arg[i] && ft_strncmp(data->arg + i, "-n", 2) == 0)
+	// 	i += 2;
+	// while (data->arg[i] == 'n' || data->arg[i] == ' ' || data->arg[i] == '\t')
+	// 	++i;
+	// printf("data->arg + i == [%s]\n", data->arg + i);
+	i += skip_opt(data->arg + i);
+	print_content(data->arg + i);
 	if (nl == true)
 		printf("\n");
 	data->exit_code = 0;
