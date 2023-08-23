@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 11:46:49 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:14:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,7 @@ bool	ft_echo(t_data *data)
 		write(1, "\n", 1);
 		return (0);
 	}
-	printf("arg[%ld] == [%s]\n", i, data->arg + i);
 	nl = opt_nl(data->arg);
-	// while (data->arg[i] && ft_strncmp(data->arg + i, "-n", 2) == 0)
-	// 	i += 2;
-	// while (data->arg[i] == 'n' || data->arg[i] == ' ' || data->arg[i] == '\t')
-	// 	++i;
-	// printf("data->arg + i == [%s]\n", data->arg + i);
 	i += skip_opt(data->arg + i);
 	print_content(data->arg + i);
 	if (nl == true)

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
-/*   Updated: 2023/08/23 15:20:32 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:14:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ char	*isolate_value(char *var)
 		else
 			return (NULL);
 	}
-	// if (ft_strchr(var, '=') == 0 & len == 0)
-	// {
-	// 	res = ft_calloc(1, 1);
-	// 	return (res);
-	// }
-	// else if (ft_strchr(var, '=') != 0 & len == 0)
 	else
 		res = del_char(ft_substr(var, r_sep + 1, len + 1), '"');
 	return (res);
