@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/20 14:30:08 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/23 14:23:07 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*get_complete_path(char *arg, int *exit)
 {
 	char	*res;
 
+	printf("ft arg == %p\n", arg);
 	res = ft_strjoin(getenv("HOME"), arg + 1);
 	if (res == NULL)
 	{
@@ -87,7 +88,7 @@ bool	cd_home(t_data *data, int *exit)
 {
 	char	*home_path;
 
-	home_path = ft_get_value(data->env, "HOME");
+	home_path = ft_get_value(data->env, "$HOME");
 	if (home_path != NULL && chdir(home_path) != 0)
 	{
 		perror("bash: cd");
