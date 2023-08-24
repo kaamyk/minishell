@@ -28,50 +28,45 @@ char	*ft_rewritten_strr2(char **tab, char *new_str, int i)
 	return (new_str);
 }
 
-char	*ft_rewritten_strr(t_data *data, char *str)
+void	ft_return_value_in_quote(t_data *data, char *new_str, int *m)
 {
-	int		i;
-	char	**tab;
-	char	*new_str;
+	int	i;
 
-	tab = ft_split(str, ' ');
 	i = 0;
-	while (tab[i])
+	while (data->tab_quotes[data->nb_quotes][i])
 	{
-		tab[i] = ft_delete_space(tab[i]);
-		if (tab[i][0] == '\'' || tab[i][0] == '"' || tab[i][0] == '(')
-		{
-			free(tab[i]);
-			tab[i] = ft_copy_str(data->tab_quotes[data->nb_quotes]);
-			data->nb_quotes++;
-		}
-		new_str = ft_rewritten_strr2(tab, new_str, i);
+		new_str[*m] = data->tab_quotes[data->nb_quotes][i];
+		(*m)++;
 		i++;
 	}
-	ft_free_tab(tab);
-	free(str);
-	return (new_str);
+	data->nb_quotes++;
 }
 
 char	*ft_read_string(t_data *data, char *str)
 {
 	int		i;
-	bool	str_summary;
+	int		m;
+	char	*new_str;
 
-	str_summary = false;
+	new_str = (char *)malloc(255 * sizeof(char));
+	if (!new_str)
+		return (0);
 	i = 0;
+	m = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '"' || str[i] == '(')
+		if (str[i] == '\'' || str[i] == '"')
+			ft_return_value_in_quote(data, new_str, &m);
+		else
 		{
-			str_summary = true;
-			break ;
+			new_str[m] = str[i];
+			m++;
 		}
 		i++;
 	}
-	if (str_summary == true)
-		str = (ft_rewritten_strr(data, str));
-	return (str);
+	new_str[m] = 0;
+	free(str);
+	return (new_str);
 }
 
 char	**ft_create_tab_cmd(t_data *data, char *str)

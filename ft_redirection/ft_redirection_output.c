@@ -58,6 +58,13 @@ void	ft_redirection_output(t_data *data, int i)
 	char	*line;
 
 	limiter = ft_find_str(data->tab_cmd[i]);
+	if (!limiter)
+	{
+		limiter = (char *)malloc(1 * sizeof(char));
+		if (!limiter)
+			return ;
+		limiter[0] = 0;
+	}
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
 	{

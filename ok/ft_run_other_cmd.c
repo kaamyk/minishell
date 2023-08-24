@@ -19,14 +19,7 @@
 
 void	ft_exit_code(t_data *data)
 {
-	if (data->exit_code == 256)
-		data->exit_code = 1;
-	else if (data->exit_code == 512)
-		data->exit_code = 2;
-	else if (data->exit_code == 32256)
-		data->exit_code = 126;
-	else if (data->exit_code == 32512)
-		data->exit_code = 127;
+	data->exit_code = data->exit_code / 256;
 }
 
 void	ft_delete_q(t_data *data, char **tab)

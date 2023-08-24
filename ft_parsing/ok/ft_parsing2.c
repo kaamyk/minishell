@@ -16,46 +16,18 @@
 /* Put the line has quote in a tab */
 /***********************************/
 
-/*
-create tab string quotes
-*/
-int	ft_inside_quotes2(t_data *data, char *str, char c_open, char c_close)
+int	ft_inside_quotes(t_data *data, char *str)
 {
-	int	i;
-	int	nb_quote;
+	int		len;
+	char	*find;
 
-	nb_quote = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (nb_quote == 2 && (str[i] == ' ' || str[i] == '\t'))
-		{
-			data->tab_quotes[data->nb_quotes][i] = 0;
-			break ;
-		}
-		if (str[i] == c_open || str[i] == c_close)
-			nb_quote++;
-		data->tab_quotes[data->nb_quotes][i] = str[i];
-		i++;
-	}
-	data->tab_quotes[data->nb_quotes][i] = 0;
+	find = ft_get_str_without_space(str);
+	data->tab_quotes[data->nb_quotes] = ft_copy_str(find);
+	free(find);
+	len = ft_strlen(data->tab_quotes[data->nb_quotes]);
+	printf("------------> [%s]\n", data->tab_quotes[data->nb_quotes]);
 	data->nb_quotes++;
-	return (i - 1);
-}
-
-int	ft_inside_quotes(t_data *data, char *str, char *new_str, char c_open)
-{
-	char	c_close;
-
-	data->tab_quotes[data->nb_quotes]
-		= (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
-	if (!data->tab_quotes[data->nb_quotes])
-		return (0);
-	if (c_open == '(')
-		c_close = ')';
-	else
-		c_close = c_open;
-	return (ft_inside_quotes2(data, new_str, c_open, c_close));
+	return (len - 1);
 }
 
 int	ft_check_quotes_in_str(char *str)
@@ -81,27 +53,29 @@ char	*ft_create_string_summary(t_data *data, char *str)
 {
 	int		i;
 	int		m;
-	char	c;
 	char	*new_str;
 
 	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
 	if (!new_str)
 		return (0);
-	i = -1;
+	i = 0;
 	m = 0;
-	while (str[++i])
+	while (str[i])
 	{
-		c = ft_check_quotes_in_str(&str[i]);
-		if (c == '\'' || c == '"' || c == '(')
+		if (str[i] == '\'' || str[i] == '"')
 		{
-			new_str[m] = c;
-			i += ft_inside_quotes(data, str, &str[i], c);
-		}
-		else
 			new_str[m] = str[i];
+			i += ft_inside_quotes(data, &str[i]);
+		}
+		if (!str[i])
+			break ;
+		else if (str[i] != '\'' && str[i] != '"')
+			new_str[m] = str[i];
+		i++;
 		m++;
 	}
 	new_str[m] = 0;
+	// printf("new ------------> [%s]\n", new_str);
 	data->tab_quotes[data->nb_quotes] = 0;
 	return (new_str);
 }

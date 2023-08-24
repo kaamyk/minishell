@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 11:18:10 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:47:48 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,7 @@ bool	ft_find_c(char *str, char c);
 int		ft_nb_c(char *str, char c);
 char	*ft_find_str(char *str);
 void	ft_free_end(t_data *data);
+char	*ft_get_str_without_space(char *str);
 
 /******************** Fonctions of Antoine ********************/
 
@@ -294,7 +295,7 @@ bool	ft_env(t_data *data);
 
 // 	EXPORT.C
 bool	check_double(char **env, char *in_k, char *in_v);
-char	**replace_value(char **env, char *o_var, char *n_var);
+char	**replace_vl(char **env, char *o_var, char *n_var);
 char	**add_variable(char **env, char *n_var);
 char	**handle_inputs(char **env, char **inputs, bool *exit);
 bool	ft_export(t_data *data);
@@ -311,7 +312,7 @@ char	**get_env_var_add(char **env, char **inputs);
 char	*isolate_value(char *var);
 char	*isolate_key(char *var);
 char	**get_keys(char **env);
-char	*get_var(char **env, char *var);
+char	*get_var(char **env, char *var, bool e);
 
 //	LIST.C
 void	print_list(char **l);
@@ -326,9 +327,11 @@ void	free_list(char **lst);
 //void	*free_all(t_data *data, t_env *e, char **l, char *s);
 
 //	UTILS.C
+size_t	define_len(char *s, size_t *len);
 size_t	rank_char(char *s, char c);
 size_t	count_char(char	*s, char c);
 char	*del_char(char *s, char c);
+bool	check_tab_double(char **tab, char *to_check);
 
 //	UNSET.C
 bool	input_valid(char **env, char *inpt_var);
@@ -357,6 +360,11 @@ ft_get_value.c
 */
 char	*ft_get_value(char **env, char *key);
 char	*ft_del_quotes(char *s);
+
+/*
+del_unused_dollar.c
+*/
+char	*del_unused_dollar(char	*s);
 
 /******************** Bonus ********************/
 /*

@@ -58,6 +58,13 @@ void	ft_redirection_output(t_data *data, int i)
 	char	*line;
 
 	limiter = ft_find_str(data->tab_cmd[i]);
+	if (!limiter)
+	{
+		limiter = (char *)malloc(1 * sizeof(char));
+		if (!limiter)
+			return ;
+		limiter[0] = 0;
+	}
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
 	{
@@ -73,26 +80,4 @@ void	ft_redirection_output(t_data *data, int i)
 	}
 	free(limiter);
 	free(line);
-}
-
-bool	ft_check_infile(t_data *data)
-{
-	int		i;
-	bool	check;
-	char	**tab;
-
-	check = false;
-	tab = data->tab_cmd;
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i][0] == '<')
-		{
-			check = true;
-			if (tab[i][1] == '<')
-				ft_redirection_output(data, i);
-		}
-		i++;
-	}
-	return (check);
 }

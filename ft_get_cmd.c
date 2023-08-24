@@ -47,8 +47,9 @@ void	ft_get_cmd(t_data *data, char *str)
 		}
 		data->cmd = ft_copy_str(tab[0]);
 		data->cmd = ft_delete_quotes(data, data->cmd);
-		new_str = ft_delete_quotes(data, new_str);
 		data->arg = new_str;
+		// printf("--> cmd = [%s]\n", data->cmd);
+		// printf("--> arg = [%s]\n", data->arg);
 		ft_free_tab(tab);
 	}
 }

@@ -138,3 +138,16 @@ link
 
 	'$USER' --> $USER
 	'"$USER"' --> "$USER"
+
+12.
+	<< e enter enter ok e
+	<< e e
+	< ''
+	< ""
+	"$?            $?"
+
+13. file change
+	ft_signe_dollar
+	ft_redirection
+	ft_error
+	ft_utile

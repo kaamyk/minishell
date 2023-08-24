@@ -45,14 +45,17 @@ char	*ft_redirection3(char *str)
 		if (find == true)
 			break ;
 		line = take_input("> ");
+		printf("line = (%s - %ld)\n", line, ft_strlen(line));
 		if (!line)
 			break ;
 		if (ft_compare_str(str, line) == true)
 			find = true;
-		else
+		else if (ft_strlen(line) > 0)
+		{
 			string = ft_creer_big_string(time, string, line);
+			time++;
+		}
 		free(line);
-		time++;
 	}
 	return (string);
 }

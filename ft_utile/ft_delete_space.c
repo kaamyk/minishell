@@ -12,27 +12,63 @@
 
 #include "../minishell.h"
 
+char	*ft_get_str_without_space(char *str)
+{
+	int		i;
+	char	end;
+	char	*new_str;
+
+	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	end = str[0];
+	i = 0;
+	while (str[i])
+	{
+		if (end != '"' && end != '\''
+			&& (str[i] == ' ' || str[i] == '"' || str[i] == '\''))
+			break ;
+		new_str[i] = str[i];
+		i++;
+		if ((end == '"' || end == '\'') && (str[i - 1] == end) && (i - 1 > 0))
+		{
+			break ;
+		}
+	}
+	new_str[i] = 0;
+	return (new_str);
+}
+
 char	*ft_delete_space(char *str)
 {
 	int		i;
-	char	**tab;
+	int		m;
 	char	*new_str;
+	char	*find;
 
-	tab = ft_split(str, ' ');
 	i = 0;
-	while (tab[i])
+	m = 0;
+	while (str[i])
 	{
-		if (i == 0)
-			new_str = ft_copy_str(tab[i]);
+		if (str[i] == '"' || str[i] == '\'' || str[i] != ' ')
+		{
+			find = ft_get_str_without_space(&str[i]);
+			if (m == 0)
+				new_str = ft_copy_str(find);
+			else
+				new_str = ft_add_string(new_str, find);
+			i += ft_strlen(find);
+			free(find);
+			m++;
+		}
 		else
 		{
-			new_str = ft_add_string(new_str, " ");
-			new_str = ft_add_string(new_str, tab[i]);
+			if (i > 0 && str[i - 1] != ' ' && m > 0)
+				new_str = ft_add_string(new_str, " ");
+			i++;
 		}
-		free(tab[i]);
-		i++;
 	}
-	free(tab);
 	free(str);
+	// printf("new = [%s]\n", new_str);
 	return (new_str);
 }

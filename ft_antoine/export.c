@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 18:37:51 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:39:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ char	**add_variable(t_data *data, char **env, char *n_var)
 	while (n_env != NULL && env[i])
 	{
 		n_env[i] = ft_strdup(env[i]);
-		if (n_env[i++] == NULL)
+		if (n_env[i] == NULL)
 			break ;
 		++i;
 	}
-	if (i > 0 && n_env[i - 1] != NULL)
-		n_env[i] = ft_strdup(n_var);
-	else
+	n_env[i] = ft_strdup(n_var);
+	if (n_env[i] == NULL)
 	{
 		if (n_env != NULL)
 			free_list(n_env);
@@ -128,6 +127,7 @@ bool	ft_export(t_data *data)
 	char	**inputs;
 	bool	exit;
 
+	printf(">>> ft_export => data->arg == %s\n", data->arg);
 	if (data->arg == NULL || ft_strlen(data->arg) == 0)
 	{
 		print_env(data->env, 1);

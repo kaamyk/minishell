@@ -78,6 +78,7 @@ void	ft_check_infile_outfile_dollar(t_data *data)
 	i = 0;
 	while (data->tab_cmd[i])
 	{
+		data->tab_cmd[i] = del_unused_dollar(data->tab_cmd[i]);
 		ft_signe_dollar(data, i);
 		if (data->tab_cmd[i] && data->tab_cmd[i][0] == '<')
 		{

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 18:36:34 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:40:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,7 @@ bool	ft_find_c(char *str, char c);
 int		ft_nb_c(char *str, char c);
 char	*ft_find_str(char *str);
 void	ft_free_end(t_data *data);
+char	*ft_get_str_without_space(char *str);
 
 /******************** Fonctions of Antoine ********************/
 
@@ -303,7 +304,7 @@ bool	ft_export(t_data *data);
 //	ENVIRONMENT_UTILS.C
 bool	ft_ptr_inlist(char **l, char **ptr);
 bool	ft_strcmp(char *s1, char *s2);
-bool	check_export_inputs(char *var);
+bool	check_export_inputs(char *s);
 bool	print_env(char **env, bool a);
 size_t	print_var(char **env, char *var);
 

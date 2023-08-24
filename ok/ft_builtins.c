@@ -20,7 +20,10 @@
 void	ft_builtins(t_data *data, int id_cmd)
 {
 	if (id_cmd == 1)
+	{
 		ft_echo(data);
+		data->exit_code = 0;
+	}
 	else
 	{
 		data->exit_code = 0;

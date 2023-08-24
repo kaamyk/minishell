@@ -65,6 +65,11 @@ char	*ft_redirection2(t_data *data, char *file)
 	if (fd < 0)
 	{
 		data->exit_code = 1;
+		if (ft_strlen(file) < 1)
+		{
+			data->exit_code = 0;
+			printf("bash: : No such file or directory");
+		}
 		return (0);
 	}
 	line = get_next_line(fd);

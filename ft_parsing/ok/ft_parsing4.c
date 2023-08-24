@@ -59,7 +59,7 @@ char	*ft_delete_horizontal_tab(char *str)
 	}
 	new_str[i] = 0;
 	new_str = ft_order_with_space(new_str);
-	new_str = ft_one_space(new_str);
+	// new_str = ft_one_space(new_str);
 	free(str);
 	return (new_str);
 }

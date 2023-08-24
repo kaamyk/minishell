@@ -6,7 +6,7 @@
 #    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/05/26 10:52:59 by anvincen         ###   ########.fr        #
+#    Updated: 2023/08/21 16:08:50 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC =	main.c \
 		ft_antoine/exit.c \
 		ft_antoine/pwd.c \
 		ft_antoine/ft_get_value.c \
+		ft_antoine/del_unused_dollar.c \
 		ft_parsing/ft_parsing.c \
 		ft_parsing/ft_parsing2.c \
 		ft_parsing/ft_parsing3.c \

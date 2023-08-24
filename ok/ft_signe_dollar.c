@@ -37,6 +37,8 @@ int	ft_find_dollar_in_quotes(t_data *data, char *str)
 		i++;
 	}
 	ft_add_dollar(data, data->str_quotes, true);
+	if (i > 0 && str[i - 1] == '"')
+		i--;
 	return (i);
 }
 

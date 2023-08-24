@@ -21,6 +21,20 @@
 /*   [...]                            */
 /**************************************/
 
+bool	ft_check_in_pipe(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '|')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 /*
 Gerer la redirection [<] [<<]
 Gerer les commandes dans le pipe
@@ -46,7 +60,7 @@ void	ft_run_in_pipe(t_data *data, int i, int *fd, int tmp_fd)
 		else
 			data->exit_code = 0;
 	}
-	else
+	else if (ft_check_in_pipe(data->tab_cmd[i]) == 0)
 		ft_run(data, i);
 }
 

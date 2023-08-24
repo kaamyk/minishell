@@ -48,30 +48,14 @@ char	*ft_character_to_string(char character)
 
 void	ft_change_value(t_data *data, char *str, int len)
 {
-	int		i;
 	char	*new_str;
-	char	*tmp;
 
 	if (len == 1)
 		new_str = ft_character_to_string('$');
 	else if (len == 2 && str[1] == '?')
 		new_str = ft_itoa(data->exit_code);
 	else
-	{
-		new_str = (char *)malloc((len + 1) * sizeof(char));
-		if (!new_str)
-			return ;
-		i = 0;
-		while (i < len)
-		{
-			new_str[i] = str[i];
-			i++;
-		}
-		new_str[i] = 0;
-		tmp = new_str;
-		new_str = ft_get_value(data->env, new_str);
-		free(tmp);
-	}
+		new_str = ft_get_value(data->env, str);
 	ft_add_dollar(data, new_str, false);
 }
 
@@ -80,26 +64,27 @@ str_change = $USER
 */
 int	ft_found_dollar(t_data *data, char *str)
 {
-	int	i;
+	int		i;
+	int		len;
+	char	*new_str;
 
+	printf("str = [%s]\n", str);
+	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
-		if (i > 0 && str[i] == '$')
-		{
-			i--;
+		if (i > 0 && str[i] == '?' && str[i - 1] == '?')
 			break ;
-		}
-		else if (str[i] == ' ' || str[i] == '\t'
-			|| str[i] == '\'' || str[i] == '"')
-		{
-			i--;
+		if (i > 0 && ft_isalnum(str[i]) == 0 && str[i] != '_' && str[i] != '?')
 			break ;
-		}
+		new_str[i] = str[i];
 		i++;
 	}
-	if (str[i] == 0)
-		i--;
-	ft_change_value(data, str, i + 1);
-	return (i);
+	new_str[i] = 0;
+	len = ft_strlen(new_str);
+	ft_change_value(data, new_str, len);
+	free(new_str);
+	return (len - 1);
 }
