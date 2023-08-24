@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 17:14:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/24 23:03:03 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ char	*get_var_name(char *arg)
 
 void	print_content(char *arg)
 {
+	char	c;
 	size_t	i;
 
 	i = 0;
+	c = 0;
 	while (arg[i] != 0)
 	{
-		printf("%c", arg[i]);
+		if (c == 0 && (arg[i] == '"' || arg[i] == '\''))
+			c = arg[i];
+		else if (c != 0 && (arg[i] == c || arg[i] == c))
+			c = 0;
+		else
+			write(STDOUT_FILENO, arg + i, 1);
 		++i;
 	}
 }

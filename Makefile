@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/08/24 09:40:52 by antoine          ###   ########.fr        #
+#    Updated: 2023/08/24 11:09:23 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC =	main.c \
 		ft_antoine/signal.c \
 		ft_antoine/utils.c \
 		ft_antoine/export.c \
+		ft_antoine/export_utils.c \
 		ft_antoine/free.c \
 		ft_antoine/environment.c \
 		ft_antoine/environment_utils.c \

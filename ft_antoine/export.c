@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/24 09:39:50 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/24 23:03:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,14 @@ bool	check_double(char **env, char *in_k, char *in_v)
 	return (1);
 }
 
-char	**add_variable(t_data *data, char **env, char *n_var)
+char	**add_variable(char **env, char *n_var)
 {
 	char	**n_env;
 	size_t	i;
 
-	if (check_export_inputs(n_var) == 1)
-		return (export_error(data, env, n_var));
 	n_env = ft_calloc(len_list(env) + 2, sizeof(char *));
 	i = 0;
-	while (n_env != NULL && env[i])
+	while (n_env != NULL && env != NULL && env[i])
 	{
 		n_env[i] = ft_strdup(env[i]);
 		if (n_env[i] == NULL)
@@ -107,12 +105,14 @@ char	**handle_inputs(t_data *data, char **env, char **inputs, bool *exit)
 		{
 			if (get_var(env, i_keys[i], 1) != NULL)
 				env = replace_vl(env, get_var(env, i_keys[i], 1), inputs[i]);
-			else
+			else if (check_export_inputs(data, inputs[i]) == 0)
 			{
-				env = add_variable(data, env, inputs[i]);
+				env = add_variable(env, inputs[i]);
 				if (env == NULL)
 					break ;
 			}
+			else
+				export_error(data, inputs[i]);
 		}
 		else
 			*exit = 1;
@@ -134,7 +134,7 @@ bool	ft_export(t_data *data)
 		return (0);
 	}
 	exit = 0;
-	inputs = ft_split(data->arg, ' ');
+	inputs = split_inputs(data->arg);
 	if (inputs == NULL)
 		return (NULL);
 	data->env = handle_inputs(data, data->env, inputs, &exit);

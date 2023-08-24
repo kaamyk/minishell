@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/24 09:40:21 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/24 13:45:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ void	ft_titre(void);
 ft_error.c
 */
 void	ft_error(t_error error, char *command, char *option);
-char	**export_error(t_data *data, char **env, char *unvalid_var);
+void	export_error(t_data *data, char *unvalid_var);
 
 /*
 ft_delete_space.c
@@ -297,14 +297,17 @@ bool	ft_env(t_data *data);
 // 	EXPORT.C
 bool	check_double(char **env, char *in_k, char *in_v);
 char	**replace_vl(char **env, char *o_var, char *n_var);
-char	**add_variable(t_data *data, char **env, char *n_var);
+char	**add_variable(char **env, char *n_var);
 char	**handle_inputs(t_data *data, char **env, char **inputs, bool *exit);
 bool	ft_export(t_data *data);
+
+// EXPORT_UTILS.C
+bool	check_export_inputs(t_data *data, char *var);
+char	**split_inputs(char *arg);
 
 //	ENVIRONMENT_UTILS.C
 bool	ft_ptr_inlist(char **l, char **ptr);
 bool	ft_strcmp(char *s1, char *s2);
-bool	check_export_inputs(char *s);
 bool	print_env(char **env, bool a);
 size_t	print_var(char **env, char *var);
 
