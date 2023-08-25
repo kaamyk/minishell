@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 13:29:58 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:02:33 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 # define GREEN "\x1b[32m"
 # define KMAG  "\x1B[35m"
 # define RESET "\x1B[0m"
+
+extern int	g_sig_exit_code;
 
 typedef struct sigaction	t_sig;
 
@@ -93,8 +95,6 @@ typedef struct s_data
 	int		i_quotes;
 
 	char	**env;
-
-	bool	listen_sig;
 }	t_data;
 
 /******************** ********************/
@@ -106,7 +106,8 @@ char	*take_input(char *str);
 /*
 signal.c
 */
-void	ft_signal(t_data *data);
+void	ft_signal_without_quit(t_data *data);
+void	ft_signal_with_quit(t_data *data);
 
 /******************** Check syntaxe ********************/
 /*

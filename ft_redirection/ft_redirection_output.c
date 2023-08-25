@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_output.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:27:32 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 18:28:07 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 18:07:21 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	ft_redirection_output(t_data *data, int i)
 	limiter = ft_find_limiter(data->tab_cmd[i]);
 	if (!limiter)
 		return ;
-	printf("limiter --> [%s]\n", limiter);
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
 	{
+		ft_signal_without_quit(data);
 		line = ft_redirection3(data, limiter);
 		ft_redirection_output2(data, i, line);
 	}
