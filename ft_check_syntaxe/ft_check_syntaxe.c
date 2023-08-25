@@ -72,5 +72,7 @@ bool	ft_check_syntaxe(t_data *data)
 		return (1);
 	if (ft_check_first_last_cmd(data) == true)
 		return (1);
+	if (ft_check_inside_quote(data) == true)
+		return (1);
 	return (0);
 }

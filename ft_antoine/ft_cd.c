@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/23 14:23:07 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/25 12:38:36 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,24 @@ bool	check_nb_args(char *arg, int *exit)
 	return (*exit);
 }
 
-char	*get_complete_path(char *arg, int *exit)
+char	*get_complete_path(char **env, char *arg, int *exit)
 {
 	char	*res;
+	char	*home;
 
-	printf("ft arg == %p\n", arg);
-	res = ft_strjoin(getenv("HOME"), arg + 1);
+	printf("get_complete_path => arg == [%s]\n", arg);
+	home = ft_get_value(env, "$HOME");
+	if (home == NULL)
+		return (arg);
+	printf("get_complete_path => home == [%s]\n", home);
+	res = ft_strjoin(home, arg + 1);
 	if (res == NULL)
 	{
 		*exit = 1;
 		return (NULL);
 	}
 	free(arg);
+	free(home);
 	return (res);
 }
 
@@ -108,16 +114,19 @@ bool	ft_cd(t_data *data)
 	char	*arg;
 	int		*exit;
 
+	printf(">>> ft_cd => data->arg == [%s]\n", data->arg);
 	arg = data->arg;
 	exit = &data->exit_code;
+	if (data->arg && access(data->arg, F_OK) != 0)
+		perror("access");
 	if (arg != NULL && check_nb_args(arg, exit) != 0)
 		write(STDERR_FILENO, "bash: cd: too much argument\n", 29);
 	if (update_pwd(data, 1, exit) == 0)
 	{
 		if (arg == NULL || ft_strcmp(arg, "~") || ft_strcmp(arg, "~/"))
 			cd_home(data, exit);
-		else if (ft_strncmp(arg, "~/", 2) == 0 && ft_strlen(arg) > 2)
-			data->arg = get_complete_path(data->arg, exit);
+		// else if (ft_strncmp(arg, "~/", 2) == 0 && ft_strlen(arg) > 2)
+		// 	data->arg = get_complete_path(data->arg, exit);
 		if (*exit == 0)
 		{
 			if (data->arg && chdir(data->arg) != 0)
@@ -130,3 +139,5 @@ bool	ft_cd(t_data *data)
 	}
 	return (*exit);
 }
+
+// mkdir a/ && mkdir a/b && cd a/b && rm -r ../../a/

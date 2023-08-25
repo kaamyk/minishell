@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signe_dollar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:36:38 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/28 16:36:40 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 11:33:04 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,6 @@ int	ft_find_dollar_in_quotes(t_data *data, char *str)
 }
 
 /*
-Change ~
-*/
-int	ft_change_rel_abs_path(t_data *data, char *str)
-{
-	int		i;
-	char	*path;
-	char	*tmp;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ' || str[i] == '$')
-			break ;
-		i++;
-	}
-	path = ft_substr(str, 0, i);
-	tmp = path;
-	path = get_complete_path(path, &data->exit_code);
-	free(tmp);
-	ft_add_dollar(data, path, false);
-	if (str[i] == 0 || str[i] == ' ' || str[i] == '$')
-		i--;
-	return (i);
-}
-
-/*
 Find $USER
 */
 int	ft_find_dollar_out_quotes(t_data *data, char *str, int i)
@@ -84,10 +58,7 @@ int	ft_find_dollar_out_quotes(t_data *data, char *str, int i)
 			break ;
 		}
 		else if (str[i] == '~')
-		{
-			if (i == 0 || str[i - 1] == ' ')
-				i += ft_change_rel_abs_path(data, &str[i]);
-		}
+			i = ft_check_signe_wave(data, str, i);
 		else if (str[i] == '$')
 			i += ft_found_dollar(data, &str[i]);
 		else

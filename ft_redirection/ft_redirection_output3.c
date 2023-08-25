@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_output3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 19:19:02 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/13 19:20:14 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 13:29:24 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ char	*ft_creer_big_string(char *string, char *line)
 	return (string);
 }
 
-char	*ft_redirection3(char *str)
+char	*ft_redirection3(t_data *data, char *str)
 {
 	char	*line;
 	bool	find;
 	char	*string;
 
-	ft_signal();
+	ft_signal(data);
 	find = false;
 	string = NULL;
 	while (1)

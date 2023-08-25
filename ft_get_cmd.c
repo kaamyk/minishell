@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:52:04 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/10 15:34:34 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 11:48:18 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_get_cmd(t_data *data, char *str)
 		// data->cmd = ft_delete_quotes(data, data->cmd);
 		data->arg = new_str;
 		// printf("--> cmd = [%s]\n", data->cmd);
-		// printf("--> arg = [%s]\n", data->arg);
+		printf("--> arg = [%s]\n", data->arg);
 		ft_free_tab(tab);
 	}
 }

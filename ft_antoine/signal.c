@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/23 17:38:05 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:31:56 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ void	sig_handler(int signum)
 	}
 }
 
-void	ft_signal(void)
+void	ft_signal(t_data *data)
 {
 	t_sig	sig;
 
+	if (data->listen_sig == 0)
+		return ;
 	ignore_quit();
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = sig_handler;

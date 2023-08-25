@@ -64,7 +64,7 @@ void	ft_redirection_output(t_data *data, int i)
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
 	{
-		line = ft_redirection3(limiter);
+		line = ft_redirection3(data, limiter);
 		ft_redirection_output2(data, i, line);
 	}
 	else

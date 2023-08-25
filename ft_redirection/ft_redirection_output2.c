@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_output2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:35:05 by xuluu             #+#    #+#             */
-/*   Updated: 2023/06/20 11:35:42 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 13:28:36 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_redirection2(t_data *data, char *file)
 		if (ft_strlen(file) < 1)
 		{
 			data->exit_code = 0;
-			printf("bash: : No such file or directory");
+			write(STDERR_FILENO, "bash: : No such file or directory", 33);
 		}
 		return (0);
 	}

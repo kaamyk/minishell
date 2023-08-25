@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 10:46:47 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:29:58 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_data
 	int		i_quotes;
 
 	char	**env;
+
+	bool	listen_sig;
 }	t_data;
 
 /******************** ********************/
@@ -104,7 +106,7 @@ char	*take_input(char *str);
 /*
 signal.c
 */
-void	ft_signal(void);
+void	ft_signal(t_data *data);
 
 /******************** Check syntaxe ********************/
 /*
@@ -115,6 +117,7 @@ bool	ft_check_open_quotes(t_data *data);
 bool	ft_check_syntax_inside(t_data *data, char *str);
 bool	ft_check_syntax_inside2(t_data *data, char *str, int i);
 bool	ft_check_space_string(char *str);
+bool	ft_check_inside_quote(t_data *data);
 
 /******************** Parsing ********************/
 /*
@@ -188,7 +191,7 @@ char	*ft_find_limiter(char *str);
 /*
 ft_redirection3.c
 */
-char	*ft_redirection3(char *str);
+char	*ft_redirection3(t_data *data, char *str);
 char	*ft_creer_big_string(char *string, char *line);
 
 /******************** Run command ********************/
@@ -236,6 +239,11 @@ void	ft_add_dollar(t_data *data, char *str, bool big);
 int		ft_found_dollar(t_data *data, char *str);
 char	*ft_character_to_string(char character);
 int		ft_ignore(t_data *data, char *str);
+
+/*
+ft_signe_wave.c
+*/
+int		ft_check_signe_wave(t_data *data, char *str, int i);
 
 /*
 ft_print_error.c
@@ -348,7 +356,7 @@ bool	ft_unset(t_data *data);
 
 //	FT_CD.C
 bool	ft_cd(t_data *data);
-char	*get_complete_path(char *arg, int *exit);
+char	*get_complete_path(char **env, char *arg, int *exit);
 
 //	PWD.C
 bool	ft_pwd(void);

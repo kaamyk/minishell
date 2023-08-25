@@ -22,6 +22,7 @@ SRC =	main.c \
 		ft_check_syntaxe/ft_check_syntaxe2.c \
 		ft_check_syntaxe/ft_check_syntaxe3.c \
 		ft_check_syntaxe/ft_check_syntaxe4.c \
+		ft_check_syntaxe/ft_check_syntaxe5.c \
 		ft_split_mn/ft_split_mn.c \
 		ft_antoine/signal.c \
 		ft_antoine/utils.c \
@@ -61,6 +62,7 @@ SRC =	main.c \
 		ft_signe_dollar.c \
 		ft_signe_dollar2.c \
 		ft_signe_dollar3.c \
+		ft_signe_wave.c \
 		ft_redirection/ft_redirection_input.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \

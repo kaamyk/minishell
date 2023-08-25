@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_run_other_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:05:42 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/24 13:06:40 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/08/25 12:46:08 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ void	ft_other_cmd_without_pipe(t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
+		data->signal = 1;
+		ft_signal(data);
 		ft_other_cmd_with_pipe(data);
 		ft_free_end(data);
 		exit(data->exit_code);
 	}
+	data->signal = 0;
 	waitpid(pid, &data->exit_code, 0);
 	ft_exit_code(data);
 }

@@ -6,7 +6,7 @@
 /*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/05/26 09:20:55 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:41:32 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	data.exit_code = 0;
+	data.signal = 1;
 	data.env = dup_list(env);
 	if (ac == 1)
 	{
@@ -88,7 +89,7 @@ int	main(int ac, char **av, char **env)
 		data.exit_code = 0;
 		while (42)
 		{
-			ft_signal();
+			ft_signal(&data);
 			data.str = take_input(KMAG "Minishell$> " RESET);
 			if (!data.str)
 				break ;
