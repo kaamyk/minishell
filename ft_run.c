@@ -83,14 +83,14 @@ void	ft_check_infile_outfile_dollar(t_data *data)
 		if (data->tab_cmd[i] && data->tab_cmd[i][0] == '<')
 		{
 			data->s_infile = true;
-			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
+			// data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 			if (data->tab_cmd[i][1] == '<')
 				ft_redirection_output(data, i);
 		}
 		else if (data->tab_cmd[i] && data->tab_cmd[i][0] == '>')
 		{
 			data->s_outfile = true;
-			data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
+			// data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 		}
 		i++;
 	}

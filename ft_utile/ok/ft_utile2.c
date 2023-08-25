@@ -68,7 +68,8 @@ char	*ft_find_str(char *str)
 
 	limiter = NULL;
 	tab = ft_split_mn(str, ' ');
-	limiter = ft_copy_str(tab[1]);
+	if (tab[1])
+		limiter = ft_copy_str(tab[1]);
 	ft_free_tab(tab);
 	return (limiter);
 }

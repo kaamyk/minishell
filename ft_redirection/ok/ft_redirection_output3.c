@@ -16,9 +16,9 @@
 /* Get input of the redirection << */
 /************************************/
 
-char	*ft_creer_big_string(int time, char *string, char *line)
+char	*ft_creer_big_string(char *string, char *line)
 {
-	if (time == 0)
+	if (!string)
 		string = ft_copy_str(line);
 	else
 	{
@@ -34,27 +34,21 @@ char	*ft_redirection3(char *str)
 	char	*line;
 	bool	find;
 	char	*string;
-	int		time;
 
 	ft_signal();
 	find = false;
-	time = 0;
 	string = NULL;
 	while (1)
 	{
 		if (find == true)
 			break ;
 		line = take_input("> ");
-		printf("line = (%s - %ld)\n", line, ft_strlen(line));
 		if (!line)
 			break ;
 		if (ft_compare_str(str, line) == true)
 			find = true;
 		else if (ft_strlen(line) > 0)
-		{
-			string = ft_creer_big_string(time, string, line);
-			time++;
-		}
+			string = ft_creer_big_string(string, line);
 		free(line);
 	}
 	return (string);

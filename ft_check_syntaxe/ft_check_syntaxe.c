@@ -22,20 +22,20 @@ bool	ft_check_len(t_data *data)
 	return (0);
 }
 
-bool	ft_check_space_string(t_data *data)
+bool	ft_check_space_string(char *str)
 {
 	int		i;
 	size_t	space;
 
 	space = 0;
 	i = 0;
-	while (data->str[i])
+	while (str[i])
 	{
-		if (data->str[i] == ' ' || data->str[i] == '\t')
+		if (str[i] == ' ' || str[i] == '\t')
 			space++;
 		i++;
 	}
-	if (space == ft_strlen(data->str))
+	if (space == ft_strlen(str))
 		return (1);
 	return (0);
 }
@@ -65,7 +65,7 @@ bool	ft_check_syntaxe(t_data *data)
 {
 	if (ft_check_len(data) == true)
 		return (1);
-	if (ft_check_space_string(data) == true)
+	if (ft_check_space_string(data->str) == true)
 		return (1);
 	data->str = ft_delete_space(data->str);
 	if (ft_check_open_quotes(data) == true)

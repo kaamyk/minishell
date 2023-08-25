@@ -64,6 +64,7 @@ SRC =	main.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \
 		ft_redirection/ft_redirection_output3.c \
+		ft_redirection/ft_find_limiter.c \
 		ft_wildcards/ft_find_center.c \
 		ft_wildcards/ft_find_end.c \
 		ft_wildcards/ft_find_first.c \

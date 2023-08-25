@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 16:53:07 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/24 23:03:03 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/25 10:49:58 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	check_export_inputs(t_data *data, char *var)
 		return (1);
 	}
 	j = 1;
-	while (var[j])
+	while (var[j] && var[j] != '=')
 	{
 		if (ft_isalnum(var[j]) == 0 && var[j] != '_' && var[j] != '=')
 		{

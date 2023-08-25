@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
+#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/08/24 11:09:23 by antoine          ###   ########.fr        #
+#    Updated: 2023/08/25 10:50:28 by anvincen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC =	main.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \
 		ft_redirection/ft_redirection_output3.c \
+		ft_redirection/ft_find_limiter.c \
 		ft_wildcards/ft_find_center.c \
 		ft_wildcards/ft_find_end.c \
 		ft_wildcards/ft_find_first.c \

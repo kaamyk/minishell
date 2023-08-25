@@ -54,12 +54,29 @@ char	*get_next_line(int fd)
 	return (ft_get_line2(fd, line));
 }
 
-char	*ft_redirection2(t_data *data, char *file)
+char	*ft_redirection22(int fd)
 {
-	int		fd;
 	int		i;
 	char	*line;
 	char	*str;
+
+	line = get_next_line(fd);
+	i = 0;
+	str = NULL;
+	while (line)
+	{
+		str = ft_creer_big_string(str, line);
+		free(line);
+		line = get_next_line(fd);
+		i++;
+	}
+	close(fd);
+	return (str);
+}
+
+char	*ft_redirection2(t_data *data, char *file)
+{
+	int		fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -72,16 +89,5 @@ char	*ft_redirection2(t_data *data, char *file)
 		}
 		return (0);
 	}
-	line = get_next_line(fd);
-	i = 0;
-	str = NULL;
-	while (line)
-	{
-		str = ft_creer_big_string(i, str, line);
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	close(fd);
-	return (str);
+	return (ft_redirection22(fd));
 }

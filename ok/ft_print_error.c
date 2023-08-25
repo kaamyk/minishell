@@ -49,7 +49,7 @@ void	ft_check_exit_code2(t_data *data, int i)
 	tmp = data->tab_cmd[i];
 	data->tab_cmd[i] = ft_substr(data->tab_cmd[i], 0, end);
 	free(tmp);
-	data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
+	// data->tab_cmd[i] = ft_delete_quotes(data, data->tab_cmd[i]);
 }
 
 void	ft_check_exit_code(t_data *data, int i)

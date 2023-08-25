@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 12:18:21 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/24 13:45:36 by antoine          ###   ########.fr       */
+/*   Updated: 2023/05/26 09:49:33 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_error(t_error error, char *command, char *option)
 		printf("\n");
 	}
 }
+
 
 void	export_error(t_data *data, char *unvalid_var)
 {

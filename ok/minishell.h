@@ -114,6 +114,7 @@ bool	ft_check_syntaxe(t_data *data);
 bool	ft_check_open_quotes(t_data *data);
 bool	ft_check_syntax_inside(t_data *data, char *str);
 bool	ft_check_syntax_inside2(t_data *data, char *str, int i);
+bool	ft_check_space_string(char *str);
 
 /******************** Parsing ********************/
 /*
@@ -182,12 +183,13 @@ void	ft_sleep(int limiter);
 ft_redirection2.c
 */
 char	*ft_redirection2(t_data *data, char *file);
+char	*ft_find_limiter(char *str);
 
 /*
 ft_redirection3.c
 */
 char	*ft_redirection3(char *str);
-char	*ft_creer_big_string(int time, char *string, char *line);
+char	*ft_creer_big_string(char *string, char *line);
 
 /******************** Run command ********************/
 /*

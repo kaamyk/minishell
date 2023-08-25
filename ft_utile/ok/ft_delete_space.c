@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_get_str(char *str)
+char	*ft_get_str_without_space(char *str)
 {
 	int		i;
 	char	end;
@@ -39,20 +39,16 @@ char	*ft_get_str(char *str)
 	return (new_str);
 }
 
-char	*ft_delete_space(char *str)
+char	*ft_delete_space2(char *str, int i, int m)
 {
-	int		i;
-	int		m;
 	char	*new_str;
 	char	*find;
 
-	i = 0;
-	m = 0;
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'' || str[i] != ' ')
 		{
-			find = ft_get_str(&str[i]);
+			find = ft_get_str_without_space(&str[i]);
 			if (m == 0)
 				new_str = ft_copy_str(find);
 			else
@@ -69,5 +65,13 @@ char	*ft_delete_space(char *str)
 		}
 	}
 	free(str);
+	return (new_str);
+}
+
+char	*ft_delete_space(char *str)
+{
+	char	*new_str;
+
+	new_str = ft_delete_space2(str, 0, 0);
 	return (new_str);
 }

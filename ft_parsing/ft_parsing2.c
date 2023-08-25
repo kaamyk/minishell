@@ -25,7 +25,6 @@ int	ft_inside_quotes(t_data *data, char *str)
 	data->tab_quotes[data->nb_quotes] = ft_copy_str(find);
 	free(find);
 	len = ft_strlen(data->tab_quotes[data->nb_quotes]);
-	printf("------------> [%s]\n", data->tab_quotes[data->nb_quotes]);
 	data->nb_quotes++;
 	return (len - 1);
 }
@@ -49,15 +48,11 @@ int	ft_check_quotes_in_str(char *str)
 /*
 ["pwd" > file] --> [ " > file ]
 */
-char	*ft_create_string_summary(t_data *data, char *str)
+char	*ft_create_string_summary2(t_data *data, char *str, char *new_str)
 {
-	int		i;
-	int		m;
-	char	*new_str;
+	int	i;
+	int	m;
 
-	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
-	if (!new_str)
-		return (0);
 	i = 0;
 	m = 0;
 	while (str[i])
@@ -75,8 +70,18 @@ char	*ft_create_string_summary(t_data *data, char *str)
 		m++;
 	}
 	new_str[m] = 0;
-	// printf("new ------------> [%s]\n", new_str);
 	data->tab_quotes[data->nb_quotes] = 0;
+	return (new_str);
+}
+
+char	*ft_create_string_summary(t_data *data, char *str)
+{
+	char	*new_str;
+
+	new_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!new_str)
+		return (0);
+	new_str = ft_create_string_summary2(data, str, new_str);
 	return (new_str);
 }
 
