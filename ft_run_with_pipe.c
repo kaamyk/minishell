@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:39:26 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/29 19:51:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/29 21:49:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	ft_child_process(t_data *data, int *fd, pid_t *pid)
 
 	tmp_fd = dup(STDIN_FILENO);
 	i = 0;
+	child_signal();
 	while (i < data->nb_cmd)
 	{
 		pipe(fd);
@@ -118,6 +119,7 @@ void	ft_run_cmd_with_pipe(t_data *data)
 	int		i;
 	int		fd[2];
 	pid_t	*pid;
+	int		status;
 
 	pid = (pid_t *)malloc((data->nb_cmd) * sizeof(pid_t));
 	if (!pid)
@@ -126,8 +128,19 @@ void	ft_run_cmd_with_pipe(t_data *data)
 	i = 0;
 	while (i < data->nb_cmd)
 	{
-		waitpid(pid[i], &data->exit_code, 0);
-		ft_exit_code(data);
+		parent_signal(0);
+		waitpid(pid[i], &status, 0);
+		parent_signal(1);
+		//ft_exit_code(data);
+		if (WIFSIGNALED(status))
+		{
+			printf("WIFSIGNALED\n");
+			data->exit_code = 128 + WTERMSIG(status);
+		}
+		else if (WIFEXITED(status))
+			data->exit_code = WEXITSTATUS(status);
+		else
+			data->exit_code = status;
 		ft_check_exit_code(data, i);
 		i++;
 	}

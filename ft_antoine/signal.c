@@ -6,21 +6,20 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/29 19:29:58 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/29 21:58:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	g_sig_exit_code = 0;
-
 void	par_handler(int signum)
 {
-	printf("parent received signum == %d\n", signum);
 	if (signum == SIGINT)
 	{
-		printf("SIGINT\n");
-		// exit(EXIT_FAILURE);
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 

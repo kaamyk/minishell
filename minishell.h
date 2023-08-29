@@ -46,8 +46,6 @@
 # define KMAG  "\x1B[35m"
 # define RESET "\x1B[0m"
 
-extern int	g_sig_exit_code;
-
 typedef struct sigaction	t_sig;
 
 typedef enum s_error
