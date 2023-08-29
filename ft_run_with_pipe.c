@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_run_with_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:39:26 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:06:50 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:51:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	ft_child_process(t_data *data, int *fd, pid_t *pid)
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			ft_signal_with_quit(data);
 			if (data->tab_cmd[i])
 				ft_run_in_child_process(data, i, fd, tmp_fd);
 			ft_free_end(data);
@@ -102,7 +101,6 @@ void	ft_child_process(t_data *data, int *fd, pid_t *pid)
 		}
 		else
 		{
-			// data->listen_sig = 0;
 			close(fd[1]);
 			close(tmp_fd);
 			tmp_fd = fd[0];

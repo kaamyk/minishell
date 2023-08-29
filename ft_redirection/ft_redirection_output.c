@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_output.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:27:32 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:07:21 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:33:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	ft_redirection_output(t_data *data, int i)
 	line = NULL;
 	if (data->tab_cmd[i][1] == '<')
 	{
-		ft_signal_without_quit(data);
 		line = ft_redirection3(data, limiter);
 		ft_redirection_output2(data, i, line);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:38:26 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:31:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	ft_one_arg(t_data *data, char c)
 
 void	ft_read_line(t_data *data)
 {
-	ft_signal_with_quit(data);
 	if (ft_check_syntaxe(data) == true)
 	{
 		free(data->str);
@@ -83,13 +82,13 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	data.exit_code = 0;
 	data.env = dup_list(env);
+	parent_signal(1);
 	if (ac == 1)
 	{
 		ft_titre();
 		while (42)
 		{
 			printf("main => data->exit_code == %d\n", data.exit_code);
-			ft_signal_without_quit(&data);
 			data.str = take_input(KMAG "Minishell$> " RESET);
 			if (!data.str)
 				break ;

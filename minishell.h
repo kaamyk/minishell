@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:02:33 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:30:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,14 @@ char	*take_input(char *str);
 /*
 signal.c
 */
-void	ft_signal_without_quit(t_data *data);
-void	ft_signal_with_quit(t_data *data);
+void	par_handler(int signum);
+void	ignore_quit(void);
+void	parent_signal(bool a);
+void	chi_handler(int signum);
+void	child_signal(void);
+
+// void	ft_signal_without_quit(t_data *data);
+// void	ft_signal_with_quit(t_data *data);
 
 /******************** Check syntaxe ********************/
 /*

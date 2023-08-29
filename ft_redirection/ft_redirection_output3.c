@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_output3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 19:19:02 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:08:09 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:33:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*ft_redirection3(t_data *data, char *str)
 	char	*string;
 
 	(void)data;
-	ft_signal_with_quit(data);
 	find = false;
 	string = NULL;
 	while (1)

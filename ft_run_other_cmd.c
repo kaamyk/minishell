@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_run_other_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:05:42 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/25 18:43:53 by anvincen         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:48:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,26 @@ void	ft_other_cmd_with_pipe(t_data *data)
 void	ft_other_cmd_without_pipe(t_data *data)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		ft_signal_with_quit(data);
+		child_signal();
 		ft_other_cmd_with_pipe(data);
 		ft_free_end(data);
 		exit(data->exit_code);
 	}
-	waitpid(pid, &data->exit_code, 0);
-	ft_exit_code(data);
+	parent_signal(0);
+	waitpid(pid, &status, 0);
+	parent_signal(1);
+	if (WIFSIGNALED(status))
+	{
+		printf("WIFSIGNALED\n");
+		data->exit_code = 128 + WTERMSIG(status);
+	}
+	else if (WIFEXITED(status))
+		data->exit_code = WEXITSTATUS(status);
+	else
+		data->exit_code = status;
 }
