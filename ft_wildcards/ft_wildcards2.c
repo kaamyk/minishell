@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wildcards2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuluu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:47:24 by xuluu             #+#    #+#             */
-/*   Updated: 2023/07/17 12:47:29 by xuluu            ###   ########.fr       */
+/*   Updated: 2023/09/01 11:18:43 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_get_current_directory(t_data *data)
 		close(fd[1]);
 		str = ft_read_pipe(fd[0]);
 		waitpid(pid, &data->exit_code, 0);
-		ft_exit_code(data);
+		data->exit_code = data->exit_code / 256;
 	}
 	return (str);
 }

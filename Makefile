@@ -3,43 +3,45 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 17:59:08 by xuluu             #+#    #+#              #
-#    Updated: 2023/08/25 10:50:28 by anvincen         ###   ########.fr        #
+#    Updated: 2023/08/30 14:48:13 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	main.c \
-		ft_utile/ft_titre.c \
-		ft_utile/ft_error.c \
-		ft_utile/ft_read_pipe.c \
-		ft_utile/ft_delete_space.c \
-		ft_utile/ft_delete_quotes.c \
-		ft_utile/ft_utile.c \
-		ft_utile/ft_utile2.c \
+		ft_utiles/ft_titre.c \
+		ft_utiles/ft_delete_space.c \
+		ft_utiles/ft_delete_quotes.c \
+		ft_utiles/ft_error.c \
+		ft_utiles/ft_read_pipe.c \
+		ft_utiles/ft_utile.c \
+		ft_utiles/ft_utile2.c \
+		ft_utiles/ft_get_value.c \
+		ft_utiles/ft_print_error.c \
+		ft_utiles/ft_split_mn.c \
+		ft_builtins/ft_builtins.c \
+		ft_builtins/signal.c \
+		ft_builtins/utils.c \
+		ft_builtins/export.c \
+		ft_builtins/export_utils.c \
+		ft_builtins/free.c \
+		ft_builtins/environment.c \
+		ft_builtins/environment_utils.c \
+		ft_builtins/list.c \
+		ft_builtins/env.c \
+		ft_builtins/echo.c \
+		ft_builtins/unset.c \
+		ft_builtins/ft_cd.c \
+		ft_builtins/ft_cd_utils.c \
+		ft_builtins/exit.c \
+		ft_builtins/pwd.c \
 		ft_check_syntaxe/ft_check_syntaxe.c \
 		ft_check_syntaxe/ft_check_syntaxe2.c \
 		ft_check_syntaxe/ft_check_syntaxe3.c \
 		ft_check_syntaxe/ft_check_syntaxe4.c \
 		ft_check_syntaxe/ft_check_syntaxe5.c \
-		ft_split_mn/ft_split_mn.c \
-		ft_antoine/signal.c \
-		ft_antoine/utils.c \
-		ft_antoine/export.c \
-		ft_antoine/export_utils.c \
-		ft_antoine/free.c \
-		ft_antoine/environment.c \
-		ft_antoine/environment_utils.c \
-		ft_antoine/list.c \
-		ft_antoine/env.c \
-		ft_antoine/echo.c \
-		ft_antoine/unset.c \
-		ft_antoine/ft_cd.c \
-		ft_antoine/exit.c \
-		ft_antoine/pwd.c \
-		ft_antoine/ft_get_value.c \
-		ft_antoine/del_unused_dollar.c \
 		ft_parsing/ft_parsing.c \
 		ft_parsing/ft_parsing2.c \
 		ft_parsing/ft_parsing3.c \
@@ -49,20 +51,20 @@ SRC =	main.c \
 		ft_parsing/ft_parsing7.c \
 		ft_parsing/ft_parsing8.c \
 		ft_parsing/ft_parsing9.c \
+		ft_parsing/ft_parsing10.c \
 		ft_parsing/ft_parsing_bonus.c \
-		ft_get_cmd.c \
-		ft_run.c \
-		ft_run_other_cmd.c \
-		ft_run_other_cmd2.c \
-		ft_run_with_pipe.c \
-		ft_run_bonus.c \
-		ft_print_error.c \
-		ft_builtins.c \
-		ft_cmd_special.c \
-		ft_signe_dollar.c \
-		ft_signe_dollar2.c \
-		ft_signe_dollar3.c \
-		ft_signe_wave.c \
+		ft_run/ft_get_cmd.c \
+		ft_run/ft_run.c \
+		ft_run/ft_run_other_cmd.c \
+		ft_run/ft_run_other_cmd2.c \
+		ft_run/ft_run_with_pipe.c \
+		ft_run/ft_run_bonus.c \
+		ft_run/ft_cmd_special.c \
+		ft_signe_dollar/ft_signe_dollar.c \
+		ft_signe_dollar/ft_signe_dollar2.c \
+		ft_signe_dollar/ft_signe_dollar3.c \
+		ft_signe_dollar/del_unused_dollar.c \
+		ft_signe_dollar/ft_signe_wave.c \
 		ft_redirection/ft_redirection_input.c \
 		ft_redirection/ft_redirection_output.c \
 		ft_redirection/ft_redirection_output2.c \
@@ -74,7 +76,7 @@ SRC =	main.c \
 		ft_wildcards/ft_wildcards2.c \
 		ft_wildcards/ft_wildcards3.c \
 		ft_wildcards/ft_wildcards.c \
-		ft_wildcards/ft_wildcards_is_center.c \
+		ft_wildcards/ft_wildcards_is_center.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -84,7 +86,7 @@ CC = gcc
 
 READLINE = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
 
-CFLAGS =  -Wall -Wextra -Werror -g3
+CFLAGS =  -Wall -Wextra -Werror
 
 LIBFTPATH = ./libft
 
@@ -93,18 +95,13 @@ LIBFTS = $(LIBFTPATH)/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	@$(RM) file*
 	@$(MAKE) -sC $(LIBFTPATH)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTS) $(READLINE) -o $(NAME)
-
-# 	@$(MAKE) clean -sC ./libft
-# 	@$(RM) $(OBJ)
+	@clear
+	@echo "OK --> ./minishell"
 
 $(OBJ): %.o: %.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@
-
-n:
-	cp -rf *.c *.h Makefile ok
 
 clean:
 	@$(MAKE) clean -sC ./libft

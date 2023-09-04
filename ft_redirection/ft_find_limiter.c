@@ -72,7 +72,7 @@ void	ft_find_limiter2(char *str, char *new_str)
 			i += ft_strlen(find);
 			free(find);
 		}
-		if (!str[i])
+		if (!str[i] || str[i] == ' ')
 			break ;
 		if (str[i] != '"' && str[i] != '\'')
 		{

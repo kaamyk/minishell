@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:27:32 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/29 19:33:16 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/30 07:50:01 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	ft_redirection_output(t_data *data, int i)
 	{
 		ft_sleep(21474836);
 		line = ft_redirection2(data, limiter);
-		if (line)
-			printf("%s", line);
 	}
 	free(limiter);
 	free(line);

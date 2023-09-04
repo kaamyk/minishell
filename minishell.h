@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:52:11 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/29 19:30:09 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/31 19:19:58 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 //wait
 # include <sys/wait.h>
+
+# include <sys/ioctl.h>
 
 # define BUFFER_SIZE 1
 # define PATH "/bin/"
@@ -110,9 +112,6 @@ void	parent_signal(bool a);
 void	chi_handler(int signum);
 void	child_signal(void);
 
-// void	ft_signal_without_quit(t_data *data);
-// void	ft_signal_with_quit(t_data *data);
-
 /******************** Check syntaxe ********************/
 /*
 ft_check_syntaxe.c
@@ -176,6 +175,7 @@ char	*ft_put_reout_at_first(t_data *data, char *str);
 ft_parsing9.c
 */
 char	*ft_put_file_direction(char *str);
+char	**ft_change_file_direc(char **tab);
 
 /******************** Redirections ********************/
 /*
@@ -224,6 +224,7 @@ ft_get_cmd.c
 */
 void	ft_get_cmd(t_data *data, char *str);
 char	*ft_cmd_with_path(char *str);
+char	*ft_create_cmd(char *str, int i, int m, int *add);
 
 /*
 ft_builtins.c
@@ -311,7 +312,7 @@ bool	ft_env(t_data *data);
 
 // 	EXPORT.C
 bool	check_double(char **env, char *in_k, char *in_v);
-char	**replace_vl(char **env, char *o_var, char *n_var);
+char	**rpl_vl(char **env, char *o_var, char *n_var);
 char	**add_variable(char **env, char *n_var);
 char	**handle_inputs(t_data *data, char **env, char **inputs, bool *exit);
 bool	ft_export(t_data *data);
@@ -363,8 +364,12 @@ bool	ft_unset(t_data *data);
 bool	ft_cd(t_data *data);
 char	*get_complete_path(char **env, char *arg, int *exit);
 
+//	FT_CD_UTILS.C
+void	update_pwd(t_data *data, int *exit);
+bool	update_oldpwd(t_data *data, int *exit);
+
 //	PWD.C
-bool	ft_pwd(void);
+bool	ft_pwd(t_data *data);
 
 //	ECHO.C
 bool	ft_echo(t_data *data);

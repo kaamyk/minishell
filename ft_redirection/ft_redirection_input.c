@@ -43,7 +43,7 @@ int	ft_redirection_input2(t_data *data, char *file, int i)
 		fd_file = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd_file < 0)
 	{
-		printf("bash: : No such file or directory");
+		printf("bash: : No such file or directory\n");
 		free(file);
 	}
 	return (fd_file);
@@ -57,7 +57,7 @@ void	ft_redirection_input(t_data *data, int i, int *fd, int tmp_fd)
 	file = ft_find_limiter(data->file);
 	if (!file)
 	{
-		printf("bash: : No such file or directory");
+		printf("bash: : No such file or directory\n");
 		return ;
 	}
 	close(fd[0]);

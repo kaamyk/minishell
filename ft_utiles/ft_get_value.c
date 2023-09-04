@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_get_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 13:29:49 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/30 09:39:38 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/07 16:30:55 by anvincen          #+#    #+#             */
+/*   Updated: 2023/08/30 09:04:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+#include "../minishell.h"
+
+char	*ft_get_value(char **env, char *key)
 {
-	char	*str;
+	char	*var;
+	char	*value;
+
+	var = get_var(env, &key[1], 0);
+	if (var == NULL)
+		return (NULL);
+	value = isolate_value(var);
+	return (value);
+}
+
+char	*ft_del_quotes(char *s)
+{
+	char	*res;
+	char	c;
 	size_t	i;
 
-	str = s;
+	c = s[0];
 	i = 0;
-	while (i < n)
-	{
-		str[i] = c;
-		i++;
-	}
-	return (str);
+	if (s[i + 1])
+		++i;
+	while (s[i + 1] && s[i + 1] != c)
+		++i;
+	if (s[i + 1])
+		res = ft_substr(s, 1, i);
+	else
+		res = NULL;
+	return (res);
 }

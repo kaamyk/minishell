@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 13:29:49 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/30 09:39:38 by antoine          ###   ########.fr       */
+/*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
+/*   Updated: 2023/08/30 14:10:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+#include "../minishell.h"
+
+bool	ft_pwd(t_data *data)
 {
-	char	*str;
-	size_t	i;
+	char	cwd[PATH_MAX];
+	char	*val;
 
-	str = s;
-	i = 0;
-	while (i < n)
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
 	{
-		str[i] = c;
-		i++;
+		val = ft_get_value(data->env, "$PWD");
+		printf("%s\n", val);
+		free(val);
 	}
-	return (str);
+	return (0);
 }

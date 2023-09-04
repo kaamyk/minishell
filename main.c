@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anvincen <anvincen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 13:51:47 by xuluu             #+#    #+#             */
-/*   Updated: 2023/08/29 19:31:35 by antoine          ###   ########.fr       */
+/*   Updated: 2023/08/31 19:16:34 by anvincen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 	{
 		ft_titre();
+		data.exit_code = 0;
 		while (42)
 		{
-			printf("main => data->exit_code == %d\n", data.exit_code);
 			data.str = take_input(KMAG "Minishell$> " RESET);
 			if (!data.str)
 				break ;

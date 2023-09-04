@@ -86,6 +86,7 @@ char	**ft_create_tab_cmd(t_data *data, char *str)
 	data->nb_cmd = i;
 	ft_free_tab(data->tab_quotes);
 	free(str);
+	tab = ft_change_file_direc(tab);
 	return (tab);
 }
 
